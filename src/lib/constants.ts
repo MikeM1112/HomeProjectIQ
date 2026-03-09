@@ -1,0 +1,113 @@
+import type { Badge, SkillTree, ToolDefinition } from '@/types/app';
+
+export const ROUTES = {
+  HOME: '/',
+  LOGIN: '/login',
+  SIGNUP: '/signup',
+  VERIFY: '/verify',
+  DASHBOARD: '/dashboard',
+  ONBOARDING: '/onboarding',
+  PROJECT: '/project',
+  LOGBOOK: '/logbook',
+  TOOLBOX: '/toolbox',
+  SETTINGS_ACCOUNT: '/settings/account',
+  SETTINGS_BILLING: '/settings/billing',
+  ADMIN: '/admin',
+} as const;
+
+export const XP_VALUES = {
+  PROJECT_COMPLETE: 50,
+  LOGBOOK_ENTRY: 15,
+  FIRST_PROJECT: 100,
+  STREAK_BONUS: 10,
+  TOOL_ADDED: 5,
+  ONBOARDING: 25,
+  OUTCOME_FEEDBACK: 20,
+  AI_ASSESSMENT: 30,
+  SHARE_RESULT: 10,
+} as const;
+
+export const LEVEL_THRESHOLDS = [
+  { level: 1, label: 'Rookie', minXp: 0, maxXp: 99 },
+  { level: 2, label: 'Apprentice', minXp: 100, maxXp: 299 },
+  { level: 3, label: 'Handy', minXp: 300, maxXp: 599 },
+  { level: 4, label: 'Skilled', minXp: 600, maxXp: 999 },
+  { level: 5, label: 'Master', minXp: 1000, maxXp: Infinity },
+] as const;
+
+export const BADGE_DEFINITIONS: Badge[] = [
+  { id: 'first_project', label: 'First Fix', icon: '🔧', condition: 'Complete your first project' },
+  { id: 'five_projects', label: 'Handy Five', icon: '🖐️', condition: 'Complete 5 projects' },
+  { id: 'ten_projects', label: 'Perfect Ten', icon: '🏆', condition: 'Complete 10 projects' },
+  { id: 'saved_500', label: 'Penny Pincher', icon: '💰', condition: 'Save $500 by DIYing' },
+  { id: 'saved_1000', label: 'Money Saver', icon: '💵', condition: 'Save $1,000 by DIYing' },
+  { id: 'streak_7', label: 'Week Warrior', icon: '🔥', condition: 'Maintain a 7-day streak' },
+  { id: 'streak_30', label: 'Monthly Master', icon: '⚡', condition: 'Maintain a 30-day streak' },
+  { id: 'all_categories', label: 'Renaissance', icon: '🌟', condition: 'Complete a project in every category' },
+  { id: 'logbook_10', label: 'Chronicler', icon: '📋', condition: 'Log 10 repairs in your logbook' },
+  { id: 'tools_20', label: 'Well Equipped', icon: '🧰', condition: 'Add 20 tools to your toolbox' },
+];
+
+export const SKILL_TREES: SkillTree[] = [
+  { id: 'plumbing', label: 'Plumbing', icon: '🔧', maxLevel: 5 },
+  { id: 'electrical', label: 'Electrical', icon: '⚡', maxLevel: 5 },
+  { id: 'carpentry', label: 'Carpentry', icon: '🪵', maxLevel: 5 },
+  { id: 'painting', label: 'Painting', icon: '🎨', maxLevel: 5 },
+  { id: 'landscaping', label: 'Landscaping', icon: '🌿', maxLevel: 5 },
+  { id: 'tiling', label: 'Tiling', icon: '🔲', maxLevel: 5 },
+  { id: 'hvac', label: 'HVAC', icon: '❄️', maxLevel: 5 },
+  { id: 'masonry', label: 'Masonry', icon: '🧱', maxLevel: 5 },
+];
+
+export const QUERY_KEYS = {
+  USER: 'user',
+  PROJECTS: 'projects',
+  PROJECT: 'project',
+  LOGBOOK: 'logbook',
+  TOOLBOX: 'toolbox',
+  FLAGS: 'flags',
+  FRIENDS: 'friends',
+} as const;
+
+export const TOOLS: ToolDefinition[] = [
+  { id: 'tape_measure', name: 'Tape Measure', category: 'Measuring', emoji: '📏' },
+  { id: 'level', name: 'Level', category: 'Measuring', emoji: '📐' },
+  { id: 'stud_finder', name: 'Stud Finder', category: 'Measuring', emoji: '🔍' },
+  { id: 'hammer', name: 'Hammer', category: 'Hand Tools', emoji: '🔨' },
+  { id: 'screwdriver_set', name: 'Screwdriver Set', category: 'Hand Tools', emoji: '🪛' },
+  { id: 'pliers', name: 'Pliers', category: 'Hand Tools', emoji: '🔧' },
+  { id: 'adjustable_wrench', name: 'Adjustable Wrench', category: 'Hand Tools', emoji: '🔧' },
+  { id: 'utility_knife', name: 'Utility Knife', category: 'Hand Tools', emoji: '🔪' },
+  { id: 'pry_bar', name: 'Pry Bar', category: 'Hand Tools', emoji: '🔧' },
+  { id: 'putty_knife', name: 'Putty Knife', category: 'Hand Tools', emoji: '🔧' },
+  { id: 'caulk_gun', name: 'Caulk Gun', category: 'Hand Tools', emoji: '🔧' },
+  { id: 'wire_strippers', name: 'Wire Strippers', category: 'Hand Tools', emoji: '✂️' },
+  { id: 'tin_snips', name: 'Tin Snips', category: 'Hand Tools', emoji: '✂️' },
+  { id: 'hand_saw', name: 'Hand Saw', category: 'Hand Tools', emoji: '🪚' },
+  { id: 'chisel_set', name: 'Chisel Set', category: 'Hand Tools', emoji: '🔧' },
+  { id: 'drill', name: 'Cordless Drill', category: 'Power Tools', emoji: '🔩' },
+  { id: 'circular_saw', name: 'Circular Saw', category: 'Power Tools', emoji: '🪚' },
+  { id: 'jigsaw', name: 'Jigsaw', category: 'Power Tools', emoji: '🪚' },
+  { id: 'orbital_sander', name: 'Orbital Sander', category: 'Power Tools', emoji: '🔧' },
+  { id: 'reciprocating_saw', name: 'Reciprocating Saw', category: 'Power Tools', emoji: '🪚' },
+  { id: 'impact_driver', name: 'Impact Driver', category: 'Power Tools', emoji: '🔩' },
+  { id: 'heat_gun', name: 'Heat Gun', category: 'Power Tools', emoji: '🔥' },
+  { id: 'angle_grinder', name: 'Angle Grinder', category: 'Power Tools', emoji: '⚙️' },
+  { id: 'pressure_washer', name: 'Pressure Washer', category: 'Power Tools', emoji: '💦' },
+  { id: 'safety_glasses', name: 'Safety Glasses', category: 'Safety', emoji: '🥽' },
+  { id: 'work_gloves', name: 'Work Gloves', category: 'Safety', emoji: '🧤' },
+  { id: 'ear_protection', name: 'Ear Protection', category: 'Safety', emoji: '🎧' },
+  { id: 'dust_mask', name: 'Dust Mask/Respirator', category: 'Safety', emoji: '😷' },
+  { id: 'knee_pads', name: 'Knee Pads', category: 'Safety', emoji: '🦵' },
+  { id: 'hard_hat', name: 'Hard Hat', category: 'Safety', emoji: '⛑️' },
+  { id: 'voltage_tester', name: 'Voltage Tester', category: 'Specialty', emoji: '⚡' },
+  { id: 'pipe_wrench', name: 'Pipe Wrench', category: 'Specialty', emoji: '🔧' },
+  { id: 'basin_wrench', name: 'Basin Wrench', category: 'Specialty', emoji: '🔧' },
+  { id: 'tile_cutter', name: 'Tile Cutter', category: 'Specialty', emoji: '🔲' },
+  { id: 'grout_float', name: 'Grout Float', category: 'Specialty', emoji: '🔲' },
+  { id: 'paint_sprayer', name: 'Paint Sprayer', category: 'Specialty', emoji: '🎨' },
+  { id: 'ladder_6ft', name: '6ft Step Ladder', category: 'Specialty', emoji: '🪜' },
+  { id: 'ladder_ext', name: 'Extension Ladder', category: 'Specialty', emoji: '🪜' },
+  { id: 'wet_dry_vac', name: 'Wet/Dry Vacuum', category: 'Specialty', emoji: '🧹' },
+  { id: 'multimeter', name: 'Multimeter', category: 'Specialty', emoji: '📊' },
+];
