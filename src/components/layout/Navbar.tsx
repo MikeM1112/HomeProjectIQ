@@ -19,19 +19,32 @@ export function Navbar({ title, showBack = false, backHref, onBack }: NavbarProp
   const { user } = useUser();
 
   return (
-    <header className="sticky top-0 z-40 flex items-center justify-between h-14 px-4 glass border-b border-[var(--glass-border)]">
+    <header
+      className="sticky top-0 z-40 flex items-center justify-between h-14 px-4 border-b"
+      style={{
+        background: 'var(--nav-bg)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        borderColor: 'var(--border)',
+      }}
+    >
       <div className="w-10">
         {(showBack || onBack) && (
           <button
             onClick={() => onBack ? onBack() : (backHref ? router.push(backHref) : router.back())}
-            className="text-[var(--ink)] hover:text-[var(--accent)] text-xl"
+            className="text-[var(--text)] hover:text-[var(--accent)] text-xl transition-colors"
             aria-label="Go back"
           >
             &larr;
           </button>
         )}
       </div>
-      <h1 className="font-serif text-lg font-semibold text-[var(--ink)] truncate">{title}</h1>
+      <h1
+        className="text-[20px] font-semibold truncate"
+        style={{ fontFamily: "var(--font-instrument-serif, 'Instrument Serif', serif)", color: 'var(--text)' }}
+      >
+        {title}
+      </h1>
       <div className="flex items-center gap-2">
         <ThemeToggle compact />
         <Link href="/settings/account">

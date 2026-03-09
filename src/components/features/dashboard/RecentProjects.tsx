@@ -15,7 +15,7 @@ export function RecentProjects() {
     return (
       <div className="space-y-3">
         {Array.from({ length: 3 }).map((_, i) => (
-          <Skeleton key={i} variant="card" className="h-16" />
+          <Skeleton key={i} variant="card" className="h-[72px]" />
         ))}
       </div>
     );
@@ -25,8 +25,8 @@ export function RecentProjects() {
 
   if (recent.length === 0) {
     return (
-      <Card className="text-center py-8">
-        <p className="text-ink-sub text-sm">No projects yet — pick a category below</p>
+      <Card className="text-center py-10">
+        <p className="text-[var(--text-sub)] text-sm">No projects yet — pick a category below</p>
       </Card>
     );
   }
@@ -39,10 +39,12 @@ export function RecentProjects() {
           <Link key={project.id} href={`/project/${project.id}`}>
             <Card variant="interactive" padding="sm">
               <div className="flex items-center gap-3">
-                <span className="text-2xl">{cat?.icon ?? '🔧'}</span>
+                <div className="w-10 h-10 rounded-xl bg-[var(--icon-bg)] flex items-center justify-center shrink-0">
+                  <span className="text-xl">{cat?.icon ?? '🔧'}</span>
+                </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate">{project.title}</p>
-                  <p className="text-xs text-ink-dim">{formatDate(project.created_at)}</p>
+                  <p className="text-sm font-semibold text-[var(--text)] truncate">{project.title}</p>
+                  <p className="text-xs text-[var(--text-dim)]">{formatDate(project.created_at)}</p>
                 </div>
                 <Badge
                   variant={

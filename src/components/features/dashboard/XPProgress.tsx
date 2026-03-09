@@ -1,7 +1,6 @@
 'use client';
 
 import { useUser } from '@/hooks/useUser';
-import { Progress } from '@/components/ui/Progress';
 import { LEVEL_THRESHOLDS } from '@/lib/constants';
 import { getLevel, getXpForNextLevel } from '@/lib/utils';
 
@@ -17,14 +16,30 @@ export function XPProgress() {
   return (
     <div className="space-y-2">
       <div className="flex items-baseline justify-between">
-        <h3 className="font-serif text-lg text-[var(--ink)]">
+        <h3 className="font-serif text-lg text-[var(--text)]">
           Level <span className="gradient-text">{level}</span>: {levelInfo.label}
         </h3>
-        <span className="text-xs text-[var(--ink-sub)]">{user.xp} XP</span>
+        <span className="text-xs font-semibold text-[var(--text-sub)]">{user.xp} XP</span>
       </div>
-      <Progress value={xpInfo.progress} gradient animated />
+      <div
+        className="w-full rounded-[100px] overflow-hidden"
+        style={{ height: '8px', background: 'var(--xp-bar-bg)' }}
+      >
+        <div
+          className="h-full rounded-[100px] animate-barGrow origin-left transition-[width] duration-[600ms] ease-in-out"
+          style={{
+            width: `${xpInfo.progress}%`,
+            background: 'var(--xp-gradient)',
+            boxShadow: '0 0 12px var(--accent-glow)',
+          }}
+          role="progressbar"
+          aria-valuenow={xpInfo.progress}
+          aria-valuemin={0}
+          aria-valuemax={100}
+        />
+      </div>
       {nextLevel && (
-        <p className="text-xs text-[var(--ink-dim)]">
+        <p style={{ fontSize: '11px', color: 'var(--text-dim)' }}>
           {xpInfo.needed - xpInfo.current} XP to {nextLevel.label}
         </p>
       )}

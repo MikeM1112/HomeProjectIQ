@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono, Instrument_Serif } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { QueryProvider } from '@/components/QueryProvider';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { Toast } from '@/components/ui/Toast';
@@ -72,6 +74,8 @@ export default function RootLayout({
             <PWAInit />
           </QueryProvider>
         </ThemeProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

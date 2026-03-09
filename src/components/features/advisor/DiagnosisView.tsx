@@ -59,17 +59,28 @@ export function DiagnosisView({ result }: DiagnosisViewProps) {
         </div>
       )}
 
-      <div className="flex gap-1 overflow-x-auto border-b border-[var(--border)] -mx-4 px-4">
+      <div
+        className="flex gap-[2px] overflow-x-auto -mx-4 px-4"
+        style={{ background: 'var(--tab-bg)', borderRadius: '12px', padding: '4px' }}
+      >
         {TABS.map((tab, i) => (
           <button
             key={tab}
             onClick={() => handleTabChange(i)}
             className={cn(
-              'px-3 py-2 text-sm whitespace-nowrap border-b-2 transition-colors tap',
+              'whitespace-nowrap cursor-pointer transition-all duration-150 tap',
               activeTab === i
-                ? 'border-[var(--accent)] text-[var(--accent)] font-semibold'
-                : 'border-transparent text-[var(--ink-sub)] hover:text-[var(--ink)]'
+                ? 'text-white font-semibold'
+                : 'text-[var(--text-dim)]'
             )}
+            style={{
+              padding: '8px 14px',
+              fontSize: '12px',
+              borderRadius: '8px',
+              ...(activeTab === i
+                ? { background: 'var(--accent)', boxShadow: '0 2px 8px var(--accent-glow)' }
+                : {}),
+            }}
           >
             {tab}
           </button>
@@ -81,36 +92,35 @@ export function DiagnosisView({ result }: DiagnosisViewProps) {
           <div className="space-y-6">
             <ConfidenceGauge value={result.conf} />
             <p className="text-sm text-ink-sub text-center">{result.why}</p>
-            <Card>
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-border">
-                    <th className="text-left py-2 text-ink-sub font-medium">Option</th>
-                    <th className="text-right py-2 text-ink-sub font-medium">Cost Range</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="border-b border-border/50">
-                    <td className="py-2 text-success font-medium">DIY</td>
-                    <td className="py-2 text-right font-mono text-sm">
-                      {formatCurrency(result.diy.lo)} – {formatCurrency(result.diy.hi)}
-                    </td>
-                  </tr>
-                  <tr className="border-b border-border/50">
-                    <td className="py-2 text-info font-medium">Hire Pro</td>
-                    <td className="py-2 text-right font-mono text-sm">
-                      {formatCurrency(result.pro.lo)} – {formatCurrency(result.pro.hi)}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="py-2 text-brand font-semibold">Potential Savings</td>
-                    <td className="py-2 text-right font-mono text-sm font-semibold text-brand">
-                      {formatCurrency(result.save)}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </Card>
+            <div className="space-y-2">
+              <div
+                className="flex items-center justify-between rounded-xl p-3 border"
+                style={{ background: 'var(--glass)', borderColor: 'var(--glass-border)' }}
+              >
+                <span className="text-sm font-medium text-[var(--emerald)]">DIY</span>
+                <span className="font-mono text-sm text-[var(--text)]">
+                  {formatCurrency(result.diy.lo)} – {formatCurrency(result.diy.hi)}
+                </span>
+              </div>
+              <div
+                className="flex items-center justify-between rounded-xl p-3 border"
+                style={{ background: 'var(--glass)', borderColor: 'var(--glass-border)' }}
+              >
+                <span className="text-sm font-medium text-[var(--info)]">Hire Pro</span>
+                <span className="font-mono text-sm text-[var(--text)]">
+                  {formatCurrency(result.pro.lo)} – {formatCurrency(result.pro.hi)}
+                </span>
+              </div>
+              <div
+                className="flex items-center justify-between rounded-xl p-3 border"
+                style={{ background: 'var(--glass)', borderColor: 'var(--accent-glow)' }}
+              >
+                <span className="text-sm font-semibold text-[var(--accent)]">Potential Savings</span>
+                <span className="font-mono text-sm font-semibold text-[var(--accent)]">
+                  {formatCurrency(result.save)}
+                </span>
+              </div>
+            </div>
             <div className="flex gap-4 text-sm text-ink-sub">
               <div><strong>DIY Time:</strong> {result.diy.time}</div>
               <div><strong>Pro Time:</strong> {result.pro.time}</div>

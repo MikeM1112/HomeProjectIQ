@@ -8,20 +8,22 @@ interface CardProps {
   children: React.ReactNode;
   className?: string;
   onClick?: () => void;
+  style?: React.CSSProperties;
 }
 
-export function Card({ variant = 'default', padding = 'md', children, className, onClick }: CardProps) {
+export function Card({ variant = 'default', padding = 'md', children, className, onClick, style }: CardProps) {
   return (
     <div
       onClick={onClick}
       onKeyDown={onClick ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } } : undefined}
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}
+      style={style}
       className={cn(
-        'rounded-2xl glass transition-all duration-200',
+        'rounded-2xl bg-[var(--glass)] backdrop-blur-[12px] border border-[var(--glass-border)] transition-all duration-300 hover:border-[var(--glass-border-hover)]',
         {
           '': variant === 'default',
-          'pressable cursor-pointer glass-hover': variant === 'interactive',
+          'pressable cursor-pointer hover:bg-[var(--card-hover)]': variant === 'interactive',
           'border-[var(--accent)] shadow-md ring-1 ring-[var(--accent)]/20': variant === 'selected',
         },
         {

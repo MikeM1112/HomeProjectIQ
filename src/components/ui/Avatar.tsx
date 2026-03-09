@@ -35,9 +35,10 @@ export function Avatar({ src, name = '', size = 'md' }: AvatarProps) {
   return (
     <div
       className={cn(
-        'rounded-full bg-[var(--accent-lt)] text-[var(--accent)] font-semibold flex items-center justify-center ring-2 ring-[var(--glass-border)]',
+        'rounded-full text-white font-semibold flex items-center justify-center ring-2 ring-[var(--glass-border)]',
         sizes[size]
       )}
+      style={{ background: 'var(--accent-gradient)' }}
       aria-label={name || 'Avatar'}
     >
       {getInitials(name || 'U')}

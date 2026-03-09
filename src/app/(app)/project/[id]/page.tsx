@@ -12,6 +12,8 @@ import { Spinner } from '@/components/ui/Spinner';
 import { useUIStore } from '@/stores/uiStore';
 import { useAdvisorStore } from '@/stores/advisorStore';
 import { ShareButton } from '@/components/share/ShareButton';
+import { ShareButton as QuickShareButton } from '@/components/features/project/ShareButton';
+import { OutcomeComparison } from '@/components/features/project/OutcomeComparison';
 import { OutcomeReportForm } from '@/components/outcome/OutcomeReportForm';
 import type { DiagnosisResult, Project } from '@/types/app';
 
@@ -20,7 +22,17 @@ export default function ProjectPage() {
   const router = useRouter();
   const { showToast } = useUIStore();
   const { reset, diagnosisResult: storeResult } = useAdvisorStore();
-  const [project, setProject] = useState<{ category_id: string; title: string; outcome_submitted_at?: string | null } | null>(null);
+  const [project, setProject] = useState<{
+    category_id: string;
+    title: string;
+    verdict?: string;
+    outcome_submitted_at?: string | null;
+    outcome_actual_cost?: number | null;
+    outcome_actual_hours?: number | null;
+    outcome_difficulty?: 'easier' | 'as_expected' | 'harder' | null;
+    estimated_diy_lo?: number | null;
+    estimated_diy_hi?: number | null;
+  } | null>(null);
   const [diagnosis, setDiagnosis] = useState<DiagnosisResult | null>(null);
   const [loading, setLoading] = useState(true);
   const [showComplete, setShowComplete] = useState(false);
@@ -58,7 +70,17 @@ export default function ProjectPage() {
         const projects: Project[] = json.data ?? json;
         const found = projects.find((p) => p.id === id);
         if (found) {
-          setProject({ category_id: found.category_id, title: found.title, outcome_submitted_at: found.outcome_submitted_at });
+          setProject({
+            category_id: found.category_id,
+            title: found.title,
+            verdict: found.verdict,
+            outcome_submitted_at: found.outcome_submitted_at,
+            outcome_actual_cost: found.outcome_actual_cost,
+            outcome_actual_hours: found.outcome_actual_hours,
+            outcome_difficulty: found.outcome_difficulty,
+            estimated_diy_lo: found.estimated_diy_lo,
+            estimated_diy_hi: found.estimated_diy_hi,
+          });
           // Try to find matching static diagnosis for category
           const staticDiag = DIAGNOSES[found.category_id];
           if (staticDiag) {
@@ -176,6 +198,18 @@ export default function ProjectPage() {
             />
           </div>
         )}
+        {id !== 'new' && project?.outcome_submitted_at && (
+          <div className="mt-4">
+            <OutcomeComparison
+              estimatedCostLo={project.estimated_diy_lo ?? diagnosis.diy.lo}
+              estimatedCostHi={project.estimated_diy_hi ?? diagnosis.diy.hi}
+              actualCost={project.outcome_actual_cost}
+              estimatedTime={diagnosis.diy.time}
+              actualHours={project.outcome_actual_hours}
+              difficulty={project.outcome_difficulty}
+            />
+          </div>
+        )}
         {id !== 'new' && !project?.outcome_submitted_at && (
           <div className="mt-4">
             {showOutcome ? (
@@ -199,6 +233,13 @@ export default function ProjectPage() {
           <Button variant="secondary" onClick={handleStartOver} className="flex-1">
             Start Over
           </Button>
+          {id !== 'new' && (
+            <QuickShareButton
+              projectId={id}
+              title={diagnosis.title}
+              verdict={diagnosis.conf >= 85 ? 'DIY Easy' : diagnosis.conf >= 70 ? 'DIY with Caution' : 'Hire a Pro'}
+            />
+          )}
           <Button onClick={() => setShowComplete(true)} className="flex-1">
             Mark Complete
           </Button>

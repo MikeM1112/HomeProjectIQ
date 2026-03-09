@@ -36,25 +36,25 @@ export function Modal({ isOpen, onClose, title, children, footer }: ModalProps) 
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
       <div
-        className="fixed inset-0 bg-black/40 backdrop-blur-sm animate-fade"
+        className="fixed inset-0 bg-black/40 backdrop-blur-[4px] animate-fade"
         onClick={onClose}
         aria-hidden="true"
       />
       <div
         className={cn(
-          'relative z-10 w-full glass shadow-lg',
-          'sm:max-w-md sm:rounded-2xl sm:animate-pop',
-          'max-sm:rounded-t-2xl max-sm:animate-slideUp max-sm:max-h-[85vh]'
+          'relative z-10 w-full bg-[var(--surface-1)] border border-[var(--glass-border)] shadow-[var(--shadow)]',
+          'sm:max-w-md sm:rounded-[20px] sm:animate-pop',
+          'max-sm:rounded-t-[20px] max-sm:animate-slideUp max-sm:max-h-[85vh]'
         )}
         role="dialog"
         aria-modal="true"
         aria-label={title}
       >
         <div className="flex items-center justify-between border-b border-[var(--border)] px-5 py-4">
-          <h2 className="font-serif text-lg font-semibold text-[var(--ink)]">{title}</h2>
+          <h2 className="font-serif text-lg font-semibold text-[var(--text)]">{title}</h2>
           <button
             onClick={onClose}
-            className="text-[var(--ink-dim)] hover:text-[var(--ink)] text-xl leading-none"
+            className="text-[var(--text-dim)] hover:text-[var(--text)] text-xl leading-none"
             aria-label="Close"
           >
             &times;

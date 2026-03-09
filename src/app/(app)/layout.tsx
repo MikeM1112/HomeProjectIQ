@@ -9,16 +9,16 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   if (!user) redirect('/login');
 
   return (
-    <div className="min-h-screen bg-[var(--bg)] pt-safe-top pb-20 relative transition-colors duration-300">
+    <div
+      className="min-h-screen pt-safe-top pb-20 relative"
+      style={{ background: 'var(--bg)', transition: 'all 0.5s ease' }}
+    >
       {/* Background gradient blobs */}
-      <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden" aria-hidden="true">
+      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
+        <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-[var(--accent)] opacity-[0.04] blur-[120px] animate-glow-pulse" />
         <div
-          className="absolute -top-[200px] -left-[100px] w-[500px] h-[500px] rounded-full opacity-[0.07] blur-[120px] animate-glow-pulse"
-          style={{ background: 'var(--accent)' }}
-        />
-        <div
-          className="absolute -bottom-[200px] -right-[100px] w-[400px] h-[400px] rounded-full opacity-[0.05] blur-[120px] animate-glow-pulse"
-          style={{ background: 'var(--green)', animationDelay: '1.5s' }}
+          className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full bg-[var(--emerald)] opacity-[0.03] blur-[120px] animate-glow-pulse"
+          style={{ animationDelay: '3s' }}
         />
       </div>
       {children}

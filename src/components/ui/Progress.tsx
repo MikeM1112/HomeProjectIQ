@@ -14,12 +14,12 @@ export function Progress({ value, label, color = 'bg-brand', animated = true, gr
   const clamped = Math.min(100, Math.max(0, value));
   return (
     <div className="space-y-1">
-      {label && <p className="text-xs text-[var(--ink-sub)]">{label}</p>}
+      {label && <p className="text-xs text-[var(--text-sub)]">{label}</p>}
       <div className="h-2 w-full rounded-full bg-[var(--xp-bar-bg)] overflow-hidden">
         <div
           className={cn(
-            'h-full rounded-full origin-left',
-            gradient ? '' : color,
+            'h-full rounded-full origin-left transition-[width] duration-[600ms] ease-in-out',
+            gradient ? 'shadow-[0_0_12px_var(--accent-glow)]' : color,
             animated && 'animate-barGrow'
           )}
           style={{

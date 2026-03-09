@@ -11,14 +11,14 @@ export function Toast() {
   return (
     <div
       className={cn(
-        'fixed top-4 right-4 z-[100] max-w-sm px-4 py-3 rounded-2xl shadow-md animate-rise',
-        'glass text-sm font-medium',
+        'fixed top-4 right-4 z-[100] max-w-sm px-4 py-3 rounded-2xl animate-rise',
+        'bg-[var(--glass)] backdrop-blur-[12px] border border-[var(--glass-border)] shadow-[var(--shadow)] text-sm font-medium',
         'max-sm:left-4 max-sm:right-4 max-sm:text-center',
         {
-          'border-[var(--green)]/20 text-[var(--green)]': toast.type === 'success',
-          'border-[var(--red)]/20 text-[var(--red)]': toast.type === 'error',
-          'border-[var(--yellow)]/20 text-[var(--yellow)]': toast.type === 'warning',
-          'border-[var(--blue)]/20 text-[var(--blue)]': toast.type === 'info',
+          'border-[var(--emerald)]/20 text-[var(--emerald)]': toast.type === 'success',
+          'border-[var(--danger)]/20 text-[var(--danger)]': toast.type === 'error',
+          'border-[var(--gold)]/20 text-[var(--gold)]': toast.type === 'warning',
+          'border-[var(--info)]/20 text-[var(--info)]': toast.type === 'info',
         }
       )}
       role="alert"

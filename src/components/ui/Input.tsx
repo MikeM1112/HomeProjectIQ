@@ -15,7 +15,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="space-y-1.5">
         {label && (
-          <label htmlFor={inputId} className="block text-sm font-medium text-[var(--ink)]">
+          <label htmlFor={inputId} className="block text-sm font-medium text-[var(--text)]">
             {label}
           </label>
         )}
@@ -23,19 +23,19 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           id={inputId}
           className={cn(
-            'w-full rounded-xl border px-3.5 py-2.5 text-sm text-[var(--ink)] placeholder:text-[var(--ink-dim)]',
-            'bg-[var(--glass-bg)] backdrop-blur-sm',
-            'transition-colors focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-offset-[var(--bg)]',
+            'w-full rounded-[10px] border px-3.5 py-2.5 text-sm text-[var(--text)] placeholder:text-[var(--text-dim)]',
+            'bg-[var(--input-bg)]',
+            'transition-colors focus:outline-none',
             error
-              ? 'border-[var(--red)] focus:ring-[var(--red)]/30'
-              : 'border-[var(--border)] focus:border-[var(--border-focus)] focus:ring-[var(--accent)]/20',
-            props.disabled && 'opacity-50 cursor-not-allowed bg-[var(--muted)]',
+              ? 'border-[var(--danger)] focus:border-[var(--danger)] focus:shadow-[0_0_0_3px_var(--danger-soft)]'
+              : 'border-[var(--glass-border)] focus:border-[var(--accent)] focus:shadow-[0_0_0_3px_var(--accent-soft)]',
+            props.disabled && 'opacity-50 cursor-not-allowed',
             className
           )}
           {...props}
         />
-        {error && <p className="text-xs text-[var(--red)]">{error}</p>}
-        {helper && !error && <p className="text-xs text-[var(--ink-dim)]">{helper}</p>}
+        {error && <p className="text-xs text-[var(--danger)]">{error}</p>}
+        {helper && !error && <p className="text-xs text-[var(--text-dim)]">{helper}</p>}
       </div>
     );
   }
