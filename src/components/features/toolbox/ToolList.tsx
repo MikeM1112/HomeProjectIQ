@@ -24,8 +24,8 @@ export function ToolList({ tools, onRemove }: ToolListProps) {
     return (
       <div className="text-center py-12">
         <p className="text-4xl mb-3">🧰</p>
-        <p className="text-ink-sub text-sm">Your toolbox is empty.</p>
-        <p className="text-ink-dim text-xs mt-1">Add tools to track what you own.</p>
+        <p className="text-[var(--ink-sub)] text-sm">Your toolbox is empty.</p>
+        <p className="text-[var(--ink-dim)] text-xs mt-1">Add tools to track what you own.</p>
       </div>
     );
   }
@@ -34,7 +34,7 @@ export function ToolList({ tools, onRemove }: ToolListProps) {
     <div className="space-y-6">
       {Object.entries(grouped).map(([category, items]) => (
         <div key={category}>
-          <h3 className="font-serif text-sm font-semibold text-ink-sub mb-2">
+          <h3 className="font-serif text-sm font-semibold text-[var(--ink-sub)] mb-2">
             {category} ({items.length})
           </h3>
           <div className="grid grid-cols-2 gap-2">
@@ -43,9 +43,9 @@ export function ToolList({ tools, onRemove }: ToolListProps) {
               return (
                 <Card key={item.tool_id} padding="sm" className="relative">
                   <span className="text-xl">{def?.emoji ?? '🔧'}</span>
-                  <p className="text-xs font-medium mt-1">{item.tool_name}</p>
+                  <p className="text-xs font-medium mt-1 text-[var(--ink)]">{item.tool_name}</p>
                   {confirmId === item.tool_id ? (
-                    <div className="absolute inset-0 bg-white/95 rounded-xl flex items-center justify-center gap-2 animate-fade">
+                    <div className="absolute inset-0 glass rounded-2xl flex items-center justify-center gap-2 animate-fade">
                       <Button variant="destructive" size="sm" onClick={() => { onRemove(item.tool_id); setConfirmId(null); }}>
                         Remove
                       </Button>
@@ -56,7 +56,7 @@ export function ToolList({ tools, onRemove }: ToolListProps) {
                   ) : (
                     <button
                       onClick={() => setConfirmId(item.tool_id)}
-                      className="absolute top-1 right-1 text-ink-dim hover:text-danger text-xs"
+                      className="absolute top-1 right-1 text-[var(--ink-dim)] hover:text-[var(--red)] text-xs"
                       aria-label={`Remove ${item.tool_name}`}
                     >
                       &times;

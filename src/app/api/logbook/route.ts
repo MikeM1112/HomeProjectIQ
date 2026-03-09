@@ -3,6 +3,8 @@ import { createClient } from '@/lib/supabase/server';
 import { createLogbookEntrySchema } from '@/lib/validations/logbook';
 import { XP_VALUES } from '@/lib/constants';
 import { rateLimiters } from '@/lib/rate-limit';
+import { checkAndAwardBadges } from '@/lib/badges';
+import { updateStreak } from '@/lib/streaks';
 
 export async function GET(request: Request) {
   const supabase = await createClient();
@@ -85,6 +87,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Failed to create entry' }, { status: 500 });
   }
 
+  // Award badges + update streak (non-blocking)
+  const [newBadges] = await Promise.all([
+    checkAndAwardBadges(supabase, user.id).catch(() => [] as string[]),
+    updateStreak(supabase, user.id).catch(() => 0),
+  ]);
+
   // Fetch the created entry to return it
   const { data: entry } = await supabase
     .from('logbook_entries')
@@ -92,5 +100,5 @@ export async function POST(request: Request) {
     .eq('id', entryId)
     .single();
 
-  return NextResponse.json(entry);
+  return NextResponse.json({ ...entry, newBadges });
 }

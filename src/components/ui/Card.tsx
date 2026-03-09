@@ -18,11 +18,11 @@ export function Card({ variant = 'default', padding = 'md', children, className,
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}
       className={cn(
-        'rounded-xl bg-surface-card border',
+        'rounded-2xl glass transition-all duration-200',
         {
-          'border-border shadow-sm': variant === 'default',
-          'border-border shadow-sm pressable cursor-pointer hover:shadow-md': variant === 'interactive',
-          'border-brand shadow-md ring-1 ring-brand/20': variant === 'selected',
+          '': variant === 'default',
+          'pressable cursor-pointer glass-hover': variant === 'interactive',
+          'border-[var(--accent)] shadow-md ring-1 ring-[var(--accent)]/20': variant === 'selected',
         },
         {
           'p-3': padding === 'sm',

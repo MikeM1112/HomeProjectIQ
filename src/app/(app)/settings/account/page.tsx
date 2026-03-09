@@ -10,6 +10,7 @@ import { Card } from '@/components/ui/Card';
 import { Avatar } from '@/components/ui/Avatar';
 import { Modal } from '@/components/ui/Modal';
 import { Spinner } from '@/components/ui/Spinner';
+import { ThemeToggle } from '@/components/settings/ThemeToggle';
 import { useUser } from '@/hooks/useUser';
 import { useUIStore } from '@/stores/uiStore';
 import { createClient } from '@/lib/supabase/client';
@@ -23,7 +24,6 @@ export default function AccountPage() {
   const [showDelete, setShowDelete] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState('');
 
-  // Sync name state when user loads
   useEffect(() => {
     if (user?.display_name) {
       setName(user.display_name);
@@ -107,13 +107,19 @@ export default function AccountPage() {
           <div className="flex items-center gap-4">
             <Avatar src={user.avatar_url} name={user.display_name ?? ''} size="xl" />
             <div>
-              <p className="font-semibold">{user.display_name}</p>
-              <p className="text-sm text-ink-sub">Member since {new Date(user.created_at).getFullYear()}</p>
+              <p className="font-semibold text-[var(--ink)]">{user.display_name}</p>
+              <p className="text-sm text-[var(--ink-sub)]">Member since {new Date(user.created_at).getFullYear()}</p>
             </div>
           </div>
 
+          {/* Appearance */}
           <Card>
-            <h3 className="font-serif text-base mb-3">Display Name</h3>
+            <h3 className="font-serif text-base mb-3 text-[var(--ink)]">Appearance</h3>
+            <ThemeToggle />
+          </Card>
+
+          <Card>
+            <h3 className="font-serif text-base mb-3 text-[var(--ink)]">Display Name</h3>
             <div className="flex gap-2">
               <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" />
               <Button size="sm" loading={saving} onClick={handleSaveName}>Save</Button>
@@ -121,12 +127,12 @@ export default function AccountPage() {
           </Card>
 
           <Card>
-            <h3 className="font-serif text-base mb-1">Email</h3>
-            <p className="text-sm text-ink-sub">{user.email ?? 'Not available'}</p>
+            <h3 className="font-serif text-base mb-1 text-[var(--ink)]">Email</h3>
+            <p className="text-sm text-[var(--ink-sub)]">{user.email ?? 'Not available'}</p>
           </Card>
 
           <Card>
-            <h3 className="font-serif text-base mb-3">Password</h3>
+            <h3 className="font-serif text-base mb-3 text-[var(--ink)]">Password</h3>
             <Button variant="secondary" onClick={handleResetPassword}>
               Send Password Reset Email
             </Button>
@@ -136,8 +142,8 @@ export default function AccountPage() {
             Log Out
           </Button>
 
-          <Card className="border-danger/20">
-            <h3 className="font-serif text-base text-danger mb-2">Danger Zone</h3>
+          <Card className="border-[var(--red)]/20">
+            <h3 className="font-serif text-base text-[var(--red)] mb-2">Danger Zone</h3>
             <Button variant="destructive" size="sm" onClick={() => setShowDelete(true)}>
               Delete Account
             </Button>
@@ -159,7 +165,7 @@ export default function AccountPage() {
           </Button>
         }
       >
-        <p className="text-sm text-ink-sub mb-4">
+        <p className="text-sm text-[var(--ink-sub)] mb-4">
           This action cannot be undone. Type <strong>DELETE</strong> to confirm.
         </p>
         <Input

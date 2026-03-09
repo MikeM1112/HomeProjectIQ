@@ -4,6 +4,8 @@ import { createClient } from '@/lib/supabase/server';
 import { DIAGNOSES, CATEGORIES } from '@/lib/project-data';
 import { XP_VALUES } from '@/lib/constants';
 import { rateLimiters } from '@/lib/rate-limit';
+import { checkAndAwardBadges } from '@/lib/badges';
+import { updateStreak } from '@/lib/streaks';
 import { z } from 'zod';
 import type { Database } from '@/types/database';
 
@@ -463,11 +465,18 @@ export async function POST(request: Request) {
       console.error('Failed to create project with XP:', rpcError.message);
     }
 
+    // Award badges + update streak (non-blocking)
+    const [newBadges] = await Promise.all([
+      checkAndAwardBadges(supabase, user.id).catch(() => [] as string[]),
+      updateStreak(supabase, user.id).catch(() => 0),
+    ]);
+
     return NextResponse.json({
       ...diagnosis,
       verdict,
       category: category?.label ?? catId ?? 'General',
       ai_powered: true,
+      newBadges,
     });
   } catch (error: unknown) {
     const message =

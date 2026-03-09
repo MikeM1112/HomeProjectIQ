@@ -29,23 +29,23 @@ export function StatsBar() {
   return (
     <div className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
       <Card padding="sm" className="min-w-[130px] shrink-0">
-        <p className="text-[10px] text-ink-dim uppercase tracking-wider">Level</p>
-        <p className="text-2xl font-bold text-brand">{level}</p>
-        <p className="text-xs text-ink-sub">{levelInfo.label}</p>
+        <p className="text-[10px] text-[var(--ink-dim)] uppercase tracking-wider">Level</p>
+        <p className="text-2xl font-bold gradient-text">{level}</p>
+        <p className="text-xs text-[var(--ink-sub)]">{levelInfo.label}</p>
       </Card>
       <Card padding="sm" className="min-w-[140px] shrink-0">
-        <p className="text-[10px] text-ink-dim uppercase tracking-wider">XP</p>
-        <p className="text-lg font-bold">{user.xp}</p>
-        <Progress value={xpInfo.progress} />
+        <p className="text-[10px] text-[var(--ink-dim)] uppercase tracking-wider">XP</p>
+        <p className="text-lg font-bold text-[var(--ink)]">{user.xp}</p>
+        <Progress value={xpInfo.progress} gradient />
       </Card>
       <Card padding="sm" className="min-w-[130px] shrink-0">
-        <p className="text-[10px] text-ink-dim uppercase tracking-wider">Savings</p>
-        <p className="text-lg font-bold text-success">{formatCurrency(user.total_savings)}</p>
+        <p className="text-[10px] text-[var(--ink-dim)] uppercase tracking-wider">Savings</p>
+        <p className="text-lg font-bold text-[var(--green)]">{formatCurrency(user.total_savings)}</p>
       </Card>
       <Card padding="sm" className="min-w-[110px] shrink-0">
-        <p className="text-[10px] text-ink-dim uppercase tracking-wider">Streak</p>
-        <p className="text-lg font-bold">{user.streak}</p>
-        <p className="text-xs text-ink-sub">days</p>
+        <p className="text-[10px] text-[var(--ink-dim)] uppercase tracking-wider">Streak</p>
+        <p className="text-lg font-bold text-[var(--ink)]">{user.streak}</p>
+        <p className="text-xs text-[var(--ink-sub)]">days</p>
       </Card>
     </div>
   );

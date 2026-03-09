@@ -15,7 +15,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="space-y-1.5">
         {label && (
-          <label htmlFor={inputId} className="block text-sm font-medium text-ink">
+          <label htmlFor={inputId} className="block text-sm font-medium text-[var(--ink)]">
             {label}
           </label>
         )}
@@ -23,18 +23,19 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           id={inputId}
           className={cn(
-            'w-full rounded-lg border bg-white px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-dim',
-            'transition-colors focus:outline-none focus:ring-2 focus:ring-offset-1',
+            'w-full rounded-xl border px-3.5 py-2.5 text-sm text-[var(--ink)] placeholder:text-[var(--ink-dim)]',
+            'bg-[var(--glass-bg)] backdrop-blur-sm',
+            'transition-colors focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-offset-[var(--bg)]',
             error
-              ? 'border-danger focus:ring-danger/30'
-              : 'border-border focus:border-border-focus focus:ring-brand/20',
-            props.disabled && 'opacity-50 cursor-not-allowed bg-surface-muted',
+              ? 'border-[var(--red)] focus:ring-[var(--red)]/30'
+              : 'border-[var(--border)] focus:border-[var(--border-focus)] focus:ring-[var(--accent)]/20',
+            props.disabled && 'opacity-50 cursor-not-allowed bg-[var(--muted)]',
             className
           )}
           {...props}
         />
-        {error && <p className="text-xs text-danger">{error}</p>}
-        {helper && !error && <p className="text-xs text-ink-dim">{helper}</p>}
+        {error && <p className="text-xs text-[var(--red)]">{error}</p>}
+        {helper && !error && <p className="text-xs text-[var(--ink-dim)]">{helper}</p>}
       </div>
     );
   }

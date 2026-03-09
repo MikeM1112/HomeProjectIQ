@@ -29,28 +29,28 @@ export function LogbookEntryCard({ entry, onDelete }: LogbookEntryProps) {
         <span className="text-2xl">{cat?.icon ?? '🔧'}</span>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <p className="text-sm font-semibold truncate">{entry.title}</p>
+            <p className="text-sm font-semibold truncate text-[var(--ink)]">{entry.title}</p>
             <Badge variant={laborBadge.variant}>{laborBadge.label}</Badge>
           </div>
-          <p className="text-xs text-ink-dim">{formatDate(entry.repair_date)}</p>
+          <p className="text-xs text-[var(--ink-dim)]">{formatDate(entry.repair_date)}</p>
           {entry.cost !== null && entry.cost > 0 && (
-            <p className="text-xs font-mono text-ink-sub mt-0.5">{formatCurrency(entry.cost)}</p>
+            <p className="text-xs font-mono text-[var(--ink-sub)] mt-0.5">{formatCurrency(entry.cost)}</p>
           )}
           {entry.notes && (
-            <p className="text-xs text-ink-sub mt-1 line-clamp-2">{entry.notes}</p>
+            <p className="text-xs text-[var(--ink-sub)] mt-1 line-clamp-2">{entry.notes}</p>
           )}
         </div>
         <button
           onClick={() => setShowConfirm(true)}
-          className="text-ink-dim hover:text-danger text-lg shrink-0"
+          className="text-[var(--ink-dim)] hover:text-[var(--red)] text-lg shrink-0"
           aria-label="Delete entry"
         >
           &times;
         </button>
       </div>
       {showConfirm && (
-        <div className="absolute inset-0 bg-white/95 rounded-xl flex items-center justify-center gap-3 animate-fade">
-          <p className="text-sm">Delete?</p>
+        <div className="absolute inset-0 glass rounded-2xl flex items-center justify-center gap-3 animate-fade">
+          <p className="text-sm text-[var(--ink)]">Delete?</p>
           <Button variant="destructive" size="sm" onClick={() => onDelete(entry.id)}>
             Yes
           </Button>

@@ -38,14 +38,15 @@ export function DashboardClient() {
   return (
     <>
       <Navbar title="HomeProjectIQ" />
-      <PageWrapper>
+      <PageWrapper withGlow>
         <div className="space-y-6">
           {/* AI Photo Assessment CTA */}
-          <Card className="bg-brand/5 border-brand/15">
-            <div className="text-center space-y-3">
-              <span className="text-4xl">&#x1F4F8;</span>
-              <h2 className="font-serif text-lg">AI Photo Assessment</h2>
-              <p className="text-sm text-ink-sub">
+          <Card className="relative overflow-hidden">
+            <div className="absolute inset-0 gradient-accent opacity-10 pointer-events-none" />
+            <div className="relative text-center space-y-3">
+              <span className="text-4xl">📸</span>
+              <h2 className="font-serif text-lg text-[var(--ink)]">AI Photo Assessment</h2>
+              <p className="text-sm text-[var(--ink-sub)]">
                 Snap a photo of any issue for an instant DIY-or-Pro diagnosis
               </p>
               <Button onClick={() => setShowAI(true)} className="w-full">
@@ -57,15 +58,15 @@ export function DashboardClient() {
           <StatsBar />
           <XPProgress />
           <div>
-            <h2 className="font-serif text-lg mb-3">Recent Projects</h2>
+            <h2 className="font-serif text-lg mb-3 text-[var(--ink)]">Recent Projects</h2>
             <RecentProjects />
           </div>
           <div>
-            <h2 className="font-serif text-lg mb-3">Badges</h2>
+            <h2 className="font-serif text-lg mb-3 text-[var(--ink)]">Badges</h2>
             <BadgeShowcase />
           </div>
           <div>
-            <h2 className="font-serif text-lg mb-3">Start a New Project</h2>
+            <h2 className="font-serif text-lg mb-3 text-[var(--ink)]">Start a New Project</h2>
             <CategoryGrid onClick={handleCategory} />
           </div>
         </div>

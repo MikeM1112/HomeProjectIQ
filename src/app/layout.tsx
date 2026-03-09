@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono, Instrument_Serif } from 'next/font/google';
 import { QueryProvider } from '@/components/QueryProvider';
+import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { Toast } from '@/components/ui/Toast';
+import { BadgeCelebration } from '@/components/features/dashboard/BadgeCelebration';
 import { PWAInit } from '@/components/PWAInit';
 import './globals.css';
 
@@ -47,7 +49,7 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   viewportFit: 'cover',
-  themeColor: '#C05E14',
+  themeColor: '#7C3AED',
 };
 
 export default function RootLayout({
@@ -56,17 +58,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${geist.variable} ${geistMono.variable} ${instrumentSerif.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${geist.variable} ${geistMono.variable} ${instrumentSerif.variable}`}>
       <head>
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#C05E14" />
+        <meta name="theme-color" content="#7C3AED" />
       </head>
-      <body className="font-sans antialiased">
-        <QueryProvider>
-          {children}
-          <Toast />
-          <PWAInit />
-        </QueryProvider>
+      <body className="font-sans antialiased transition-colors duration-300">
+        <ThemeProvider>
+          <QueryProvider>
+            {children}
+            <Toast />
+            <BadgeCelebration />
+            <PWAInit />
+          </QueryProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

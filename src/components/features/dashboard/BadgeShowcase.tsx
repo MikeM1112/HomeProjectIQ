@@ -16,13 +16,15 @@ export function BadgeShowcase() {
           <div
             key={badge.id}
             className={cn(
-              'flex flex-col items-center gap-1 p-2 rounded-lg text-center',
-              earned ? 'bg-brand-light' : 'bg-surface-muted opacity-40'
+              'flex flex-col items-center gap-1 p-2 rounded-xl text-center transition-all',
+              earned
+                ? 'bg-[var(--accent-lt)] glow-accent'
+                : 'bg-[var(--muted)] opacity-40'
             )}
             title={earned ? badge.label : badge.condition}
           >
             <span className="text-2xl">{badge.icon}</span>
-            <span className="text-[10px] leading-tight font-medium text-ink-sub">
+            <span className="text-[10px] leading-tight font-medium text-[var(--ink-sub)]">
               {badge.label}
             </span>
           </div>

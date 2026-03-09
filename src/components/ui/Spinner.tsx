@@ -7,7 +7,7 @@ interface SpinnerProps {
   color?: string;
 }
 
-export function Spinner({ size = 'md', color = 'border-brand' }: SpinnerProps) {
+export function Spinner({ size = 'md', color = 'border-[var(--accent)]' }: SpinnerProps) {
   return (
     <div
       className={cn(

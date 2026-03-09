@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { XP_VALUES } from '@/lib/constants';
+import { checkAndAwardBadges } from '@/lib/badges';
+import { updateStreak } from '@/lib/streaks';
 import { z } from 'zod';
 
 const addToolSchema = z.object({
@@ -96,14 +98,21 @@ export async function POST(request: Request) {
   }
 
   // Only award XP on first add, not re-adds
+  let newBadges: string[] = [];
   if (isNewTool) {
     const { error: xpError } = await supabase.rpc('increment_xp', { p_user_id: user.id, p_amount: XP_VALUES.TOOL_ADDED });
     if (xpError) {
       console.error('Failed to award toolbox XP:', xpError.message);
     }
+
+    // Award badges + update streak
+    [newBadges] = await Promise.all([
+      checkAndAwardBadges(supabase, user.id).catch(() => [] as string[]),
+      updateStreak(supabase, user.id).catch(() => 0),
+    ]);
   }
 
-  return NextResponse.json(item);
+  return NextResponse.json({ ...item, newBadges });
 }
 
 export async function DELETE(request: Request) {

@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { z } from 'zod';
 import { XP_VALUES } from '@/lib/constants';
+import { checkAndAwardBadges } from '@/lib/badges';
+import { updateStreak } from '@/lib/streaks';
 
 const outcomeSchema = z.object({
   outcome_status: z.enum(['success', 'partial', 'failed']),
@@ -90,8 +92,15 @@ export async function PATCH(
 
   const xpAwarded = (result as Record<string, number>)?.xp_awarded ?? 0;
 
+  // Award badges + update streak
+  const [newBadges] = await Promise.all([
+    checkAndAwardBadges(supabase, user.id).catch(() => [] as string[]),
+    updateStreak(supabase, user.id).catch(() => 0),
+  ]);
+
   return NextResponse.json({
     project: updatedProject,
     xp_awarded: xpAwarded,
+    newBadges,
   });
 }

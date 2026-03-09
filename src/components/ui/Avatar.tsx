@@ -27,7 +27,7 @@ export function Avatar({ src, name = '', size = 'md' }: AvatarProps) {
       <img
         src={src}
         alt={name || 'Avatar'}
-        className={cn('rounded-full object-cover', sizes[size])}
+        className={cn('rounded-full object-cover ring-2 ring-[var(--glass-border)]', sizes[size])}
       />
     );
   }
@@ -35,7 +35,7 @@ export function Avatar({ src, name = '', size = 'md' }: AvatarProps) {
   return (
     <div
       className={cn(
-        'rounded-full bg-brand-light text-brand font-semibold flex items-center justify-center',
+        'rounded-full bg-[var(--accent-lt)] text-[var(--accent)] font-semibold flex items-center justify-center ring-2 ring-[var(--glass-border)]',
         sizes[size]
       )}
       aria-label={name || 'Avatar'}

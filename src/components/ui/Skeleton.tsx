@@ -13,12 +13,12 @@ export function Skeleton({ variant = 'text', width, height, className }: Skeleto
   return (
     <div
       className={cn(
-        'animate-pulse bg-surface-muted',
+        'animate-pulse bg-[var(--muted)]',
         {
           'h-4 rounded': variant === 'text',
-          'h-32 rounded-xl': variant === 'card',
+          'h-32 rounded-2xl': variant === 'card',
           'rounded-full': variant === 'circle',
-          'rounded-lg': variant === 'rect',
+          'rounded-xl': variant === 'rect',
         },
         className
       )}

@@ -17,12 +17,14 @@ export function XPProgress() {
   return (
     <div className="space-y-2">
       <div className="flex items-baseline justify-between">
-        <h3 className="font-serif text-lg">Level {level}: {levelInfo.label}</h3>
-        <span className="text-xs text-ink-sub">{user.xp} XP</span>
+        <h3 className="font-serif text-lg text-[var(--ink)]">
+          Level <span className="gradient-text">{level}</span>: {levelInfo.label}
+        </h3>
+        <span className="text-xs text-[var(--ink-sub)]">{user.xp} XP</span>
       </div>
-      <Progress value={xpInfo.progress} animated />
+      <Progress value={xpInfo.progress} gradient animated />
       {nextLevel && (
-        <p className="text-xs text-ink-dim">
+        <p className="text-xs text-[var(--ink-dim)]">
           {xpInfo.needed - xpInfo.current} XP to {nextLevel.label}
         </p>
       )}

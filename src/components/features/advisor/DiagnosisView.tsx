@@ -52,14 +52,14 @@ export function DiagnosisView({ result }: DiagnosisViewProps) {
   return (
     <div className="space-y-4">
       {result.flags.length > 0 && (
-        <div className="sticky top-14 z-30 bg-warning-light border border-warning/20 rounded-lg p-3 space-y-1">
+        <div className="sticky top-14 z-30 bg-[var(--yellow-lt)] border border-[var(--yellow)]/20 rounded-2xl p-3 space-y-1">
           {result.flags.map((flag, i) => (
             <p key={i} className="text-sm text-warning font-medium">{flag}</p>
           ))}
         </div>
       )}
 
-      <div className="flex gap-1 overflow-x-auto border-b border-border -mx-4 px-4">
+      <div className="flex gap-1 overflow-x-auto border-b border-[var(--border)] -mx-4 px-4">
         {TABS.map((tab, i) => (
           <button
             key={tab}
@@ -67,8 +67,8 @@ export function DiagnosisView({ result }: DiagnosisViewProps) {
             className={cn(
               'px-3 py-2 text-sm whitespace-nowrap border-b-2 transition-colors tap',
               activeTab === i
-                ? 'border-brand text-brand font-semibold'
-                : 'border-transparent text-ink-sub hover:text-ink'
+                ? 'border-[var(--accent)] text-[var(--accent)] font-semibold'
+                : 'border-transparent text-[var(--ink-sub)] hover:text-[var(--ink)]'
             )}
           >
             {tab}
