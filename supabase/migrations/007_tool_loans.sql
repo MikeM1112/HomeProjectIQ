@@ -42,4 +42,4 @@ create policy "Users can delete their own loans"
 create or replace trigger set_tool_loans_updated_at
   before update on public.tool_loans
   for each row
-  execute function public.set_updated_at();
+  execute function public.handle_updated_at();
