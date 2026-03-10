@@ -3,433 +3,229 @@
 import { useState, useEffect, useRef } from 'react';
 
 // ══════════════════════════════════════════════════════════════
-// DATA: Complete Monetization Architecture for HomeProjectIQ
+// 10 ELITE AI COUNCIL — SYNTHESIZED MONETIZATION INTELLIGENCE
 // ══════════════════════════════════════════════════════════════
 
-const REVENUE_STREAMS = [
-  // ── Direct Consumer ──
-  {
-    id: 'sub',
-    name: 'Pro Subscription',
-    type: 'Subscription',
-    category: 'Direct Consumer',
-    description: 'Unlimited AI assessments, wall/yard analysis, multi-property, advanced home health, export reports, priority contractor matching.',
-    pricing: '$7.99/mo or $59.99/yr',
-    y1: 90000,
-    y2: 480000,
-    y3: 1500000,
-    margin: 90,
-    confidence: 'High',
-    dependencies: 'Paywall implementation, Stripe integration',
-    timeToRevenue: 2,
-    scalability: 'Linear',
-    assumptions: '5% free-to-paid conversion at 50K/200K/500K users. Annual plans at 70% mix. $5 ARPU blended.',
-  },
-  {
-    id: 'credits',
-    name: 'AI Assessment Credits',
-    type: 'IAP',
-    category: 'Direct Consumer',
-    description: 'Consumable credit packs for extra AI photo assessments beyond free tier limit (3/month free).',
-    pricing: '$1.99/5 credits, $4.99/15 credits',
-    y1: 18000,
-    y2: 96000,
-    y3: 300000,
-    margin: 85,
-    confidence: 'High',
-    dependencies: 'Credit system, free tier gating',
-    timeToRevenue: 2,
-    scalability: 'Linear',
-    assumptions: '8% of free users buy credits, avg $6/yr. Scales with user base.',
-  },
-  {
-    id: 'plans',
-    name: 'Premium Project Plans',
-    type: 'IAP',
-    category: 'Direct Consumer',
-    description: 'Enhanced project guides with contractor negotiation scripts, coupon codes, video walkthroughs.',
-    pricing: '$2.99 per plan',
-    y1: 12000,
-    y2: 72000,
-    y3: 240000,
-    margin: 92,
-    confidence: 'Medium',
-    dependencies: 'Premium content creation pipeline',
-    timeToRevenue: 3,
-    scalability: 'Linear',
-    assumptions: '6% of users purchase, avg 1.5 plans/yr at $2.99.',
-  },
+const COUNCIL = [
+  { id: 'pricing', name: 'Pricing Psychologist', icon: '🧠', color: '#8B5CF6', finding: '$12.99/mo optimal price point. 5% base conversion, 3 lifetime free assessments (not monthly). LTV $182.82, CAC target $60.94, 5.7-month payback.' },
+  { id: 'partnerships', name: 'Partnership BD Director', icon: '🤝', color: '#3B82F6', finding: 'Home Depot 2-8%, Lowe\'s 2%, Amazon 3% affiliate rates. Angi pays $15-40/lead. AHS $18-30 CPA. Hippo $25/lead. Angi lead gen is #1 revenue stream at scale.' },
+  { id: 'marketplace', name: 'Marketplace Architect', icon: '🏗️', color: '#F59E0B', finding: 'Pre-qualified leads worth $150-300 (3x Angi) due to project intelligence. 15-20% take rate defensible. Minimum 15-30 contractors per metro per category for liquidity.' },
+  { id: 'data', name: 'Data Economist', icon: '📊', color: '#10B981', finding: 'Data asset worth $90-300/user at 100K users. Insurance reports $20-50 each. CoreLogic sold for $6B. Longitudinal data compounds — Year 5 data worth 3-6x Year 1 data per home.' },
+  { id: 'competitor', name: 'Competitor Analyst', icon: '🔍', color: '#EF4444', finding: 'Angi declining 39% from $1.8B peak. Thumbtack growing at $400M. Yelp Home $768M. No consumer AI home assessment app exists at scale — genuine blue ocean.' },
+  { id: 'vc', name: 'VC & Exit Analyst', icon: '💰', color: '#F97316', finding: 'Series A: $1-5M ARR, 50K+ MAU. Matterport acquired at 12x revenue. Strategic acquirers: Home Depot, Zillow, Apple. AI premium = 3-5x over non-AI at same revenue.' },
+  { id: 'growth', name: 'Growth Strategist', icon: '📈', color: '#06B6D4', finding: 'Realistic Y1: 8-12K users. Tool lending = strongest viral loop (K~0.15). ASO is highest-ROI channel. Concentrate in 2-3 metros, not national. D30 retention target: 10%.' },
+  { id: 'brand', name: 'Brand Strategist', icon: '🎨', color: '#EC4899', finding: 'Credit Karma model: $1.6B from free product via lead gen. Duolingo 8.8% free-to-paid. "Carfax for Homes" positioning. Newsletter CPM $40-60. NPS target 50+.' },
+  { id: 'product', name: 'Product Monetization', icon: '⚙️', color: '#6366F1', finding: '18 upsell moments mapped across app flow. LiveBids = #1 revenue feature. Gate levels 4-5 of SkillTree behind Pro. Emergency Mode paywall for urgent users.' },
+  { id: 'consumer', name: 'Consumer Psychologist', icon: '🎯', color: '#14B8A6', finding: 'Loss aversion 2x stronger than gain framing. Emergency users accept 2-3x premiums. First-time homeowners (median age 38) = highest conversion segment. 83% faced unexpected repairs.' },
+];
 
-  // ── Partnership Revenue ──
+// ── REFINED REVENUE STREAMS (Council-Validated) ──
+const STREAMS = [
   {
-    id: 'affiliate',
-    name: 'Affiliate Links (HD / Lowes / Amazon)',
-    type: 'Affiliate',
-    category: 'Partnership',
-    description: 'Commission on material purchases through app shopping lists. Already has SKU-level product data with store names for Home Depot, Lowe\'s. Feature flag exists.',
-    pricing: '4-8% Home Depot, 2-8% Lowe\'s, 1-4% Amazon',
-    y1: 75000,
-    y2: 400000,
-    y3: 1250000,
-    margin: 95,
-    confidence: 'High',
-    dependencies: 'Affiliate program enrollment, link integration (AffiliateBuyButton component exists)',
-    timeToRevenue: 1,
-    scalability: 'Exponential',
-    assumptions: 'Avg $50 material spend per project, 2.5 projects/yr/active user, 5% avg commission. 30% click-through, 15% purchase conversion.',
+    id: 'leads', tier: 1, name: 'Pre-Qualified Contractor Leads', category: 'Marketplace',
+    icon: '🎯', pricing: '$150-300/lead', y1: 36000, y2: 540000, y3: 2400000, y4: 6000000, y5: 12000000,
+    margin: 95, confidence: 'High', council: ['marketplace', 'partnerships'],
+    insight: 'HomeProjectIQ leads close at 45-60% vs Angi\'s 10-15%. Contractors save 28% on effective CAC even at 3x the lead price.',
+    assumptions: 'Y1: 20 leads/mo × $150. Y2: 300/mo × $150. Y3: 1K/mo × $200. Requires contractor supply-side build.',
   },
   {
-    id: 'featured-pros',
-    name: 'Featured Pro Placement',
-    type: 'Sponsorship',
-    category: 'Partnership',
-    description: 'Contractors pay for premium placement in bid results and recommendations. FeaturedProCard component already built and flag-gated.',
-    pricing: '$75-250/mo per contractor per metro area',
-    y1: 72000,
-    y2: 360000,
-    y3: 1200000,
-    margin: 88,
-    confidence: 'High',
-    dependencies: 'Contractor onboarding portal, self-serve ad platform',
-    timeToRevenue: 4,
-    scalability: 'Linear',
-    assumptions: 'Y1: 80 contractors × $75/mo. Y2: 300 × $100/mo. Y3: 800 × $125/mo. Major metro areas first.',
+    id: 'sub', tier: 1, name: 'Pro Subscription', category: 'Consumer',
+    icon: '👑', pricing: '$12.99/mo · $89.99/yr', y1: 45000, y2: 432000, y3: 1620000, y4: 4050000, y5: 8100000,
+    margin: 90, confidence: 'High', council: ['pricing', 'product'],
+    insight: 'Metered paywall: 3 lifetime free assessments. Annual default (37% discount). LTV $182.82 at 14-month avg tenure.',
+    assumptions: 'Y1: 10K users × 5% = 500 subs. Y2: 60K × 6% = 3.6K. Y3: 200K × 8% = 16K. 70% annual mix.',
   },
   {
-    id: 'category-sponsors',
-    name: 'Category Sponsorships',
-    type: 'Sponsorship',
-    category: 'Partnership',
-    description: '"HVAC tips powered by Carrier" — brand sponsors an entire repair category. SponsoredCategory component already built.',
-    pricing: '$10K-60K/yr per category',
-    y1: 60000,
-    y2: 180000,
-    y3: 480000,
-    margin: 90,
-    confidence: 'Medium',
-    dependencies: '50K+ MAU for sponsor interest, media kit, rate card',
-    timeToRevenue: 6,
-    scalability: 'Plateau (12 categories)',
-    assumptions: 'Y1: 4 categories × $15K. Y2: 8 × $22.5K. Y3: 12 × $40K. Increases with user base.',
+    id: 'contractor-subs', tier: 1, name: 'Contractor Subscriptions', category: 'B2B',
+    icon: '🔨', pricing: '$99-199/mo featured placement', y1: 57600, y2: 360000, y3: 1200000, y4: 3000000, y5: 6000000,
+    margin: 88, confidence: 'High', council: ['marketplace', 'product'],
+    insight: 'B2B recurring revenue. Contractors pay for featured placement, priority matching, and reputation tools. Angi charges $200-550+/mo.',
+    assumptions: 'Y1: 60 pros × $80/mo. Y2: 300 × $100/mo. Y3: 800 × $125/mo. Metro-by-metro expansion.',
   },
   {
-    id: 'lead-gen',
-    name: 'Contractor Lead Generation',
-    type: 'Lead Gen',
-    category: 'Partnership',
-    description: 'Users who receive "Hire a Pro" verdict become pre-qualified leads. App knows project type, budget range, skill gap, and urgency. Highest-value stream.',
-    pricing: '$25-75 per qualified lead',
-    y1: 150000,
-    y2: 800000,
-    y3: 2500000,
-    margin: 85,
-    confidence: 'High',
-    dependencies: 'Lead routing system, contractor network, quality scoring',
-    timeToRevenue: 4,
-    scalability: 'Exponential',
-    assumptions: '20% of users need pros, 1.5 projects/yr avg, $40 avg CPL. Pre-qualified leads command premium CPL.',
-  },
-
-  // ── Platform Revenue ──
-  {
-    id: 'marketplace',
-    name: 'Pro Marketplace (Transaction Fees)',
-    type: 'Platform',
-    category: 'Platform',
-    description: 'Full booking/payment platform for contractor services. User hires pro directly through app. 10-15% take rate on completed jobs.',
-    pricing: '12% platform fee on completed jobs',
-    y1: 0,
-    y2: 270000,
-    y3: 1350000,
-    margin: 75,
-    confidence: 'Medium',
-    dependencies: 'Payment processing, escrow, contractor verification, dispute resolution',
-    timeToRevenue: 10,
-    scalability: 'Exponential',
-    assumptions: 'Y2: $2.25M GMV × 12%. Y3: $11.25M GMV × 12%. 15K users hiring pros, avg $500 job.',
+    id: 'affiliate', tier: 1, name: 'Affiliate Commerce', category: 'Partnership',
+    icon: '🛒', pricing: 'HD 2-8% · Lowe\'s 2% · Amazon 3%', y1: 50000, y2: 300000, y3: 950000, y4: 2400000, y5: 5000000,
+    margin: 95, confidence: 'High', council: ['partnerships', 'brand'],
+    insight: 'AffiliateBuyButton component already built. Shop tab in DiagnosisView generates contextual purchase intent. Zero-friction revenue.',
+    assumptions: '$50 avg material spend per project, 2.5 projects/yr, 5% avg commission, 30% CTR, 15% purchase conversion.',
   },
   {
-    id: 'certified-pro',
-    name: 'Certified Pro Program',
-    type: 'Platform',
-    category: 'Platform',
-    description: '"HomeProjectIQ Certified" badge for contractors who pass quality standards. Annual certification fee + enhanced listing.',
-    pricing: '$500/yr per certified contractor',
-    y1: 0,
-    y2: 100000,
-    y3: 500000,
-    margin: 85,
-    confidence: 'Medium',
-    dependencies: 'Certification criteria, verification process, badge system',
-    timeToRevenue: 8,
-    scalability: 'Linear',
-    assumptions: 'Y2: 200 contractors. Y3: 1,000 contractors. Grows with marketplace.',
-  },
-
-  // ── Data Revenue ──
-  {
-    id: 'home-intel',
-    name: 'Home Health Intelligence Reports',
-    type: 'Data',
-    category: 'Data',
-    description: 'Aggregated, anonymized market data: avg system ages by region, common failure patterns, maintenance compliance rates, cost benchmarks.',
-    pricing: '$25K-100K/yr per enterprise subscriber',
-    y1: 0,
-    y2: 150000,
-    y3: 500000,
-    margin: 80,
-    confidence: 'Medium',
-    dependencies: '100K+ users for statistical significance, data pipeline, anonymization',
-    timeToRevenue: 12,
-    scalability: 'Exponential',
-    assumptions: 'Y2: 3 enterprise clients × $50K. Y3: 8 × $62.5K. Target: insurers, warranty companies, RE firms.',
+    id: 'insurance-data', tier: 2, name: 'Insurance Data Licensing', category: 'Data',
+    icon: '🏛️', pricing: '$20-50/verified home report', y1: 0, y2: 150000, y3: 750000, y4: 3000000, y5: 8000000,
+    margin: 85, confidence: 'Medium', council: ['data', 'vc'],
+    insight: 'Verified maintenance data reduces insurer claims 5-15%. Verisk makes $2.9B/yr selling similar data. Clean room approach satisfies CCPA/GDPR.',
+    assumptions: 'Y2: pilot with 1-2 carriers. Y3: 3 carriers × $250K. Requires 10K+ homes per geographic cell for actuarial credibility.',
   },
   {
-    id: 'real-estate',
-    name: 'Real Estate Integration',
-    type: 'Data',
-    category: 'Data',
-    description: 'Home health scores for property listings. Pre-sale assessment reports. API for MLS/Zillow/Redfin integration.',
-    pricing: '$15-25 per report, or API subscription',
-    y1: 0,
-    y2: 75000,
-    y3: 375000,
-    margin: 82,
-    confidence: 'Speculative',
-    dependencies: 'Critical mass of home data, API platform, RE partnerships',
-    timeToRevenue: 14,
-    scalability: 'Exponential',
-    assumptions: 'Y2: 5K reports × $15. Y3: 25K reports × $15. Massive TAM if RE partnerships close.',
-  },
-
-  // ── Brand Revenue ──
-  {
-    id: 'newsletter',
-    name: 'Branded Newsletter / Content',
-    type: 'Brand',
-    category: 'Brand',
-    description: 'Weekly "Home Intelligence" newsletter with seasonal tips, product recommendations, and sponsor placements. Repurpose Smart Insights content.',
-    pricing: '$25-50 CPM, 2-3 sponsors/issue',
-    y1: 24000,
-    y2: 96000,
-    y3: 240000,
-    margin: 88,
-    confidence: 'Medium',
-    dependencies: 'Email capture, content pipeline, sponsor outreach',
-    timeToRevenue: 3,
-    scalability: 'Linear',
-    assumptions: 'Y1: 10K subs, $2K/mo. Y2: 40K subs, $8K/mo. Y3: 100K subs, $20K/mo. $40-50 CPM home category.',
+    id: 'warranty', tier: 2, name: 'Home Warranty Referrals', category: 'Partnership',
+    icon: '🛡️', pricing: '$18-30 CPA per sale', y1: 15000, y2: 120000, y3: 450000, y4: 1200000, y5: 2500000,
+    margin: 92, confidence: 'High', council: ['partnerships', 'consumer'],
+    insight: 'Triggered when HomeHealth shows system at 75%+ lifespan. $9.5B home warranty market. AHS, Choice Home Warranty, First American.',
+    assumptions: 'Contextual upsell at system age thresholds. Y1: 500 conversions × $30. Scales with user base and system tracking.',
   },
   {
-    id: 'tool-brand',
-    name: 'Tool Brand Partnerships',
-    type: 'Sponsorship',
-    category: 'Brand',
-    description: 'Tool recommendations in diagnosis results and toolbox. "Recommended by HomeProjectIQ" badge for tool brands. Performance marketing.',
-    pricing: '$5K-25K/yr per brand + affiliate commission',
-    y1: 30000,
-    y2: 120000,
-    y3: 300000,
-    margin: 90,
-    confidence: 'Medium',
-    dependencies: 'Brand partnership team, content integration guidelines',
-    timeToRevenue: 5,
-    scalability: 'Linear',
-    assumptions: 'Y1: 3 brands × $10K. Y2: 8 × $15K. Y3: 15 × $20K. DeWalt, Milwaukee, Ryobi, etc.',
+    id: 'credits', tier: 2, name: 'AI Credit Packs (IAP)', category: 'Consumer',
+    icon: '✨', pricing: '$2.99/5 · $6.99/8 · $14.99/20', y1: 15000, y2: 96000, y3: 300000, y4: 750000, y5: 1500000,
+    margin: 85, confidence: 'High', council: ['pricing', 'product'],
+    insight: 'Alternative to subscription for occasional users. 8% of free users buy credits. Credit packs convert users who reject monthly commitment.',
+    assumptions: '8% of free users purchase, avg $6/yr. Complements subscription, does not cannibalize.',
   },
   {
-    id: 'home-warranty',
-    name: 'Home Warranty Referrals',
-    type: 'Affiliate',
-    category: 'Partnership',
-    description: 'Target users with aging systems (water heater 8+ yrs, HVAC 10+ yrs, roof 15+ yrs) with home warranty recommendations.',
-    pricing: '$40-120 per warranty sold (CPA)',
-    y1: 36000,
-    y2: 144000,
-    y3: 360000,
-    margin: 95,
-    confidence: 'High',
-    dependencies: 'Home health age data, warranty partner integration',
-    timeToRevenue: 3,
-    scalability: 'Linear',
-    assumptions: 'Y1: 450 referrals × $80 CPA. Y2: 1,800 × $80. Y3: 4,500 × $80. 3% of tracked users convert.',
+    id: 'data-api', tier: 2, name: 'Predictive Analytics API', category: 'Data',
+    icon: '🔮', pricing: '$1-3/API call', y1: 0, y2: 50000, y3: 500000, y4: 2000000, y5: 5000000,
+    margin: 80, confidence: 'Medium', council: ['data', 'marketplace'],
+    insight: 'Failure prediction by system age + maintenance history. OEMs pay $50K-500K/yr for 100K+ home datasets. Retailers pay $200K-1M/yr for trend data.',
+    assumptions: 'Requires 100K+ users for statistical significance. OEM + retailer + contractor chain buyers.',
   },
   {
-    id: 'insurance',
-    name: 'Insurance Data Partnerships',
-    type: 'Data',
-    category: 'Data',
-    description: 'Home health scores as supplementary data for insurance underwriting. Well-maintained homes = lower premiums. Revenue share on premium reduction.',
-    pricing: '$5-15 per verified home health report',
-    y1: 0,
-    y2: 50000,
-    y3: 250000,
-    margin: 80,
-    confidence: 'Speculative',
-    dependencies: 'Actuarial validation, insurer partnerships, user consent',
-    timeToRevenue: 18,
-    scalability: 'Exponential',
-    assumptions: 'Y2: 5K reports × $10. Y3: 25K × $10. Hippo, Lemonade, Kin as targets.',
+    id: 'sponsored', tier: 3, name: 'Sponsored Content & Newsletter', category: 'Brand',
+    icon: '📰', pricing: '$40-60 CPM · $2K-8K/sponsor', y1: 10000, y2: 80000, y3: 300000, y4: 800000, y5: 1500000,
+    margin: 75, confidence: 'Medium', council: ['brand'],
+    insight: 'High-intent homeowner audience commands premium CPMs. The Spruce model: SEO → buying guide → affiliate. YouTube DIY RPM $4-11/1K views.',
+    assumptions: 'Newsletter + in-app sponsored tips. Seasonal sponsor packages. Brand advertiser demand grows with user base.',
+  },
+  {
+    id: 'seal', tier: 3, name: 'HomeProjectIQ Seal Program', category: 'Brand',
+    icon: '✅', pricing: '$5K-25K/yr per product line', y1: 0, y2: 25000, y3: 150000, y4: 500000, y5: 1200000,
+    margin: 90, confidence: 'Low', council: ['brand'],
+    insight: 'Good Housekeeping Seal model. Manufacturers pay for testing + right to use seal on packaging and Amazon listings. Requires trusted community.',
+    assumptions: 'Y2: 2-3 brands. Y3: 10-15 brands. Scales with brand authority and user trust (NPS 50+).',
+  },
+  {
+    id: 'tool-rental', tier: 3, name: 'P2P Tool Rental Marketplace', category: 'Adjacent',
+    icon: '🔧', pricing: '20-25% take rate', y1: 0, y2: 0, y3: 120000, y4: 600000, y5: 2000000,
+    margin: 80, confidence: 'Low', council: ['marketplace', 'growth'],
+    insight: 'P2P tool marketplace: $1.53B market growing 18.7% CAGR. AI assessment identifies needed tools, surfaces neighbor rentals. Strongest viral loop.',
+    assumptions: 'Requires local density (15-20 neighbors per 0.5mi). Launch Y3 in dense metros only.',
+  },
+  {
+    id: 'materials', tier: 3, name: 'Materials Group Buying', category: 'Adjacent',
+    icon: '🧱', pricing: '5-10% margin on brokered materials', y1: 0, y2: 0, y3: 100000, y4: 500000, y5: 1500000,
+    margin: 70, confidence: 'Low', council: ['marketplace'],
+    insight: 'Blue ocean: no platform aggregates DIY homeowner materials demand at SKU level. AI assessment creates precise materials lists.',
+    assumptions: 'Requires supplier contracts and aggregated demand across metro areas. Y3+ opportunity.',
+  },
+  {
+    id: 'workshops', tier: 3, name: 'DIY Workshop Marketplace', category: 'Adjacent',
+    icon: '🎓', pricing: '20-30% of class fees', y1: 0, y2: 15000, y3: 80000, y4: 300000, y5: 800000,
+    margin: 85, confidence: 'Low', council: ['marketplace', 'brand'],
+    insight: 'When AI identifies skill gap, surface local workshop. Made Trade sells classes at $65-125/session. Community-building flywheel.',
+    assumptions: 'Instructor supply build required. Local retired contractors as teachers. Y2 pilot in 1-2 metros.',
+  },
+  {
+    id: 'home-sub', tier: 3, name: 'Home Services Subscription', category: 'Adjacent',
+    icon: '🏠', pricing: '$29-49/mo membership', y1: 0, y2: 0, y3: 200000, y4: 1000000, y5: 3000000,
+    margin: 80, confidence: 'Medium', council: ['marketplace', 'consumer'],
+    insight: 'Monthly membership unlocks discounted contractor rates + priority booking + AI tools. $468/yr vs one-time transactional use. LTV multiplier.',
+    assumptions: 'Converts homeowner from transaction customer to recurring. Requires mature contractor network. Y3+ launch.',
   },
 ];
 
-const NAMED_PARTNERS: { name: string; type: string; dealValue: string; whyTheyCare: string; confidence: string; logo: string }[] = [
-  { name: 'Home Depot', type: 'Affiliate', dealValue: '$50K-500K/yr', whyTheyCare: 'Direct purchase intent — users have SKU-level shopping lists. 4-8% commission on $157B revenue.', confidence: 'High', logo: '🏠' },
-  { name: "Lowe's", type: 'Affiliate', dealValue: '$30K-300K/yr', whyTheyCare: 'Compete with HD for DIY wallet share. 2-8% commission. $87B revenue.', confidence: 'High', logo: '🔵' },
-  { name: 'Amazon', type: 'Affiliate', dealValue: '$20K-200K/yr', whyTheyCare: 'Tool and material purchases. 1-4% commission. Convenience factor for specialty items.', confidence: 'High', logo: '📦' },
-  { name: 'Angi (Angie\'s List)', type: 'Lead Gen', dealValue: '$200K-1.5M/yr', whyTheyCare: 'Pre-qualified leads with project scope, budget, and skill gap data. Pays $20-75/lead. $1.8B revenue.', confidence: 'High', logo: '🔧' },
-  { name: 'Thumbtack', type: 'Lead Gen', dealValue: '$150K-800K/yr', whyTheyCare: 'Qualified homeowner leads with specific project details. $2B+ valuation, aggressive lead acquisition.', confidence: 'High', logo: '📌' },
-  { name: 'Porch.com', type: 'Lead Gen', dealValue: '$50K-250K/yr', whyTheyCare: 'Home services lead marketplace. Pays $5-25/lead. Focus on move-related projects.', confidence: 'Medium', logo: '🏡' },
-  { name: 'Carrier / Trane / Lennox', type: 'Category Sponsor', dealValue: '$15K-60K/yr each', whyTheyCare: 'HVAC category sponsorship. Users tracking HVAC health = purchase intent signal. $20B+ combined market.', confidence: 'Medium', logo: '❄️' },
-  { name: 'Moen / Kohler / Delta', type: 'Category Sponsor', dealValue: '$10K-40K/yr each', whyTheyCare: 'Plumbing category sponsorship. App recommends their products by name in diagnosis results.', confidence: 'Medium', logo: '🚿' },
-  { name: 'Sherwin-Williams', type: 'Category Sponsor', dealValue: '$15K-50K/yr', whyTheyCare: 'Painting category. Color recommendations + store locator. $22B revenue. Huge marketing budget.', confidence: 'Medium', logo: '🎨' },
-  { name: 'DeWalt / Milwaukee / Makita', type: 'Tool Brand', dealValue: '$10K-30K/yr each', whyTheyCare: 'Tool recommendations in every diagnosis. "Recommended tool" placement. Performance marketing.', confidence: 'Medium', logo: '🔨' },
-  { name: 'American Home Shield', type: 'Warranty Referral', dealValue: '$40K-200K/yr', whyTheyCare: 'Users with aging systems (HVAC 10+, water heater 8+) are prime warranty buyers. $80-120 CPA.', confidence: 'High', logo: '🛡️' },
-  { name: 'Hippo Insurance', type: 'Insurance Data', dealValue: '$50K-250K/yr', whyTheyCare: 'Home health data for underwriting. Well-maintained homes = lower risk. Smart home insurer.', confidence: 'Speculative', logo: '🦛' },
-  { name: 'Zillow / Redfin', type: 'RE Integration', dealValue: '$100K-500K/yr', whyTheyCare: 'Home health scores for listings. Pre-sale assessment reports. API integration for property data.', confidence: 'Speculative', logo: '🏘️' },
-  { name: 'Ryobi (TTI)', type: 'Tool Brand', dealValue: '$15K-40K/yr', whyTheyCare: 'HD-exclusive brand. App recommends specific Ryobi tools. Cross-promo with HD affiliate program.', confidence: 'Medium', logo: '💚' },
+// ── COMPETITIVE LANDSCAPE ──
+const COMPETITORS = [
+  { name: 'Angi', revenue: '$1.1B', trend: 'down', yoy: '-14%', model: 'Lead gen', weakness: 'Lead sharing destroyed trust. 39% revenue decline from peak.', users: '10M consumers, 147K pros' },
+  { name: 'Thumbtack', revenue: '$400M', trend: 'up', yoy: '+27%', model: 'Credit/lead', weakness: 'No AI assessment. Pure matching. 90%+ gross margin.', users: '300K active pros' },
+  { name: 'Yelp Home', revenue: '$768M', trend: 'up', yoy: '+13%', model: 'CPC ads', weakness: 'Review platform, not lead marketplace. No project intelligence.', users: '~40M monthly' },
+  { name: 'Houzz', revenue: '$340M', trend: 'flat', yoy: '~0%', model: 'SaaS + ads + 15% marketplace', weakness: 'Pivoted to contractor SaaS. Consumer marketplace underperforms.', users: '40M uniques' },
+  { name: 'Porch', revenue: '$437M', trend: 'down', yoy: '-12%', model: 'Data + insurance', weakness: 'Insurance losses crushed balance sheet. Stock down 90% from peak.', users: '30K inspectors' },
+  { name: 'Hover', revenue: '$70M+', trend: 'up', yoy: '+40%', model: 'B2B subscriptions', weakness: 'Enterprise-only. No consumer app. Exterior imaging only.', users: 'State Farm, Travelers' },
+  { name: 'TaskRabbit', revenue: '~$60M', trend: 'flat', yoy: '~5%', model: '22.5% take rate', weakness: 'Low AOV ($150-400). IKEA-subordinated strategy.', users: '~100K taskers' },
+  { name: 'HomeProjectIQ', revenue: '$0 (pre-launch)', trend: 'up', yoy: 'N/A', model: 'AI assessment → marketplace', weakness: 'No users yet. Needs to prove PMF.', users: 'Pre-launch' },
 ];
 
-const FEATURE_ROADMAP: { name: string; revenue: string; effort: string; roiPerMonth: number; phase: string; unlocks: string }[] = [
-  { name: 'Affiliate Link Integration', revenue: '$75K-1.25M/yr', effort: 'Small (1 mo)', roiPerMonth: 75000, phase: 'A', unlocks: 'Home Depot, Lowe\'s, Amazon commissions' },
-  { name: 'Freemium Paywall + Stripe', revenue: '$90K-1.5M/yr', effort: 'Medium (2 mo)', roiPerMonth: 45000, phase: 'A', unlocks: 'Pro subscriptions, AI credit packs' },
-  { name: 'Contractor Lead Routing', revenue: '$150K-2.5M/yr', effort: 'Medium (2 mo)', roiPerMonth: 75000, phase: 'A', unlocks: 'Angi, Thumbtack, Porch lead gen revenue' },
-  { name: 'Featured Pro Self-Serve Portal', revenue: '$72K-1.2M/yr', effort: 'Medium (2 mo)', roiPerMonth: 36000, phase: 'B', unlocks: 'Contractor advertising revenue' },
-  { name: 'Email Newsletter System', revenue: '$24K-240K/yr', effort: 'Small (1 mo)', roiPerMonth: 24000, phase: 'B', unlocks: 'Sponsor revenue, user retention' },
-  { name: 'Home Warranty Integration', revenue: '$36K-360K/yr', effort: 'Small (1 mo)', roiPerMonth: 36000, phase: 'B', unlocks: 'AHS, Choice, Select referral CPA' },
-  { name: 'Full Marketplace + Payments', revenue: '$0-1.35M/yr', effort: 'Large (4 mo)', roiPerMonth: 0, phase: 'C', unlocks: 'Transaction fees, escrow, booking' },
-  { name: 'Certified Pro Program', revenue: '$0-500K/yr', effort: 'Medium (2 mo)', roiPerMonth: 0, phase: 'C', unlocks: 'Annual certification fees, quality signal' },
-  { name: 'Data Pipeline + Intelligence API', revenue: '$0-500K/yr', effort: 'Large (3 mo)', roiPerMonth: 0, phase: 'D', unlocks: 'Insurance, RE, warranty data sales' },
-  { name: 'Real Estate MLS Integration', revenue: '$0-375K/yr', effort: 'Large (4 mo)', roiPerMonth: 0, phase: 'D', unlocks: 'Zillow, Redfin, MLS home health scores' },
+// ── STRATEGIC ACQUIRERS ──
+const ACQUIRERS = [
+  { name: 'Home Depot', logo: '🟧', range: '$200M-800M', thesis: 'Consumer data layer. Predictive merchandising. Close diagnosis-to-purchase loop.', trigger: '500K+ MAU, purchase intent data' },
+  { name: 'Lowe\'s', logo: '🔵', range: '$150M-600M', thesis: 'DIY consumer wedge. Behind HD on pro segment (30% vs 50%). Bought Artisan Design Group for $1.33B.', trigger: 'Strong DIY user base in Lowe\'s markets' },
+  { name: 'Zillow', logo: '🏡', range: '$100M-500M', thesis: 'Post-purchase relationship. Improves Zestimate. Move-intent prediction from deferred maintenance.', trigger: '1M+ homeowners with maintenance history' },
+  { name: 'Apple', logo: '🍎', range: '$200M-500M', thesis: 'Physical home data for HomeKit ecosystem. Smart home display launching 2025. Home condition intelligence gap.', trigger: '500K+ iOS MAU, proprietary AI models' },
+  { name: 'Hippo Insurance', logo: '🦛', range: '$30M-100M', thesis: 'Proactive loss prevention. Underwriting signal from verified maintenance. Premium discount engine.', trigger: 'Correlation data: lower claims for users' },
+  { name: 'Google', logo: '🔴', range: '$200M-500M', thesis: 'Ambient home data for Google Home/Assistant. 2K+ Home API developers. Nest integration.', trigger: 'National user base, AI models' },
 ];
 
-const VALUATION_TRAJECTORY = [
-  { stage: 'Pre-Launch', users: '0', revenue: '$0', revenueMultiple: '$0', userMultiple: '$0', combined: '$500K-1M', note: 'Team + tech + market size' },
-  { stage: '10K Users', users: '10K', revenue: '$50K ARR', revenueMultiple: '$500K-750K', userMultiple: '$200K-500K', combined: '$750K-1.5M', note: 'Seed stage' },
-  { stage: '50K Users', users: '50K', revenue: '$570K ARR', revenueMultiple: '$5.7M-8.5M', userMultiple: '$1M-2.5M', combined: '$5M-10M', note: 'Series A' },
-  { stage: '100K Users', users: '100K', revenue: '$1.5M ARR', revenueMultiple: '$15M-22.5M', userMultiple: '$2M-5M', combined: '$15M-25M', note: 'Growth stage' },
-  { stage: '500K Users', users: '500K', revenue: '$8M ARR', revenueMultiple: '$80M-160M', userMultiple: '$10M-25M', combined: '$80M-160M', note: 'Series B/C' },
-  { stage: '1M Users', users: '1M', revenue: '$18M ARR', revenueMultiple: '$180M-360M', userMultiple: '$20M-50M', combined: '$200M-400M', note: 'Pre-exit' },
+// ── GROWTH MODEL ──
+const GROWTH_MODEL = [
+  { year: 'Y1', users: 10000, mau: 3500, paid: 500, revenue: 228600, cac: 15, kFactor: 0.15, channels: 'ASO, Content SEO, Founder network, Reddit' },
+  { year: 'Y2', users: 65000, mau: 22000, paid: 3900, revenue: 2168000, cac: 45, kFactor: 0.30, channels: 'Referral program, Tool lending, RE partnerships, Paid UA $300K' },
+  { year: 'Y3', users: 220000, mau: 75000, paid: 17600, revenue: 8120000, cac: 55, kFactor: 0.40, channels: '3+ dense metros, Contractor network, SEO 50K+ monthly visits' },
+  { year: 'Y4', users: 600000, mau: 200000, paid: 54000, revenue: 26100000, cac: 50, kFactor: 0.45, channels: 'National expansion, B2B data deals, Insurance partnerships' },
+  { year: 'Y5', users: 1200000, mau: 400000, paid: 108000, revenue: 59100000, cac: 45, kFactor: 0.50, channels: 'Platform effects, Adjacent marketplaces, International' },
 ];
 
-// ── Aggregates ──
-const Y1_TOTAL = REVENUE_STREAMS.reduce((s, r) => s + r.y1, 0);
-const Y2_TOTAL = REVENUE_STREAMS.reduce((s, r) => s + r.y2, 0);
-const Y3_TOTAL = REVENUE_STREAMS.reduce((s, r) => s + r.y3, 0);
-const CATEGORIES = ['Direct Consumer', 'Partnership', 'Platform', 'Data', 'Brand'];
+// ── VALUATION TRAJECTORY ──
+const VALUATION = [
+  { stage: 'Pre-Seed', arr: '$0', mau: '<1K', valuation: '$2-5M', multiple: 'Team + vision', basis: 'Comparable: AI proptech seed rounds' },
+  { stage: 'Seed', arr: '$250K-1M', mau: '10K-50K', valuation: '$5-15M', multiple: '$50-200/user', basis: 'Data moat thesis + user traction' },
+  { stage: 'Series A', arr: '$2-5M', mau: '50K-250K', valuation: '$20-60M', multiple: '8-12x ARR + AI premium', basis: 'Median Series A pre-money: $45.7M' },
+  { stage: 'Series B', arr: '$5-15M', mau: '250K-1M', valuation: '$60-200M', multiple: '8-15x ARR', basis: 'Revenue-driven valuation dominates' },
+  { stage: 'Strategic Exit', arr: '$15-30M', mau: '1M-5M', valuation: '$200-500M', multiple: '10-20x ARR', basis: 'Matterport acquired at 12x by CoStar' },
+  { stage: 'Platform Exit', arr: '$30M+', mau: '5M+', valuation: '$500M-1B+', multiple: 'Strategic premium', basis: 'Home Depot/Zillow/Apple acquisition' },
+];
 
-function fmt(n: number): string {
-  if (n >= 1000000) return `$${(n / 1000000).toFixed(1)}M`;
-  if (n >= 1000) return `$${(n / 1000).toFixed(0)}K`;
-  return `$${n}`;
-}
+// ── DATA MOAT ──
+const DATA_MOAT = [
+  { users: '10K', dataValue: '$500K-2M', perUser: '$50-200', products: 'Internal model improvement, insurance pilot proof-of-concept', timeline: 'Y1' },
+  { users: '100K', dataValue: '$9M-30M', perUser: '$90-300', products: 'Insurance licenses ($500K-2M/yr), warranty underwriting, OEM datasets', timeline: 'Y2-3' },
+  { users: '1M', dataValue: '$100M-315M', perUser: '$100-315', products: 'National insurance carrier data ($5-15M/yr), retailer trends ($500K-2M/yr), API marketplace', timeline: 'Y4-5' },
+];
 
-function fmtFull(n: number): string {
-  return '$' + n.toLocaleString('en-US');
-}
+// ── DEMOGRAPHIC SEGMENTS ──
+const SEGMENTS = [
+  { name: 'First-Time Homeowners', age: '25-40', size: '24% of buyers', wtp: '$7.99-14.99/mo', trigger: 'First unexpected repair', icon: '🏠', insight: 'Median age 38, $97K income, 46% over budget Y1. Highest conversion for fear-based messaging.' },
+  { name: 'Experienced Homeowners', age: '40-60', size: '45% of market', wtp: '$12.99-24.99/mo', trigger: 'Bad contractor experience', icon: '🔑', insight: 'Value bid validation. Will pay premium for contractor vetting. Avg spend $14,140/yr.' },
+  { name: 'Aging-in-Place', age: '60+', size: '20% of market', wtp: '$9.99-19.99/mo', trigger: 'Safety modification need', icon: '👴', insight: '66% of renovations include aging-in-place. Gifted subscription segment (adult children pay).' },
+  { name: 'Landlords & Investors', age: '30-55', size: '11% of market', wtp: '$19.99-99/mo', trigger: 'ROI and liability', icon: '📋', insight: 'Property inspection SaaS benchmark $99-199/mo. Tax-deductible business expense. Highest LTV.' },
+];
 
 // ══════════════════════════════════════════════════════════════
 // COMPONENTS
 // ══════════════════════════════════════════════════════════════
 
-function AnimatedNumber({ value, prefix = '$' }: { value: number; prefix?: string }) {
+function AnimatedNumber({ value, prefix = '', suffix = '' }: { value: number; prefix?: string; suffix?: string }) {
   const [display, setDisplay] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
-
   useEffect(() => {
-    let frame: number;
-    const duration = 1500;
-    const start = Date.now();
-    const tick = () => {
-      const elapsed = Date.now() - start;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setDisplay(Math.round(value * eased));
-      if (progress < 1) frame = requestAnimationFrame(tick);
+    let start = 0;
+    const duration = 1200;
+    const step = (ts: number) => {
+      if (!start) start = ts;
+      const p = Math.min((ts - start) / duration, 1);
+      setDisplay(Math.floor(p * value));
+      if (p < 1) requestAnimationFrame(step);
     };
-    frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
+    requestAnimationFrame(step);
   }, [value]);
-
-  return <span ref={ref}>{prefix}{display.toLocaleString('en-US')}</span>;
+  return <span ref={ref}>{prefix}{display.toLocaleString()}{suffix}</span>;
 }
 
-function MiniBar({ value, max, color }: { value: number; max: number; color: string }) {
-  const pct = Math.min((value / max) * 100, 100);
+function MiniRing({ pct, size = 40, color = 'var(--accent)' }: { pct: number; size?: number; color?: string }) {
+  const r = (size - 6) / 2;
+  const circ = 2 * Math.PI * r;
   return (
-    <div className="w-full h-2 rounded-full overflow-hidden" style={{ background: 'var(--glass-border)' }}>
-      <div className="h-full rounded-full transition-all duration-1000" style={{ width: `${pct}%`, background: color }} />
-    </div>
+    <svg width={size} height={size} className="-rotate-90">
+      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth={3} />
+      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={color} strokeWidth={3} strokeLinecap="round"
+        strokeDasharray={`${(pct / 100) * circ} ${circ}`} style={{ transition: 'stroke-dasharray 1s ease' }} />
+    </svg>
   );
 }
 
-function Ring({ value, max, size = 80, color, label }: { value: number; max: number; size?: number; color: string; label: string }) {
-  const pct = Math.round((value / max) * 100);
+function BarChart({ data, maxVal }: { data: { label: string; value: number; color: string }[]; maxVal: number }) {
   return (
-    <div className="relative" style={{ width: size, height: size }}>
-      <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
-        <circle cx="50" cy="50" r="42" fill="none" stroke="var(--glass-border)" strokeWidth="8" />
-        <circle cx="50" cy="50" r="42" fill="none" stroke={color} strokeWidth="8" strokeLinecap="round"
-          strokeDasharray={`${pct * 2.64} 264`} className="transition-all duration-1000" />
-      </svg>
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-xs font-bold" style={{ color: 'var(--text)' }}>{pct}%</span>
-        <span className="text-[7px]" style={{ color: 'var(--text-dim)' }}>{label}</span>
-      </div>
-    </div>
-  );
-}
-
-function RevenueChart({ streams, yearFilter }: { streams: typeof REVENUE_STREAMS; yearFilter: 1 | 2 | 3 }) {
-  const key = yearFilter === 1 ? 'y1' : yearFilter === 2 ? 'y2' : 'y3';
-  const grouped = CATEGORIES.map((cat) => ({
-    cat,
-    total: streams.filter((s) => s.category === cat).reduce((sum, s) => sum + s[key], 0),
-  }));
-  const max = Math.max(...grouped.map((g) => g.total), 1);
-  const colors: Record<string, string> = {
-    'Direct Consumer': 'var(--accent)',
-    Partnership: 'var(--emerald)',
-    Platform: 'var(--info)',
-    Data: 'var(--gold)',
-    Brand: '#C084FC',
-  };
-
-  return (
-    <div className="space-y-3">
-      {grouped.map((g) => (
-        <div key={g.cat}>
-          <div className="flex items-center justify-between mb-1">
-            <span className="text-xs font-medium" style={{ color: 'var(--text)' }}>{g.cat}</span>
-            <span className="text-xs font-bold" style={{ color: colors[g.cat] }}>{fmt(g.total)}</span>
+    <div className="space-y-2">
+      {data.map((d) => (
+        <div key={d.label} className="flex items-center gap-2">
+          <span className="text-[10px] w-8 text-right" style={{ color: 'var(--text-dim)' }}>{d.label}</span>
+          <div className="flex-1 h-5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.05)' }}>
+            <div className="h-full rounded-full flex items-center px-2 transition-all duration-1000"
+              style={{ width: `${Math.max((d.value / maxVal) * 100, 3)}%`, background: d.color }}>
+              <span className="text-[9px] font-bold text-white whitespace-nowrap">
+                ${d.value >= 1000000 ? `${(d.value / 1000000).toFixed(1)}M` : `${(d.value / 1000).toFixed(0)}K`}
+              </span>
+            </div>
           </div>
-          <MiniBar value={g.total} max={max} color={colors[g.cat] ?? 'var(--accent)'} />
         </div>
       ))}
-    </div>
-  );
-}
-
-function SensitivitySlider({ label, base, onChange }: { label: string; base: number; onChange: (mult: number) => void }) {
-  const [val, setVal] = useState(100);
-  return (
-    <div>
-      <div className="flex items-center justify-between mb-1">
-        <span className="text-xs" style={{ color: 'var(--text-sub)' }}>{label}</span>
-        <span className="text-xs font-bold" style={{ color: val > 100 ? 'var(--emerald)' : val < 100 ? 'var(--danger)' : 'var(--text-dim)' }}>
-          {val}% ({fmt(Math.round(base * val / 100))})
-        </span>
-      </div>
-      <input
-        type="range" min={25} max={200} value={val}
-        onChange={(e) => { const v = Number(e.target.value); setVal(v); onChange(v / 100); }}
-        className="w-full h-1 rounded-full appearance-none cursor-pointer"
-        style={{ background: `linear-gradient(to right, var(--danger), var(--gold) 50%, var(--emerald))` }}
-      />
-      <div className="flex justify-between mt-0.5">
-        <span className="text-[8px]" style={{ color: 'var(--text-dim)' }}>Bear (0.25x)</span>
-        <span className="text-[8px]" style={{ color: 'var(--text-dim)' }}>Bull (2x)</span>
-      </div>
     </div>
   );
 }
@@ -438,558 +234,922 @@ function SensitivitySlider({ label, base, onChange }: { label: string; base: num
 // MAIN PAGE
 // ══════════════════════════════════════════════════════════════
 
+const TABS = ['Council', 'Revenue', 'Financial', 'Competitive', 'Growth', 'Valuation', 'Data Moat'] as const;
+type Tab = typeof TABS[number];
+
 export default function MonetizationPage() {
-  const [activeSection, setActiveSection] = useState('executive');
-  const [yearFilter, setYearFilter] = useState<1 | 2 | 3>(3);
-  const [categoryFilter, setCategoryFilter] = useState<string>('All');
-  const [confidenceFilter, setConfidenceFilter] = useState<string>('All');
+  const [tab, setTab] = useState<Tab>('Council');
   const [expandedStream, setExpandedStream] = useState<string | null>(null);
-  const [expandedPartner, setExpandedPartner] = useState<string | null>(null);
-  const [sensMultipliers, setSensMultipliers] = useState<Record<string, number>>({});
+  const [yearView, setYearView] = useState<1 | 2 | 3 | 4 | 5>(3);
+  const [tierFilter, setTierFilter] = useState<number>(0);
+  const [expandedCouncil, setExpandedCouncil] = useState<string | null>(null);
+  const [expandedAcquirer, setExpandedAcquirer] = useState<string | null>(null);
 
-  const filteredStreams = REVENUE_STREAMS.filter((s) => {
-    if (categoryFilter !== 'All' && s.category !== categoryFilter) return false;
-    if (confidenceFilter !== 'All' && s.confidence !== confidenceFilter) return false;
-    return true;
-  });
-
-  const sensTotal = REVENUE_STREAMS.slice(0, 5).reduce((sum, s) => {
-    const mult = sensMultipliers[s.id] ?? 1;
-    return sum + Math.round(s.y3 * mult);
-  }, 0) + REVENUE_STREAMS.slice(5).reduce((sum, s) => sum + s.y3, 0);
-
-  const sections = [
-    { id: 'executive', label: 'Executive Summary' },
-    { id: 'streams', label: 'Revenue Streams' },
-    { id: 'partners', label: 'Partner Directory' },
-    { id: 'roadmap', label: 'Feature Roadmap' },
-    { id: 'model', label: 'Financial Model' },
-    { id: 'valuation', label: 'Valuation' },
-    { id: 'sensitivity', label: 'Sensitivity' },
-    { id: 'phases', label: 'Phased Roadmap' },
-  ];
+  const filteredStreams = tierFilter === 0 ? STREAMS : STREAMS.filter((s) => s.tier === tierFilter);
+  const yearKey = `y${yearView}` as 'y1' | 'y2' | 'y3' | 'y4' | 'y5';
+  const totalRev = filteredStreams.reduce((sum, s) => sum + s[yearKey], 0);
+  const maxStreamRev = Math.max(...filteredStreams.map((s) => s[yearKey]));
 
   return (
     <div className="min-h-screen" style={{ background: 'var(--bg)' }}>
-      {/* Fixed nav */}
-      <nav className="fixed top-0 left-0 right-0 z-50 border-b" style={{ background: 'var(--nav-bg)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', borderColor: 'var(--glass-border)' }}>
-        <div className="max-w-7xl mx-auto px-4 h-12 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="text-base">🏠</span>
-            <span className="font-serif text-sm font-semibold" style={{ color: 'var(--text)' }}>Monetization Architecture</span>
+      {/* ── HEADER ── */}
+      <header className="border-b" style={{ borderColor: 'var(--glass-border)' }}>
+        <div className="max-w-6xl mx-auto px-4 py-6">
+          <div className="flex items-center gap-3 mb-2">
+            <span className="text-2xl">🏠</span>
+            <h1 className="text-2xl font-bold" style={{ color: 'var(--text)', fontFamily: 'var(--font-heading)' }}>
+              HomeProjectIQ — Monetization Intelligence
+            </h1>
           </div>
-          <div className="hidden md:flex items-center gap-0.5 overflow-x-auto">
-            {sections.map((s) => (
-              <button key={s.id} onClick={() => { setActiveSection(s.id); document.getElementById(s.id)?.scrollIntoView({ behavior: 'smooth' }); }}
-                className="text-[10px] font-semibold px-2.5 py-1 rounded-full transition-all whitespace-nowrap"
-                style={activeSection === s.id ? { background: 'var(--accent)', color: 'white' } : { color: 'var(--text-dim)' }}
-              >
-                {s.label}
-              </button>
+          <p className="text-sm mb-4" style={{ color: 'var(--text-dim)' }}>
+            Synthesized by 10 Elite AI Council Agents &middot; Research-backed &middot; Interactive
+          </p>
+
+          {/* KPI Strip */}
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+            {[
+              { label: 'Y3 Revenue', value: '$8.1M', sub: 'Council consensus' },
+              { label: 'Y5 Revenue', value: '$59.1M', sub: '14 revenue streams' },
+              { label: 'Series A Target', value: '$45M', sub: 'Pre-money @ $2-5M ARR' },
+              { label: 'LTV / CAC', value: '3.0x', sub: 'Target 5:1 at scale' },
+              { label: 'Strategic Exit', value: '$200-500M', sub: 'HD / Zillow / Apple' },
+            ].map((k) => (
+              <div key={k.label} className="rounded-xl p-3 text-center" style={{ background: 'var(--glass)', border: '1px solid var(--glass-border)' }}>
+                <p className="text-[10px] font-semibold uppercase" style={{ color: 'var(--text-dim)' }}>{k.label}</p>
+                <p className="text-lg font-bold" style={{ color: 'var(--accent)' }}>{k.value}</p>
+                <p className="text-[9px]" style={{ color: 'var(--text-sub)' }}>{k.sub}</p>
+              </div>
             ))}
           </div>
         </div>
+      </header>
+
+      {/* ── TAB NAV ── */}
+      <nav className="sticky top-0 z-50 border-b" style={{ background: 'var(--bg)', borderColor: 'var(--glass-border)' }}>
+        <div className="max-w-6xl mx-auto px-4 flex gap-1 overflow-x-auto py-2">
+          {TABS.map((t) => (
+            <button key={t} onClick={() => setTab(t)}
+              className="px-4 py-2 rounded-lg text-xs font-semibold whitespace-nowrap transition-all"
+              style={{
+                background: tab === t ? 'var(--accent)' : 'transparent',
+                color: tab === t ? 'white' : 'var(--text-dim)',
+              }}>
+              {t}
+            </button>
+          ))}
+        </div>
       </nav>
 
-      <div className="max-w-7xl mx-auto px-4 pt-16 pb-20 space-y-16">
+      <main className="max-w-6xl mx-auto px-4 py-8">
 
-        {/* ═══ EXECUTIVE SUMMARY ═══ */}
-        <section id="executive" className="space-y-6">
-          <div className="text-center pt-8">
-            <h1 className="font-serif text-3xl sm:text-4xl mb-2" style={{ color: 'var(--text)' }}>
-              HomeProjectIQ Revenue Architecture
-            </h1>
-            <p className="text-sm" style={{ color: 'var(--text-sub)' }}>
-              {REVENUE_STREAMS.length} revenue streams &middot; {NAMED_PARTNERS.length} named partners &middot; 3-year financial model
-            </p>
-          </div>
-
-          {/* Hero metrics */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {[
-              { label: 'Year 1 Revenue', value: Y1_TOTAL, color: 'var(--accent)' },
-              { label: 'Year 2 Revenue', value: Y2_TOTAL, color: 'var(--gold)' },
-              { label: 'Year 3 Revenue', value: Y3_TOTAL, color: 'var(--emerald)' },
-              { label: 'Y3 Valuation (est.)', value: 80000000, color: 'var(--info)' },
-            ].map((m) => (
-              <div key={m.label} className="rounded-2xl p-4 text-center border border-[var(--glass-border)]" style={{ background: 'var(--bg-deep)' }}>
-                <p className="text-2xl sm:text-3xl font-bold mb-1" style={{ color: m.color }}>
-                  <AnimatedNumber value={m.value} />
-                </p>
-                <p className="text-[10px] font-medium" style={{ color: 'var(--text-dim)' }}>{m.label}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Top 5 moves */}
-          <div className="rounded-2xl p-5 border border-[var(--glass-border)]" style={{ background: 'var(--glass)' }}>
-            <h3 className="font-serif text-lg mb-3" style={{ color: 'var(--text)' }}>Top 5 Highest-Impact Moves</h3>
-            <div className="space-y-2">
-              {[
-                { n: 1, title: 'Enable Affiliate Links', desc: 'Flip the existing feature flag. Home Depot, Lowe\'s, Amazon affiliate programs. Zero UX impact, immediate revenue.', impact: '$75K-1.25M/yr', time: '1 month' },
-                { n: 2, title: 'Launch Contractor Lead Gen', desc: 'Route "Hire a Pro" verdicts to Angi, Thumbtack, Porch as qualified leads at $25-75/lead.', impact: '$150K-2.5M/yr', time: '2 months' },
-                { n: 3, title: 'Freemium Pro Subscription', desc: 'Gate AI assessments (3/mo free), wall/yard analysis, and multi-property behind $7.99/mo tier.', impact: '$90K-1.5M/yr', time: '2 months' },
-                { n: 4, title: 'Featured Pro Placements', desc: 'Activate existing FeaturedProCard component. Contractors pay $75-250/mo for premium positioning.', impact: '$72K-1.2M/yr', time: '4 months' },
-                { n: 5, title: 'Home Warranty Referrals', desc: 'Target users with aging systems (HVAC 10+, water heater 8+) for warranty referrals at $80-120 CPA.', impact: '$36K-360K/yr', time: '1 month' },
-              ].map((move) => (
-                <div key={move.n} className="flex items-start gap-3 p-3 rounded-xl border border-[var(--glass-border)]" style={{ background: 'var(--bg-deep)' }}>
-                  <div className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-xs font-bold" style={{ background: 'var(--accent)', color: 'white' }}>
-                    {move.n}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between mb-0.5">
-                      <p className="text-sm font-semibold" style={{ color: 'var(--text)' }}>{move.title}</p>
-                      <span className="text-[10px] font-bold shrink-0 ml-2" style={{ color: 'var(--emerald)' }}>{move.impact}</span>
-                    </div>
-                    <p className="text-[11px]" style={{ color: 'var(--text-sub)' }}>{move.desc}</p>
-                    <span className="text-[9px]" style={{ color: 'var(--text-dim)' }}>Time to revenue: {move.time}</span>
-                  </div>
-                </div>
-              ))}
+        {/* ═══════════ COUNCIL TAB ═══════════ */}
+        {tab === 'Council' && (
+          <div className="space-y-6">
+            <div>
+              <h2 className="text-xl font-bold mb-1" style={{ color: 'var(--text)', fontFamily: 'var(--font-heading)' }}>The 10 AI Council Agents</h2>
+              <p className="text-sm mb-4" style={{ color: 'var(--text-dim)' }}>Each agent conducted independent research across web sources, competitive data, and financial benchmarks. Click any agent to see their full analysis.</p>
             </div>
-          </div>
-
-          {/* Category breakdown rings */}
-          <div className="grid grid-cols-5 gap-2">
-            {CATEGORIES.map((cat) => {
-              const total = REVENUE_STREAMS.filter((s) => s.category === cat).reduce((sum, s) => sum + s.y3, 0);
-              const colors: Record<string, string> = { 'Direct Consumer': 'var(--accent)', Partnership: 'var(--emerald)', Platform: 'var(--info)', Data: 'var(--gold)', Brand: '#C084FC' };
-              return (
-                <div key={cat} className="flex flex-col items-center gap-1">
-                  <Ring value={total} max={Y3_TOTAL} size={60} color={colors[cat] ?? 'var(--accent)'} label={fmt(total)} />
-                  <span className="text-[9px] text-center font-medium" style={{ color: 'var(--text-dim)' }}>{cat}</span>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* ═══ REVENUE STREAMS ═══ */}
-        <section id="streams" className="space-y-4">
-          <h2 className="font-serif text-2xl" style={{ color: 'var(--text)' }}>Revenue Stream Inventory</h2>
-
-          {/* Filters */}
-          <div className="flex flex-wrap gap-2">
-            <div className="flex gap-1 p-1 rounded-xl" style={{ background: 'var(--glass)' }}>
-              {['All', ...CATEGORIES].map((c) => (
-                <button key={c} onClick={() => setCategoryFilter(c)}
-                  className="text-[10px] font-semibold px-2.5 py-1 rounded-lg transition-all"
-                  style={categoryFilter === c ? { background: 'var(--accent)', color: 'white' } : { color: 'var(--text-dim)' }}
-                >
-                  {c}
-                </button>
-              ))}
-            </div>
-            <div className="flex gap-1 p-1 rounded-xl" style={{ background: 'var(--glass)' }}>
-              {['All', 'High', 'Medium', 'Speculative'].map((c) => (
-                <button key={c} onClick={() => setConfidenceFilter(c)}
-                  className="text-[10px] font-semibold px-2.5 py-1 rounded-lg transition-all"
-                  style={confidenceFilter === c ? { background: 'var(--accent)', color: 'white' } : { color: 'var(--text-dim)' }}
-                >
-                  {c}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Stream cards */}
-          <div className="space-y-2">
-            {filteredStreams.map((stream) => {
-              const isOpen = expandedStream === stream.id;
-              const confColor = stream.confidence === 'High' ? 'var(--emerald)' : stream.confidence === 'Medium' ? 'var(--gold)' : 'var(--danger)';
-              return (
-                <div key={stream.id}>
-                  <button onClick={() => setExpandedStream(isOpen ? null : stream.id)}
-                    className="w-full text-left rounded-xl p-4 border border-[var(--glass-border)] transition-all hover:border-[var(--glass-border-hover)]"
-                    style={{ background: 'var(--glass)' }}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 min-w-0">
-                        <span className="text-sm font-semibold truncate" style={{ color: 'var(--text)' }}>{stream.name}</span>
-                        <span className="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded shrink-0"
-                          style={{ background: confColor + '20', color: confColor }}>
-                          {stream.confidence}
-                        </span>
-                        <span className="text-[9px] px-1.5 py-0.5 rounded shrink-0" style={{ background: 'var(--glass)', color: 'var(--text-dim)' }}>
-                          {stream.type}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-3 shrink-0 ml-2">
-                        <div className="text-right hidden sm:block">
-                          <p className="text-[9px]" style={{ color: 'var(--text-dim)' }}>Y1 / Y2 / Y3</p>
-                          <p className="text-xs font-bold" style={{ color: 'var(--text)' }}>
-                            {fmt(stream.y1)} / {fmt(stream.y2)} / {fmt(stream.y3)}
-                          </p>
-                        </div>
-                        <span className="text-lg font-bold" style={{ color: 'var(--emerald)' }}>{fmt(stream.y3)}</span>
-                        <span className="text-[10px] transition-transform" style={{ color: 'var(--text-dim)', transform: isOpen ? 'rotate(90deg)' : 'rotate(0deg)' }}>&#9656;</span>
-                      </div>
-                    </div>
-                  </button>
-
-                  {isOpen && (
-                    <div className="mx-2 mt-1 mb-2 rounded-xl p-4 space-y-3 animate-rise border border-[var(--glass-border)]" style={{ background: 'var(--bg-deep)' }}>
-                      <p className="text-xs leading-relaxed" style={{ color: 'var(--text-sub)' }}>{stream.description}</p>
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                        {[
-                          { label: 'Pricing', value: stream.pricing },
-                          { label: 'Margin', value: `${stream.margin}%` },
-                          { label: 'Time to Revenue', value: `${stream.timeToRevenue} months` },
-                          { label: 'Scalability', value: stream.scalability },
-                        ].map((d) => (
-                          <div key={d.label} className="rounded-lg p-2" style={{ background: 'var(--glass)' }}>
-                            <p className="text-[8px] font-semibold uppercase" style={{ color: 'var(--text-dim)' }}>{d.label}</p>
-                            <p className="text-[11px] font-medium" style={{ color: 'var(--text)' }}>{d.value}</p>
-                          </div>
-                        ))}
-                      </div>
-                      <div className="rounded-lg p-2" style={{ background: 'var(--glass)' }}>
-                        <p className="text-[8px] font-semibold uppercase mb-0.5" style={{ color: 'var(--text-dim)' }}>Dependencies</p>
-                        <p className="text-[10px]" style={{ color: 'var(--text-sub)' }}>{stream.dependencies}</p>
-                      </div>
-                      <div className="rounded-lg p-2" style={{ background: 'var(--accent-soft)' }}>
-                        <p className="text-[8px] font-semibold uppercase mb-0.5" style={{ color: 'var(--accent)' }}>Assumptions</p>
-                        <p className="text-[10px]" style={{ color: 'var(--accent)' }}>{stream.assumptions}</p>
-                      </div>
-                      {/* Revenue bars */}
-                      <div className="space-y-1">
-                        {[
-                          { label: 'Year 1', value: stream.y1, color: 'var(--accent)' },
-                          { label: 'Year 2', value: stream.y2, color: 'var(--gold)' },
-                          { label: 'Year 3', value: stream.y3, color: 'var(--emerald)' },
-                        ].map((y) => (
-                          <div key={y.label}>
-                            <div className="flex justify-between mb-0.5">
-                              <span className="text-[9px]" style={{ color: 'var(--text-dim)' }}>{y.label}</span>
-                              <span className="text-[9px] font-bold" style={{ color: y.color }}>{fmtFull(y.value)}</span>
-                            </div>
-                            <MiniBar value={y.value} max={stream.y3 || 1} color={y.color} />
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* ═══ PARTNER DIRECTORY ═══ */}
-        <section id="partners" className="space-y-4">
-          <h2 className="font-serif text-2xl" style={{ color: 'var(--text)' }}>Named Partner Directory</h2>
-          <p className="text-xs" style={{ color: 'var(--text-sub)' }}>
-            {NAMED_PARTNERS.length} specific companies identified with estimated deal values and partnership rationale.
-          </p>
-
-          <div className="grid sm:grid-cols-2 gap-2">
-            {NAMED_PARTNERS.map((p) => {
-              const isOpen = expandedPartner === p.name;
-              const confColor = p.confidence === 'High' ? 'var(--emerald)' : p.confidence === 'Medium' ? 'var(--gold)' : 'var(--danger)';
-              return (
-                <button key={p.name} onClick={() => setExpandedPartner(isOpen ? null : p.name)}
-                  className="w-full text-left rounded-xl p-4 border border-[var(--glass-border)] transition-all hover:border-[var(--glass-border-hover)]"
-                  style={{ background: 'var(--glass)' }}
-                >
+            <div className="grid md:grid-cols-2 gap-4">
+              {COUNCIL.map((c) => (
+                <button key={c.id} onClick={() => setExpandedCouncil(expandedCouncil === c.id ? null : c.id)}
+                  className="rounded-xl p-4 text-left transition-all hover:scale-[1.01]"
+                  style={{ background: 'var(--glass)', border: `1px solid ${expandedCouncil === c.id ? c.color : 'var(--glass-border)'}` }}>
                   <div className="flex items-center gap-3 mb-2">
-                    <span className="text-2xl">{p.logo}</span>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold truncate" style={{ color: 'var(--text)' }}>{p.name}</p>
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: 'var(--glass)', color: 'var(--text-dim)' }}>{p.type}</span>
-                        <span className="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded" style={{ background: confColor + '20', color: confColor }}>{p.confidence}</span>
-                      </div>
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center text-lg" style={{ background: `${c.color}22` }}>
+                      {c.icon}
                     </div>
-                    <span className="text-sm font-bold shrink-0" style={{ color: 'var(--emerald)' }}>{p.dealValue}</span>
+                    <div>
+                      <p className="text-sm font-bold" style={{ color: 'var(--text)' }}>{c.name}</p>
+                      <p className="text-[10px]" style={{ color: c.color }}>Council Agent</p>
+                    </div>
                   </div>
-                  {isOpen && (
-                    <div className="mt-2 pt-2 border-t border-[var(--glass-border)] animate-rise">
-                      <p className="text-[11px] leading-relaxed" style={{ color: 'var(--text-sub)' }}>{p.whyTheyCare}</p>
+                  <p className="text-xs leading-relaxed" style={{ color: 'var(--text-sub)' }}>{c.finding}</p>
+                  {expandedCouncil === c.id && (
+                    <div className="mt-3 pt-3 border-t" style={{ borderColor: 'var(--glass-border)' }}>
+                      {c.id === 'pricing' && (
+                        <div className="space-y-2 text-xs" style={{ color: 'var(--text-sub)' }}>
+                          <p><strong style={{ color: 'var(--text)' }}>Pricing Architecture:</strong> $12.99/mo (hard paywall converts 12.11% but kills organic growth). Metered freemium with 3 lifetime assessments recommended. Annual plan $89.99/yr (37% discount) — default toggle to annual.</p>
+                          <p><strong style={{ color: 'var(--text)' }}>Unit Economics:</strong> LTV $182.82 (14-month avg tenure × $12.99). CAC target $60.94 (3:1 LTV/CAC). Payback period 5.7 months. Gross margin 90%+.</p>
+                          <p><strong style={{ color: 'var(--text)' }}>IAP Credits:</strong> $2.99/5, $6.99/8, $14.99/20 credits. 8% of free users buy. Alternative for commitment-averse users.</p>
+                          <p><strong style={{ color: 'var(--text)' }}>Personalized Paywalls:</strong> Adding user name + savings-to-date increases conversion 17%. Animated paywalls convert 2.9x vs static.</p>
+                        </div>
+                      )}
+                      {c.id === 'partnerships' && (
+                        <div className="space-y-2 text-xs" style={{ color: 'var(--text-sub)' }}>
+                          <p><strong style={{ color: 'var(--text)' }}>Affiliate Rates:</strong> Home Depot 2-8%, Lowe&apos;s 2%, Amazon 3%. Home Depot Impact Radius program. Cookie durations 1-30 days.</p>
+                          <p><strong style={{ color: 'var(--text)' }}>Lead Gen:</strong> Angi $15-40 CPL to app, $25-150 from contractors. Thumbtack credit system ($10-100/lead). #1 priority: Angi lead partnership = $1.8M/yr at 200K users.</p>
+                          <p><strong style={{ color: 'var(--text)' }}>Insurance:</strong> Hippo $25/lead referral. AHS home warranty $18-30 CPA. Lemonade agent referral.</p>
+                          <p><strong style={{ color: 'var(--text)' }}>Priority Stack:</strong> 1. Angi lead gen 2. HD affiliate 3. AHS warranty 4. Hippo insurance 5. Amazon affiliate.</p>
+                        </div>
+                      )}
+                      {c.id === 'marketplace' && (
+                        <div className="space-y-2 text-xs" style={{ color: 'var(--text-sub)' }}>
+                          <p><strong style={{ color: 'var(--text)' }}>Pre-Qualified Lead Value:</strong> $150-300/lead vs Angi&apos;s $15-85. HomeProjectIQ leads include project scope, budget, skill gap assessment, photos — contractors close at 45-60% vs 10-15% on shared Angi leads.</p>
+                          <p><strong style={{ color: 'var(--text)' }}>Take Rate:</strong> 15-20% on booked jobs defensible. TaskRabbit charges 22.5%. New entrants viable at 10-15%.</p>
+                          <p><strong style={{ color: 'var(--text)' }}>Liquidity Threshold:</strong> 15-30 contractors per metro per category. 100-200 total verified pros per 500K+ population metro. 300-500 job requests/month to maintain contractor engagement.</p>
+                          <p><strong style={{ color: 'var(--text)' }}>Adjacent Markets:</strong> P2P tool rental ($1.53B, 18.7% CAGR), materials group buying (10-30% savings), DIY workshops ($65-125/session).</p>
+                        </div>
+                      )}
+                      {c.id === 'data' && (
+                        <div className="space-y-2 text-xs" style={{ color: 'var(--text-sub)' }}>
+                          <p><strong style={{ color: 'var(--text)' }}>Data Asset Valuation:</strong> 10K users = $500K-2M. 100K users = $9M-30M ($90-300/user). 1M users = $100M-315M. Longitudinal data compounds — Year 5 data worth 3-6x Year 1 per home.</p>
+                          <p><strong style={{ color: 'var(--text)' }}>Comparable Sales:</strong> CoreLogic acquired for $6B (3.75x revenue). Verisk $2.9B annual revenue at 55% EBITDA margin. HouseCanary ~$10/report. CAPE Analytics in 15 state rate filings.</p>
+                          <p><strong style={{ color: 'var(--text)' }}>Insurance Data:</strong> Verified home health report worth $20-50 to insurers. Reduces expected claims 5-15%. Clean room approach (AWS/LiveRamp) satisfies CCPA/GDPR.</p>
+                          <p><strong style={{ color: 'var(--text)' }}>Privacy:</strong> Model on 60-80% user consent (not 100%). K-anonymity k=5+ for external sharing. Zip-code aggregation safe; block-level risky.</p>
+                        </div>
+                      )}
+                      {c.id === 'competitor' && (
+                        <div className="space-y-2 text-xs" style={{ color: 'var(--text-sub)' }}>
+                          <p><strong style={{ color: 'var(--text)' }}>Market Landscape:</strong> Angi declining from $1.8B peak to $1.1B. Thumbtack growing 27% at $400M. Yelp Home Services = $768M (60% of Yelp&apos;s total). Houzz peaked at $4B valuation, now $1.5-2B.</p>
+                          <p><strong style={{ color: 'var(--text)' }}>What Killed Competitors:</strong> Homejoy (discount acquisition trap, $19 first cleans). Handy ($14/transaction at 20% take on $70 jobs). HomeAdvisor (lead sharing destroyed contractor trust).</p>
+                          <p><strong style={{ color: 'var(--text)' }}>AI Gap:</strong> No dominant consumer-facing AI home assessment app. Hover ($70M+, B2B only). Kukun ($8M funding, B2B data). This gap is real and unoccupied.</p>
+                          <p><strong style={{ color: 'var(--text)' }}>Key Pattern:</strong> SaaS on top of marketplace = durable margin (Houzz Pro). Data moats beat directories. Lead-sharing is a trust destroyer. Transaction value must support take rate.</p>
+                        </div>
+                      )}
+                      {c.id === 'vc' && (
+                        <div className="space-y-2 text-xs" style={{ color: 'var(--text-sub)' }}>
+                          <p><strong style={{ color: 'var(--text)' }}>Series A Requirements:</strong> $1-5M ARR, 50K+ MAU, 3x YoY growth, LTV/CAC 3:1+, D30 retention &gt;25%. AI premium: can raise at lower ARR with data flywheel thesis.</p>
+                          <p><strong style={{ color: 'var(--text)' }}>Key Exits:</strong> Matterport acquired by CoStar for $1.6B (12x revenue, 212% premium). ServiceTitan IPO at $6.3B (7.5x revenue). EliseAI $2.25B valuation (AI proptech).</p>
+                          <p><strong style={{ color: 'var(--text)' }}>Strategic Acquirers:</strong> Home Depot ($200-800M), Lowe&apos;s ($150-600M), Zillow ($100-500M), Apple ($200-500M), Hippo ($30-100M), Google ($200-500M).</p>
+                          <p><strong style={{ color: 'var(--text)' }}>Per-User Valuation:</strong> Home platform with verified homeowners: $15-30/MAU. Houzz: ~$40-50/MAU at current mark. Angi: $50/annual consumer.</p>
+                        </div>
+                      )}
+                      {c.id === 'growth' && (
+                        <div className="space-y-2 text-xs" style={{ color: 'var(--text-sub)' }}>
+                          <p><strong style={{ color: 'var(--text)' }}>Realistic Trajectory:</strong> Y1: 8-12K users. Y2: 50-70K. Y3: 175-250K. Houzz took 4 years to reach 12M with $100M+ budget. Thumbtack: 16 years and $699M to reach $400M ARR.</p>
+                          <p><strong style={{ color: 'var(--text)' }}>Channel Ranking:</strong> #1 ASO (highest ROI, $0 CPI). #2 Content SEO ($3-12/install, 6-12mo ramp). #3 Tool lending viral loop (40-60% install conversion). #4 TikTok/YouTube (brand building). #5 Referral program (2.35% avg, target 3-5%).</p>
+                          <p><strong style={{ color: 'var(--text)' }}>K-Factor:</strong> Realistic Y1: 0.10-0.18. Y2: 0.25-0.38. Y3: 0.35-0.50. Tool lending is the only hard-trigger invitation mechanic.</p>
+                          <p><strong style={{ color: 'var(--text)' }}>Retention:</strong> D1 target 30%, D7 15%, D30 10%, D90 6-8%. Push notifications give 2-6x higher 90-day retention. Concentrate in 2-3 metros for density effects.</p>
+                        </div>
+                      )}
+                      {c.id === 'brand' && (
+                        <div className="space-y-2 text-xs" style={{ color: 'var(--text-sub)' }}>
+                          <p><strong style={{ color: 'var(--text)' }}>Positioning Analogs:</strong> &ldquo;Credit Karma for Home Health&rdquo; ($1.6B revenue from free product). &ldquo;Carfax for Homes&rdquo; ($350-615M revenue). &ldquo;Duolingo for Home Repair&rdquo; (8.8% free-to-paid).</p>
+                          <p><strong style={{ color: 'var(--text)' }}>Content Monetization:</strong> Newsletter $40-60 CPM. YouTube RPM $4-11/1K. Podcast mid-roll $25-35 CPM. The Spruce model: SEO &rarr; buying guide &rarr; affiliate click.</p>
+                          <p><strong style={{ color: 'var(--text)' }}>Brand Licensing:</strong> Martha Stewart: $1B annual retail from licensing. HGTV HOME by Sherwin-Williams. Good Housekeeping Seal model for &ldquo;HomeProjectIQ Recommended&rdquo; program ($5K-25K/yr per brand).</p>
+                          <p><strong style={{ color: 'var(--text)' }}>NPS Target:</strong> Home improvement avg: 16. Consumer app leaders: 50-70. Target NPS 50+ for brand-driven organic growth (40%+ from word-of-mouth).</p>
+                        </div>
+                      )}
+                      {c.id === 'product' && (
+                        <div className="space-y-2 text-xs" style={{ color: 'var(--text-sub)' }}>
+                          <p><strong style={{ color: 'var(--text)' }}>Paywall Timing:</strong> Never gate on first launch. Trust-first: let user see first AI diagnosis result + savings. Soft gate at 3rd assessment (lifetime, not monthly). Feature-gate WallAnalysis, YardAssessment behind Pro.</p>
+                          <p><strong style={{ color: 'var(--text)' }}>Top Revenue Features:</strong> #1 LiveBids (two-sided marketplace). #2 AI Photo Assessment (usage-gated). #3 ProNetwork (B2B subscriptions). #4 Shop Tab affiliates. #5 HomeHealth warranty upsells.</p>
+                          <p><strong style={{ color: 'var(--text)' }}>18 Upsell Moments:</strong> DiagnosisView Hire Pro tab, Shop tab affiliate clicks, 3rd assessment paywall, system lifespan &gt;75%, project completion high, SkillTree level 3 badge, 7-day streak, leaderboard tab, and more.</p>
+                          <p><strong style={{ color: 'var(--text)' }}>Tier Architecture:</strong> Free (3 assessments, 3 projects, 10 logbook entries) &rarr; Pro $12.99/mo &rarr; Plus $14.99/mo (investors, 15 properties) &rarr; PM Plan $49.99/mo (50 properties).</p>
+                        </div>
+                      )}
+                      {c.id === 'consumer' && (
+                        <div className="space-y-2 text-xs" style={{ color: 'var(--text-sub)' }}>
+                          <p><strong style={{ color: 'var(--text)' }}>Loss Aversion:</strong> Losses felt 2x more painful than equivalent gains (Kahneman &amp; Tversky). &ldquo;Not maintaining HVAC could cost $8,000&rdquo; converts 20-40% better than &ldquo;Save $8,000 by maintaining.&rdquo;</p>
+                          <p><strong style={{ color: 'var(--text)' }}>Emergency Premium:</strong> Consumers accept 2-3x price premiums under urgency. Mobile emergency searches convert 60-80% higher. Emergency Mode paywall ($4.99 single assessment) captures high-intent users.</p>
+                          <p><strong style={{ color: 'var(--text)' }}>Spending Reality:</strong> 83% faced unexpected repairs in 2024. 46% spent $5K+ on single repair. 58% have nothing saved. Avg total spend: $12,050/yr. Home inspection anchor: $296-450 (makes $12.99/mo feel cheap).</p>
+                          <p><strong style={{ color: 'var(--text)' }}>Two-Phase Emotional Funnel:</strong> Acquisition = fear/loss framing. Retention = pride/achievement framing. Acquisition message: &ldquo;Don&apos;t let deferred maintenance cost $8,000.&rdquo; Retention: &ldquo;You&apos;ve saved $1,840 this year.&rdquo;</p>
+                        </div>
+                      )}
                     </div>
                   )}
                 </button>
-              );
-            })}
+              ))}
+            </div>
+
+            {/* Council Consensus */}
+            <div className="rounded-xl p-5" style={{ background: 'linear-gradient(135deg, rgba(99,102,241,0.15), rgba(236,72,153,0.1))', border: '1px solid var(--glass-border)' }}>
+              <h3 className="text-sm font-bold mb-3" style={{ color: 'var(--text)' }}>Council Consensus: The Strategic Moat</h3>
+              <p className="text-xs leading-relaxed mb-3" style={{ color: 'var(--text-sub)' }}>
+                All 10 agents converge on one insight: <strong style={{ color: 'var(--accent)' }}>HomeProjectIQ enters the marketplace with project-level intelligence no competitor has.</strong> Every Angi lead is a cold introduction. Every HomeProjectIQ lead is a warm handoff with a complete project brief — scope, budget, skill gap, photos, and materials list. This asymmetry is worth $150-300/lead to contractors (vs $15-85 on Angi) and creates a structurally differentiated marketplace from day one.
+              </p>
+              <p className="text-xs leading-relaxed" style={{ color: 'var(--text-sub)' }}>
+                The compounding data moat is the second consensus: verified maintenance history becomes more valuable with time. Year 5 data on the same home is worth 3-6x Year 1 data because behavioral patterns become actuarially meaningful. No competitor can buy their way into this — it takes years of user trust and data accumulation.
+              </p>
+            </div>
           </div>
-        </section>
+        )}
 
-        {/* ═══ FEATURE ROADMAP ═══ */}
-        <section id="roadmap" className="space-y-4">
-          <h2 className="font-serif text-2xl" style={{ color: 'var(--text)' }}>Feature-Revenue Roadmap</h2>
-          <p className="text-xs" style={{ color: 'var(--text-sub)' }}>Ranked by Revenue Per Dev-Month. Build the highest-ROI features first.</p>
+        {/* ═══════════ REVENUE TAB ═══════════ */}
+        {tab === 'Revenue' && (
+          <div className="space-y-6">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h2 className="text-xl font-bold" style={{ color: 'var(--text)', fontFamily: 'var(--font-heading)' }}>Revenue Architecture</h2>
+                <p className="text-sm" style={{ color: 'var(--text-dim)' }}>14 council-validated revenue streams across 5 categories</p>
+              </div>
+              <div className="flex gap-2">
+                {[1, 2, 3, 4, 5].map((y) => (
+                  <button key={y} onClick={() => setYearView(y as 1 | 2 | 3 | 4 | 5)}
+                    className="px-3 py-1.5 rounded-lg text-xs font-bold transition-all"
+                    style={{ background: yearView === y ? 'var(--accent)' : 'var(--glass)', color: yearView === y ? 'white' : 'var(--text-dim)' }}>
+                    Y{y}
+                  </button>
+                ))}
+              </div>
+            </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-xs" style={{ color: 'var(--text)' }}>
-              <thead>
-                <tr className="border-b border-[var(--glass-border)]">
-                  {['Feature', 'Revenue Potential', 'Build Effort', 'ROI/Mo', 'Phase', 'Unlocks'].map((h) => (
-                    <th key={h} className="text-left py-2 px-2 text-[10px] font-semibold" style={{ color: 'var(--text-dim)' }}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {FEATURE_ROADMAP.map((f) => {
-                  const phaseColors: Record<string, string> = { A: 'var(--emerald)', B: 'var(--gold)', C: 'var(--info)', D: '#C084FC' };
-                  return (
-                    <tr key={f.name} className="border-b border-[var(--glass-border)] hover:bg-[var(--glass)]">
-                      <td className="py-2.5 px-2 font-medium">{f.name}</td>
-                      <td className="py-2.5 px-2 font-bold" style={{ color: 'var(--emerald)' }}>{f.revenue}</td>
-                      <td className="py-2.5 px-2">{f.effort}</td>
-                      <td className="py-2.5 px-2 font-bold" style={{ color: f.roiPerMonth > 0 ? 'var(--accent)' : 'var(--text-dim)' }}>
-                        {f.roiPerMonth > 0 ? fmt(f.roiPerMonth) : 'TBD'}
-                      </td>
-                      <td className="py-2.5 px-2">
-                        <span className="text-[9px] font-bold px-1.5 py-0.5 rounded" style={{ background: (phaseColors[f.phase] ?? 'var(--text-dim)') + '20', color: phaseColors[f.phase] }}>
-                          Phase {f.phase}
+            {/* Tier Filters */}
+            <div className="flex gap-2 flex-wrap">
+              {[
+                { v: 0, label: 'All Streams', count: STREAMS.length },
+                { v: 1, label: 'Tier 1 — Revenue Engines', count: STREAMS.filter((s) => s.tier === 1).length },
+                { v: 2, label: 'Tier 2 — Growth Layer', count: STREAMS.filter((s) => s.tier === 2).length },
+                { v: 3, label: 'Tier 3 — Scale & Adjacent', count: STREAMS.filter((s) => s.tier === 3).length },
+              ].map((f) => (
+                <button key={f.v} onClick={() => setTierFilter(f.v)}
+                  className="px-3 py-1.5 rounded-full text-[11px] font-semibold transition-all"
+                  style={{ background: tierFilter === f.v ? 'var(--accent)' : 'var(--glass)', color: tierFilter === f.v ? 'white' : 'var(--text-dim)', border: '1px solid var(--glass-border)' }}>
+                  {f.label} ({f.count})
+                </button>
+              ))}
+            </div>
+
+            {/* Total Revenue */}
+            <div className="rounded-xl p-4 flex items-center justify-between" style={{ background: 'linear-gradient(135deg, var(--accent), var(--emerald))', }}>
+              <div>
+                <p className="text-xs font-semibold text-white/70">Year {yearView} Total Revenue</p>
+                <p className="text-3xl font-bold text-white">
+                  <AnimatedNumber value={totalRev} prefix="$" />
+                </p>
+              </div>
+              <div className="text-right">
+                <p className="text-xs text-white/70">{filteredStreams.length} streams</p>
+                <p className="text-sm font-bold text-white">{filteredStreams.filter((s) => s[yearKey] > 0).length} active in Y{yearView}</p>
+              </div>
+            </div>
+
+            {/* Revenue Bar Chart */}
+            <BarChart
+              data={filteredStreams.filter((s) => s[yearKey] > 0).sort((a, b) => b[yearKey] - a[yearKey]).map((s) => ({
+                label: s.icon,
+                value: s[yearKey],
+                color: s.tier === 1 ? '#6366F1' : s.tier === 2 ? '#10B981' : '#F59E0B',
+              }))}
+              maxVal={maxStreamRev}
+            />
+
+            {/* Stream Cards */}
+            <div className="space-y-3">
+              {filteredStreams.sort((a, b) => b[yearKey] - a[yearKey]).map((s) => (
+                <button key={s.id} onClick={() => setExpandedStream(expandedStream === s.id ? null : s.id)}
+                  className="w-full rounded-xl p-4 text-left transition-all hover:scale-[1.005]"
+                  style={{ background: 'var(--glass)', border: `1px solid ${expandedStream === s.id ? (s.tier === 1 ? '#6366F1' : s.tier === 2 ? '#10B981' : '#F59E0B') : 'var(--glass-border)'}` }}>
+                  <div className="flex items-center gap-3">
+                    <span className="text-xl">{s.icon}</span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <span className="text-sm font-bold truncate" style={{ color: 'var(--text)' }}>{s.name}</span>
+                        <span className="text-[9px] px-1.5 py-0.5 rounded-full font-bold shrink-0"
+                          style={{ background: s.tier === 1 ? '#6366F122' : s.tier === 2 ? '#10B98122' : '#F59E0B22', color: s.tier === 1 ? '#6366F1' : s.tier === 2 ? '#10B981' : '#F59E0B' }}>
+                          Tier {s.tier}
                         </span>
-                      </td>
-                      <td className="py-2.5 px-2 text-[10px]" style={{ color: 'var(--text-sub)' }}>{f.unlocks}</td>
+                        <span className="text-[9px] px-1.5 py-0.5 rounded-full font-bold shrink-0"
+                          style={{ background: s.confidence === 'High' ? '#10B98122' : s.confidence === 'Medium' ? '#F59E0B22' : '#EF444422', color: s.confidence === 'High' ? '#10B981' : s.confidence === 'Medium' ? '#F59E0B' : '#EF4444' }}>
+                          {s.confidence}
+                        </span>
+                      </div>
+                      <p className="text-[11px]" style={{ color: 'var(--text-dim)' }}>{s.pricing}</p>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <p className="text-lg font-bold" style={{ color: 'var(--text)' }}>
+                        ${s[yearKey] >= 1000000 ? `${(s[yearKey] / 1000000).toFixed(1)}M` : `${(s[yearKey] / 1000).toFixed(0)}K`}
+                      </p>
+                      <p className="text-[9px]" style={{ color: 'var(--text-dim)' }}>{s.margin}% margin</p>
+                    </div>
+                  </div>
+                  {expandedStream === s.id && (
+                    <div className="mt-3 pt-3 border-t space-y-3" style={{ borderColor: 'var(--glass-border)' }}>
+                      <p className="text-xs" style={{ color: 'var(--text-sub)' }}>{s.insight}</p>
+                      <div className="grid grid-cols-5 gap-2">
+                        {[1, 2, 3, 4, 5].map((y) => {
+                          const k = `y${y}` as 'y1' | 'y2' | 'y3' | 'y4' | 'y5';
+                          return (
+                            <div key={y} className="rounded-lg p-2 text-center" style={{ background: 'var(--bg-deep)' }}>
+                              <p className="text-[9px] font-bold" style={{ color: 'var(--text-dim)' }}>Y{y}</p>
+                              <p className="text-xs font-bold" style={{ color: y === yearView ? 'var(--accent)' : 'var(--text)' }}>
+                                ${s[k] >= 1000000 ? `${(s[k] / 1000000).toFixed(1)}M` : s[k] >= 1000 ? `${(s[k] / 1000).toFixed(0)}K` : s[k]}
+                              </p>
+                            </div>
+                          );
+                        })}
+                      </div>
+                      <div className="flex gap-1.5 flex-wrap">
+                        {s.council.map((cid) => {
+                          const agent = COUNCIL.find((a) => a.id === cid);
+                          return agent ? (
+                            <span key={cid} className="text-[9px] px-2 py-0.5 rounded-full font-semibold" style={{ background: `${agent.color}22`, color: agent.color }}>
+                              {agent.icon} {agent.name}
+                            </span>
+                          ) : null;
+                        })}
+                      </div>
+                      <p className="text-[10px] italic" style={{ color: 'var(--text-dim)' }}>{s.assumptions}</p>
+                    </div>
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ═══════════ FINANCIAL TAB ═══════════ */}
+        {tab === 'Financial' && (
+          <div className="space-y-6">
+            <h2 className="text-xl font-bold" style={{ color: 'var(--text)', fontFamily: 'var(--font-heading)' }}>5-Year Financial Model</h2>
+
+            {/* Summary Table */}
+            <div className="rounded-xl overflow-hidden" style={{ border: '1px solid var(--glass-border)' }}>
+              <table className="w-full text-xs">
+                <thead>
+                  <tr style={{ background: 'var(--glass)' }}>
+                    <th className="p-3 text-left font-bold" style={{ color: 'var(--text)' }}>Metric</th>
+                    {GROWTH_MODEL.map((g) => (
+                      <th key={g.year} className="p-3 text-right font-bold" style={{ color: 'var(--accent)' }}>{g.year}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    { label: 'Total Users', key: 'users', fmt: (v: number) => v >= 1000000 ? `${(v / 1000000).toFixed(1)}M` : `${(v / 1000).toFixed(0)}K` },
+                    { label: 'Monthly Active', key: 'mau', fmt: (v: number) => v >= 1000000 ? `${(v / 1000000).toFixed(0)}M` : `${(v / 1000).toFixed(1)}K` },
+                    { label: 'Paid Subscribers', key: 'paid', fmt: (v: number) => v >= 1000 ? `${(v / 1000).toFixed(1)}K` : `${v}` },
+                    { label: 'Revenue', key: 'revenue', fmt: (v: number) => v >= 1000000 ? `$${(v / 1000000).toFixed(1)}M` : `$${(v / 1000).toFixed(0)}K` },
+                    { label: 'Blended CAC', key: 'cac', fmt: (v: number) => `$${v}` },
+                    { label: 'K-Factor', key: 'kFactor', fmt: (v: number) => v.toFixed(2) },
+                  ].map((row) => (
+                    <tr key={row.label} style={{ borderTop: '1px solid var(--glass-border)' }}>
+                      <td className="p-3 font-semibold" style={{ color: 'var(--text)' }}>{row.label}</td>
+                      {GROWTH_MODEL.map((g) => (
+                        <td key={g.year} className="p-3 text-right" style={{ color: 'var(--text-sub)' }}>
+                          {row.fmt((g as unknown as Record<string, number>)[row.key])}
+                        </td>
+                      ))}
                     </tr>
+                  ))}
+                  <tr style={{ borderTop: '1px solid var(--glass-border)' }}>
+                    <td className="p-3 font-semibold" style={{ color: 'var(--text)' }}>Growth Channels</td>
+                    {GROWTH_MODEL.map((g) => (
+                      <td key={g.year} className="p-3 text-right text-[10px]" style={{ color: 'var(--text-dim)' }}>{g.channels}</td>
+                    ))}
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* Revenue by Year Visualization */}
+            <div className="rounded-xl p-5" style={{ background: 'var(--glass)', border: '1px solid var(--glass-border)' }}>
+              <h3 className="text-sm font-bold mb-4" style={{ color: 'var(--text)' }}>Revenue Trajectory</h3>
+              <div className="flex items-end gap-4 h-48">
+                {GROWTH_MODEL.map((g) => {
+                  const maxRev = GROWTH_MODEL[GROWTH_MODEL.length - 1].revenue;
+                  const pct = (g.revenue / maxRev) * 100;
+                  return (
+                    <div key={g.year} className="flex-1 flex flex-col items-center gap-1">
+                      <span className="text-[10px] font-bold" style={{ color: 'var(--accent)' }}>
+                        {g.revenue >= 1000000 ? `$${(g.revenue / 1000000).toFixed(1)}M` : `$${(g.revenue / 1000).toFixed(0)}K`}
+                      </span>
+                      <div className="w-full rounded-t-lg transition-all duration-1000"
+                        style={{ height: `${Math.max(pct, 2)}%`, background: 'linear-gradient(to top, var(--accent), var(--emerald))' }} />
+                      <span className="text-xs font-bold" style={{ color: 'var(--text-dim)' }}>{g.year}</span>
+                    </div>
                   );
                 })}
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        {/* ═══ FINANCIAL MODEL ═══ */}
-        <section id="model" className="space-y-4">
-          <h2 className="font-serif text-2xl" style={{ color: 'var(--text)' }}>3-Year Financial Model</h2>
-
-          {/* Year toggle */}
-          <div className="flex gap-1 p-1 rounded-xl w-fit" style={{ background: 'var(--glass)' }}>
-            {([1, 2, 3] as const).map((y) => (
-              <button key={y} onClick={() => setYearFilter(y)}
-                className="text-xs font-semibold px-4 py-1.5 rounded-lg transition-all"
-                style={yearFilter === y ? { background: 'var(--accent)', color: 'white' } : { color: 'var(--text-dim)' }}
-              >
-                Year {y}
-              </button>
-            ))}
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-4">
-            {/* Chart */}
-            <div className="rounded-2xl p-5 border border-[var(--glass-border)]" style={{ background: 'var(--bg-deep)' }}>
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-semibold" style={{ color: 'var(--text)' }}>Revenue by Category</h3>
-                <span className="text-lg font-bold" style={{ color: 'var(--accent)' }}>
-                  {fmt(filteredStreams.reduce((s, r) => s + r[yearFilter === 1 ? 'y1' : yearFilter === 2 ? 'y2' : 'y3'], 0))}
-                </span>
               </div>
-              <RevenueChart streams={REVENUE_STREAMS} yearFilter={yearFilter} />
             </div>
 
-            {/* Summary table */}
-            <div className="rounded-2xl p-5 border border-[var(--glass-border)]" style={{ background: 'var(--bg-deep)' }}>
-              <h3 className="text-sm font-semibold mb-3" style={{ color: 'var(--text)' }}>P&L Summary</h3>
-              <div className="space-y-2">
+            {/* Unit Economics */}
+            <div className="grid md:grid-cols-3 gap-4">
+              {[
+                { title: 'Unit Economics', items: [
+                  { label: 'LTV', value: '$182.82', sub: '14-month avg tenure × $12.99' },
+                  { label: 'CAC Target', value: '$60.94', sub: '3:1 LTV/CAC ratio' },
+                  { label: 'Payback', value: '5.7 months', sub: 'Below 18-month threshold' },
+                  { label: 'Gross Margin', value: '90%+', sub: 'Software economics' },
+                ]},
+                { title: 'Subscription Metrics', items: [
+                  { label: 'Monthly Price', value: '$12.99', sub: 'Pricing Psychologist optimal' },
+                  { label: 'Annual Price', value: '$89.99/yr', sub: '37% discount, default toggle' },
+                  { label: 'Free-to-Paid', value: '5-8%', sub: 'Metered paywall model' },
+                  { label: 'Annual Mix', value: '70%', sub: '2.4x more profitable than monthly' },
+                ]},
+                { title: 'Marketplace Metrics', items: [
+                  { label: 'Lead Price', value: '$150-300', sub: '3x Angi, 2x better close rate' },
+                  { label: 'Contractor Sub', value: '$99-199/mo', sub: 'Featured placement' },
+                  { label: 'Take Rate', value: '15-20%', sub: 'Booked job commission' },
+                  { label: 'Contractor CAC', value: '$150-400', sub: 'Onboarding + verification' },
+                ]},
+              ].map((section) => (
+                <div key={section.title} className="rounded-xl p-4" style={{ background: 'var(--glass)', border: '1px solid var(--glass-border)' }}>
+                  <h3 className="text-xs font-bold mb-3" style={{ color: 'var(--text)' }}>{section.title}</h3>
+                  <div className="space-y-2.5">
+                    {section.items.map((item) => (
+                      <div key={item.label} className="flex items-center justify-between">
+                        <div>
+                          <p className="text-[11px] font-semibold" style={{ color: 'var(--text)' }}>{item.label}</p>
+                          <p className="text-[9px]" style={{ color: 'var(--text-dim)' }}>{item.sub}</p>
+                        </div>
+                        <p className="text-sm font-bold" style={{ color: 'var(--accent)' }}>{item.value}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Pricing Tiers */}
+            <div>
+              <h3 className="text-sm font-bold mb-3" style={{ color: 'var(--text)' }}>Pricing Architecture (Council-Optimized)</h3>
+              <div className="grid md:grid-cols-4 gap-3">
                 {[
-                  { label: 'Total Revenue', y1: Y1_TOTAL, y2: Y2_TOTAL, y3: Y3_TOTAL, bold: true },
-                  { label: 'Direct Consumer', y1: 120000, y2: 648000, y3: 2040000 },
-                  { label: 'Partnership', y1: 393000, y2: 1884000, y3: 5790000 },
-                  { label: 'Platform', y1: 0, y2: 370000, y3: 1850000 },
-                  { label: 'Data', y1: 0, y2: 275000, y3: 1125000 },
-                  { label: 'Brand', y1: 54000, y2: 216000, y3: 540000 },
-                  { label: 'Est. Gross Margin', y1: Math.round(Y1_TOTAL * 0.87), y2: Math.round(Y2_TOTAL * 0.85), y3: Math.round(Y3_TOTAL * 0.84), bold: true },
-                ].map((row) => (
-                  <div key={row.label} className={`flex items-center justify-between py-1 ${row.bold ? 'border-t border-[var(--glass-border)] pt-2' : ''}`}>
-                    <span className={`text-xs ${row.bold ? 'font-bold' : ''}`} style={{ color: row.bold ? 'var(--text)' : 'var(--text-sub)' }}>{row.label}</span>
-                    <div className="flex gap-4">
-                      {[row.y1, row.y2, row.y3].map((v, i) => (
-                        <span key={i} className={`text-xs text-right w-16 ${row.bold ? 'font-bold' : ''}`}
-                          style={{ color: yearFilter === (i + 1) ? 'var(--accent)' : 'var(--text-dim)' }}>
-                          {fmt(v)}
-                        </span>
+                  { name: 'Free', price: '$0', features: ['3 AI assessments (lifetime)', 'Home Health Score (read-only)', '3 active projects', '10 logbook entries', 'Basic seasonal reminders'], color: 'var(--text-dim)' },
+                  { name: 'Pro', price: '$12.99/mo', features: ['Unlimited AI assessments', 'Wall + Yard Analysis', 'Full Home Health + photo tags', 'LiveBids contractor matching', 'SkillTree levels 4-5', 'Multi-property (5)'], color: 'var(--accent)' },
+                  { name: 'Plus', price: '$14.99/mo', features: ['Everything in Pro', 'Up to 15 properties', 'Monthly PDF report', 'Priority contractor matching', 'Comparative property ranking'], color: 'var(--emerald)' },
+                  { name: 'PM Plan', price: '$49.99/mo', features: ['Everything in Plus', 'Up to 50 properties', 'Team access (3 users)', 'API access', 'White-label reports'], color: 'var(--gold)' },
+                ].map((tier, i) => (
+                  <div key={tier.name} className="rounded-xl p-4" style={{ background: 'var(--glass)', border: `1px solid ${i === 1 ? tier.color : 'var(--glass-border)'}` }}>
+                    {i === 1 && <p className="text-[9px] font-bold uppercase mb-1" style={{ color: tier.color }}>Most Popular</p>}
+                    <p className="text-sm font-bold" style={{ color: 'var(--text)' }}>{tier.name}</p>
+                    <p className="text-lg font-bold mb-2" style={{ color: tier.color }}>{tier.price}</p>
+                    <div className="space-y-1">
+                      {tier.features.map((f) => (
+                        <p key={f} className="text-[10px] flex items-start gap-1" style={{ color: 'var(--text-sub)' }}>
+                          <span style={{ color: tier.color }}>+</span> {f}
+                        </p>
                       ))}
                     </div>
                   </div>
                 ))}
               </div>
-              <div className="mt-4 rounded-lg p-2" style={{ background: 'var(--accent-soft)' }}>
-                <p className="text-[9px]" style={{ color: 'var(--accent)' }}>
-                  Assumptions: Y1 30K avg MAU, Y2 125K avg MAU, Y3 350K avg MAU. Conservative conversion rates benchmarked against category leaders.
-                </p>
-              </div>
             </div>
           </div>
-        </section>
+        )}
 
-        {/* ═══ VALUATION ═══ */}
-        <section id="valuation" className="space-y-4">
-          <h2 className="font-serif text-2xl" style={{ color: 'var(--text)' }}>Valuation Trajectory</h2>
+        {/* ═══════════ COMPETITIVE TAB ═══════════ */}
+        {tab === 'Competitive' && (
+          <div className="space-y-6">
+            <h2 className="text-xl font-bold" style={{ color: 'var(--text)', fontFamily: 'var(--font-heading)' }}>Competitive Landscape</h2>
+            <p className="text-sm" style={{ color: 'var(--text-dim)' }}>Research by Competitor Analyst. No consumer AI home assessment app exists at scale.</p>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-xs" style={{ color: 'var(--text)' }}>
-              <thead>
-                <tr className="border-b border-[var(--glass-border)]">
-                  {['Stage', 'Users', 'Revenue', 'Revenue Multiple', 'User Multiple', 'Est. Valuation', 'Note'].map((h) => (
-                    <th key={h} className="text-left py-2 px-2 text-[10px] font-semibold" style={{ color: 'var(--text-dim)' }}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {VALUATION_TRAJECTORY.map((v) => (
-                  <tr key={v.stage} className="border-b border-[var(--glass-border)] hover:bg-[var(--glass)]">
-                    <td className="py-2.5 px-2 font-semibold">{v.stage}</td>
-                    <td className="py-2.5 px-2">{v.users}</td>
-                    <td className="py-2.5 px-2">{v.revenue}</td>
-                    <td className="py-2.5 px-2">{v.revenueMultiple}</td>
-                    <td className="py-2.5 px-2">{v.userMultiple}</td>
-                    <td className="py-2.5 px-2 font-bold" style={{ color: 'var(--emerald)' }}>{v.combined}</td>
-                    <td className="py-2.5 px-2 text-[10px]" style={{ color: 'var(--text-dim)' }}>{v.note}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Investor narrative */}
-          <div className="rounded-2xl p-5 border border-[var(--glass-border)]" style={{ background: 'var(--bg-deep)' }}>
-            <h3 className="font-serif text-lg mb-3" style={{ color: 'var(--text)' }}>Investor Narrative</h3>
-            <div className="space-y-3 text-sm leading-relaxed" style={{ color: 'var(--text-sub)' }}>
-              <p>
-                <strong style={{ color: 'var(--text)' }}>Thesis:</strong> HomeProjectIQ captures the $500B+ home improvement market at the decision layer. Every homeowner faces the same question — &ldquo;Should I fix this myself or hire someone?&rdquo; — and currently relies on YouTube videos, guesswork, and expensive contractor visits. We replace that with a 60-second AI assessment.
-              </p>
-              <p>
-                <strong style={{ color: 'var(--text)' }}>Moat:</strong> (1) Data — every assessment generates labeled training data that improves AI accuracy; (2) Network — contractor marketplace creates two-sided network effects; (3) Switching costs — home health history, maintenance records, and skill progression cannot be replicated; (4) Brand — category ownership of &ldquo;DIY or hire a pro?&rdquo;
-              </p>
-              <p>
-                <strong style={{ color: 'var(--text)' }}>Growth flywheel:</strong> User takes photo &rarr; gets free diagnosis &rarr; buys materials (affiliate revenue) OR hires pro (lead gen revenue) &rarr; logs project &rarr; earns XP &rarr; shares with friends &rarr; friends join &rarr; contractor supply grows &rarr; better matching &rarr; more users.
-              </p>
-              <p>
-                <strong style={{ color: 'var(--text)' }}>Exit path:</strong> Strategic acquisition by Home Depot ($157B), Lowe&apos;s ($87B), or Angi ($1.8B) who need a consumer-facing AI layer. At 500K users and $8M ARR, comparable exits are 15-20x revenue = $120M-$160M. Alternatively, continue scaling toward IPO at 2M+ users.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* ═══ SENSITIVITY ═══ */}
-        <section id="sensitivity" className="space-y-4">
-          <h2 className="font-serif text-2xl" style={{ color: 'var(--text)' }}>Sensitivity Analysis</h2>
-          <p className="text-xs" style={{ color: 'var(--text-sub)' }}>
-            Adjust the top 5 revenue streams to model bull, base, and bear scenarios. Drag sliders to see impact on Year 3 total.
-          </p>
-
-          <div className="grid lg:grid-cols-2 gap-4">
-            <div className="rounded-2xl p-5 border border-[var(--glass-border)] space-y-4" style={{ background: 'var(--bg-deep)' }}>
-              {REVENUE_STREAMS.slice(0, 5).map((s) => (
-                <SensitivitySlider
-                  key={s.id}
-                  label={s.name}
-                  base={s.y3}
-                  onChange={(mult) => setSensMultipliers((prev) => ({ ...prev, [s.id]: mult }))}
-                />
+            <div className="space-y-3">
+              {COMPETITORS.map((c) => (
+                <div key={c.name} className="rounded-xl p-4" style={{ background: c.name === 'HomeProjectIQ' ? 'linear-gradient(135deg, rgba(99,102,241,0.15), rgba(16,185,129,0.1))' : 'var(--glass)', border: `1px solid ${c.name === 'HomeProjectIQ' ? 'var(--accent)' : 'var(--glass-border)'}` }}>
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-3">
+                      <span className="text-lg font-bold" style={{ color: 'var(--text)' }}>{c.name}</span>
+                      <span className="text-[10px] px-2 py-0.5 rounded-full font-bold"
+                        style={{ background: c.trend === 'up' ? '#10B98122' : c.trend === 'down' ? '#EF444422' : '#F59E0B22', color: c.trend === 'up' ? '#10B981' : c.trend === 'down' ? '#EF4444' : '#F59E0B' }}>
+                        {c.yoy} YoY
+                      </span>
+                    </div>
+                    <span className="text-sm font-bold" style={{ color: 'var(--accent)' }}>{c.revenue}</span>
+                  </div>
+                  <div className="grid md:grid-cols-3 gap-2 text-[11px]">
+                    <div><span className="font-semibold" style={{ color: 'var(--text-dim)' }}>Model:</span> <span style={{ color: 'var(--text-sub)' }}>{c.model}</span></div>
+                    <div><span className="font-semibold" style={{ color: 'var(--text-dim)' }}>Users:</span> <span style={{ color: 'var(--text-sub)' }}>{c.users}</span></div>
+                    <div><span className="font-semibold" style={{ color: 'var(--text-dim)' }}>Weakness:</span> <span style={{ color: 'var(--text-sub)' }}>{c.weakness}</span></div>
+                  </div>
+                </div>
               ))}
             </div>
 
-            <div className="rounded-2xl p-5 border border-[var(--glass-border)] flex flex-col items-center justify-center" style={{ background: 'var(--bg-deep)' }}>
-              <p className="text-xs mb-2" style={{ color: 'var(--text-dim)' }}>Adjusted Year 3 Total Revenue</p>
-              <p className="text-4xl font-bold mb-4" style={{ color: sensTotal > Y3_TOTAL ? 'var(--emerald)' : sensTotal < Y3_TOTAL ? 'var(--danger)' : 'var(--text)' }}>
-                {fmt(sensTotal)}
-              </p>
-              <div className="flex gap-4 text-center">
-                <div>
-                  <p className="text-lg font-bold" style={{ color: 'var(--danger)' }}>{fmt(Math.round(Y3_TOTAL * 0.5))}</p>
-                  <p className="text-[9px]" style={{ color: 'var(--text-dim)' }}>Bear (0.5x)</p>
-                </div>
-                <div>
-                  <p className="text-lg font-bold" style={{ color: 'var(--text)' }}>{fmt(Y3_TOTAL)}</p>
-                  <p className="text-[9px]" style={{ color: 'var(--text-dim)' }}>Base</p>
-                </div>
-                <div>
-                  <p className="text-lg font-bold" style={{ color: 'var(--emerald)' }}>{fmt(Math.round(Y3_TOTAL * 2))}</p>
-                  <p className="text-[9px]" style={{ color: 'var(--text-dim)' }}>Bull (2x)</p>
-                </div>
-              </div>
-              <div className="mt-4 w-full">
-                <MiniBar value={sensTotal} max={Y3_TOTAL * 2} color={sensTotal > Y3_TOTAL ? 'var(--emerald)' : sensTotal < Y3_TOTAL ? 'var(--danger)' : 'var(--accent)'} />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ═══ PHASED ROADMAP ═══ */}
-        <section id="phases" className="space-y-4">
-          <h2 className="font-serif text-2xl" style={{ color: 'var(--text)' }}>Monetization Roadmap</h2>
-
-          {[
-            {
-              phase: 'A', title: 'Foundation', timeline: 'Months 1-3', color: 'var(--emerald)',
-              target: 'Prove unit economics',
-              items: [
-                'Activate affiliate links (existing component + flag)',
-                'Implement freemium paywall with Stripe',
-                'Build contractor lead routing to Angi/Thumbtack',
-                'Launch home warranty referral program',
-              ],
-              revenue: '$400K-600K ARR run rate',
-            },
-            {
-              phase: 'B', title: 'Growth', timeline: 'Months 4-8', color: 'var(--gold)',
-              target: 'Diversify revenue sources',
-              items: [
-                'Launch Featured Pro self-serve ad portal',
-                'Sign first 4 category sponsors',
-                'Build email newsletter with sponsor placements',
-                'Activate tool brand partnerships',
-                'Expand to 50+ metro areas for lead gen',
-              ],
-              revenue: '$1.5M-2.5M ARR run rate',
-            },
-            {
-              phase: 'C', title: 'Scale', timeline: 'Months 9-18', color: 'var(--info)',
-              target: 'Build platform economics',
-              items: [
-                'Launch full Pro Marketplace with payments/escrow',
-                'Certified Pro Program ($500/yr)',
-                'B2B enterprise intelligence reports',
-                'Real estate API integration',
-              ],
-              revenue: '$5M-8M ARR run rate',
-            },
-            {
-              phase: 'D', title: 'Dominance', timeline: 'Months 18-36', color: '#C084FC',
-              target: 'Maximize valuation',
-              items: [
-                'Insurance data partnerships (Hippo, Lemonade)',
-                'MLS integration for home health scores',
-                'White-label platform for property management',
-                'International expansion (10 languages already supported)',
-              ],
-              revenue: '$10M-18M ARR run rate',
-            },
-          ].map((phase) => (
-            <div key={phase.phase} className="rounded-2xl p-5 border-l-4" style={{ borderColor: phase.color, background: 'var(--glass)' }}>
-              <div className="flex items-center gap-3 mb-3">
-                <span className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold" style={{ background: phase.color, color: 'white' }}>
-                  {phase.phase}
-                </span>
-                <div>
-                  <p className="text-sm font-bold" style={{ color: 'var(--text)' }}>Phase {phase.phase}: {phase.title}</p>
-                  <p className="text-[10px]" style={{ color: 'var(--text-dim)' }}>{phase.timeline} &middot; Target: {phase.target}</p>
-                </div>
-                <span className="ml-auto text-sm font-bold" style={{ color: phase.color }}>{phase.revenue}</span>
-              </div>
-              <div className="space-y-1 ml-11">
-                {phase.items.map((item) => (
-                  <div key={item} className="flex items-center gap-2">
-                    <span className="text-[10px]" style={{ color: phase.color }}>&#9656;</span>
-                    <span className="text-xs" style={{ color: 'var(--text-sub)' }}>{item}</span>
+            {/* Lessons from Failures */}
+            <div className="rounded-xl p-5" style={{ background: 'var(--glass)', border: '1px solid var(--glass-border)' }}>
+              <h3 className="text-sm font-bold mb-3" style={{ color: 'var(--text)' }}>What Killed Competitors</h3>
+              <div className="grid md:grid-cols-2 gap-3">
+                {[
+                  { name: 'Homejoy', cause: 'Discount acquisition trap ($19 first cleans). 25% retention vs 70-80% healthy. Worker bypass after intro.', lesson: 'Never discount-acquire homeowners. Value must be ongoing.' },
+                  { name: 'Handy', cause: '$14 per transaction at 20% take on $70 avg jobs. Demand outstripped supply. Misclassification lawsuits.', lesson: 'Transaction value must support take rate. At $70 AOV, 20% = death.' },
+                  { name: 'HomeAdvisor', cause: 'Lead sharing (5 contractors per lead) destroyed trust. Effective CAC $250-425+ per booked job.', lesson: 'Lead-sharing creates adversarial supply dynamics.' },
+                  { name: 'Porch', cause: 'Became actual insurance carrier. Underwriting losses from Hurricane Ian devastated balance sheet. Stock down 90%.', lesson: 'Data businesses should sell data, not take balance-sheet risk.' },
+                ].map((f) => (
+                  <div key={f.name} className="rounded-lg p-3" style={{ background: 'var(--bg-deep)' }}>
+                    <p className="text-xs font-bold mb-1" style={{ color: '#EF4444' }}>{f.name}</p>
+                    <p className="text-[10px] mb-1.5" style={{ color: 'var(--text-sub)' }}>{f.cause}</p>
+                    <p className="text-[10px] font-semibold" style={{ color: 'var(--emerald)' }}>Lesson: {f.lesson}</p>
                   </div>
                 ))}
               </div>
             </div>
-          ))}
-        </section>
 
-        {/* ═══ FOOTER ═══ */}
-        <div className="text-center pt-8 border-t border-[var(--glass-border)]">
-          <p className="text-[10px]" style={{ color: 'var(--text-dim)' }}>
-            HomeProjectIQ Monetization Architecture &middot; {REVENUE_STREAMS.length} Revenue Streams &middot; {NAMED_PARTNERS.length} Named Partners &middot; Generated March 2026
-          </p>
-        </div>
-      </div>
+            {/* HomeProjectIQ Advantage */}
+            <div className="rounded-xl p-5" style={{ background: 'linear-gradient(135deg, rgba(16,185,129,0.1), rgba(99,102,241,0.1))', border: '1px solid var(--emerald)' }}>
+              <h3 className="text-sm font-bold mb-3" style={{ color: 'var(--text)' }}>HomeProjectIQ&apos;s Structural Advantage</h3>
+              <div className="overflow-x-auto">
+                <table className="w-full text-[11px]">
+                  <thead>
+                    <tr>
+                      <th className="p-2 text-left" style={{ color: 'var(--text-dim)' }}>Factor</th>
+                      <th className="p-2 text-center" style={{ color: '#EF4444' }}>Angi/Thumbtack Lead</th>
+                      <th className="p-2 text-center" style={{ color: '#10B981' }}>HomeProjectIQ Lead</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      ['Project scope known', 'No', 'Yes — AI assessment complete'],
+                      ['Budget established', 'No', 'Yes — AI estimated cost'],
+                      ['Skill gap confirmed', 'No', 'Yes — DIY vs hire decided'],
+                      ['Photo documentation', 'Sometimes', 'Always'],
+                      ['Materials identified', 'No', 'Yes — full scope'],
+                      ['Close rate', '10-15%', '45-60%'],
+                      ['Effective contractor CAC', '$250-425+', '$150-300'],
+                    ].map(([factor, angi, hpiq]) => (
+                      <tr key={factor} style={{ borderTop: '1px solid var(--glass-border)' }}>
+                        <td className="p-2 font-semibold" style={{ color: 'var(--text)' }}>{factor}</td>
+                        <td className="p-2 text-center" style={{ color: 'var(--text-dim)' }}>{angi}</td>
+                        <td className="p-2 text-center font-semibold" style={{ color: '#10B981' }}>{hpiq}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ═══════════ GROWTH TAB ═══════════ */}
+        {tab === 'Growth' && (
+          <div className="space-y-6">
+            <h2 className="text-xl font-bold" style={{ color: 'var(--text)', fontFamily: 'var(--font-heading)' }}>Growth Engine</h2>
+
+            {/* User Growth Trajectory */}
+            <div className="rounded-xl p-5" style={{ background: 'var(--glass)', border: '1px solid var(--glass-border)' }}>
+              <h3 className="text-sm font-bold mb-4" style={{ color: 'var(--text)' }}>User Growth (Conservative Estimates)</h3>
+              <div className="flex items-end gap-4 h-40">
+                {GROWTH_MODEL.map((g) => {
+                  const maxU = GROWTH_MODEL[GROWTH_MODEL.length - 1].users;
+                  const pct = (g.users / maxU) * 100;
+                  return (
+                    <div key={g.year} className="flex-1 flex flex-col items-center gap-1">
+                      <span className="text-[10px] font-bold" style={{ color: 'var(--text)' }}>
+                        {g.users >= 1000000 ? `${(g.users / 1000000).toFixed(1)}M` : `${(g.users / 1000).toFixed(0)}K`}
+                      </span>
+                      <div className="w-full rounded-t-lg transition-all duration-1000"
+                        style={{ height: `${Math.max(pct, 2)}%`, background: 'linear-gradient(to top, #06B6D4, #3B82F6)' }} />
+                      <span className="text-xs font-bold" style={{ color: 'var(--text-dim)' }}>{g.year}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Channel Ranking */}
+            <div className="rounded-xl p-5" style={{ background: 'var(--glass)', border: '1px solid var(--glass-border)' }}>
+              <h3 className="text-sm font-bold mb-3" style={{ color: 'var(--text)' }}>Acquisition Channels Ranked by ROI</h3>
+              <div className="space-y-2.5">
+                {[
+                  { rank: 1, name: 'App Store Optimization', cpi: '$0', roi: 'Highest', tier: 'Tier 1', note: '12% avg download increase. Zero marginal cost. Do this first.' },
+                  { rank: 2, name: 'Content SEO (DIY Queries)', cpi: '$3-12', roi: 'Very High', tier: 'Tier 1', note: '6-12 month ramp. r/HomeImprovement = 4.5M members. Own the "DIY vs hire" query.' },
+                  { rank: 3, name: 'Tool Lending Viral Loop', cpi: '$0', roi: 'Very High', tier: 'Tier 1', note: 'Only hard-trigger invite in the app. 40-60% install conversion. Requires local density.' },
+                  { rank: 4, name: 'TikTok/YouTube/Reels', cpi: '$0-5', roi: 'High', tier: 'Tier 2', note: 'DIY content massive. Top accounts 1.7M followers. 1M views × 1% = 10K installs. 6-18mo to produce.' },
+                  { rank: 5, name: 'Dual-Sided Referral Program', cpi: '$15-30', roi: 'High', tier: 'Tier 2', note: 'Dual-sided drives 29% more participation. "Give 1mo free, get 1mo free" converts 2.6x better.' },
+                  { rank: 6, name: 'Real Estate Partnerships', cpi: '$5-20', roi: 'High', tier: 'Tier 2', note: '5.1M homes sold/yr. New homeowners = highest-intent segment. "Free 3-month checkup" at closing.' },
+                  { rank: 7, name: 'Contractor-Driven (B2B2C)', cpi: '$20-50', roi: 'Medium', tier: 'Tier 3', note: '1K contractors × 10 invites = 10K homeowners. 12-18 month build timeline.' },
+                  { rank: 8, name: 'Retail Partnership (HD/Lowe\'s)', cpi: 'N/A', roi: 'Medium', tier: 'Tier 3', note: 'Aspirational Y3+. Both building own AI tools. Pursue as BD relationship, not primary channel.' },
+                ].map((ch) => (
+                  <div key={ch.rank} className="flex items-center gap-3 rounded-lg p-3" style={{ background: 'var(--bg-deep)' }}>
+                    <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0"
+                      style={{ background: ch.rank <= 3 ? '#10B98133' : ch.rank <= 6 ? '#3B82F633' : '#F59E0B33', color: ch.rank <= 3 ? '#10B981' : ch.rank <= 6 ? '#3B82F6' : '#F59E0B' }}>
+                      {ch.rank}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <span className="text-xs font-bold" style={{ color: 'var(--text)' }}>{ch.name}</span>
+                        <span className="text-[9px] px-1.5 py-0.5 rounded-full" style={{ background: 'var(--glass)', color: 'var(--text-dim)' }}>{ch.tier}</span>
+                      </div>
+                      <p className="text-[10px]" style={{ color: 'var(--text-dim)' }}>{ch.note}</p>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <p className="text-xs font-bold" style={{ color: 'var(--accent)' }}>{ch.cpi}</p>
+                      <p className="text-[9px]" style={{ color: 'var(--text-dim)' }}>CPI</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* K-Factor + Retention */}
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="rounded-xl p-4" style={{ background: 'var(--glass)', border: '1px solid var(--glass-border)' }}>
+                <h3 className="text-xs font-bold mb-3" style={{ color: 'var(--text)' }}>Viral Coefficient (K-Factor)</h3>
+                <div className="space-y-3">
+                  {[
+                    { year: 'Y1', k: 0.15, sources: 'Tool lending (0.08), Leaderboard sharing (0.05), Pro referrals (0.02)' },
+                    { year: 'Y2', k: 0.30, sources: 'Tool lending (0.15), Referral program (0.08), Sharing (0.07)' },
+                    { year: 'Y3', k: 0.40, sources: 'Dense local networks (0.18), Referrals (0.12), Social (0.10)' },
+                  ].map((v) => (
+                    <div key={v.year}>
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-xs font-bold" style={{ color: 'var(--text)' }}>{v.year}: K = {v.k}</span>
+                        <MiniRing pct={v.k * 100} size={28} color={v.k >= 0.3 ? '#10B981' : '#F59E0B'} />
+                      </div>
+                      <p className="text-[9px]" style={{ color: 'var(--text-dim)' }}>{v.sources}</p>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-[9px] mt-3 italic" style={{ color: 'var(--text-dim)' }}>K &gt; 1.0 = viral. K 0.4-0.7 = outstanding for utility app. HomeProjectIQ target: 0.40 by Y3.</p>
+              </div>
+              <div className="rounded-xl p-4" style={{ background: 'var(--glass)', border: '1px solid var(--glass-border)' }}>
+                <h3 className="text-xs font-bold mb-3" style={{ color: 'var(--text)' }}>Retention Targets</h3>
+                <div className="space-y-3">
+                  {[
+                    { label: 'Day 1', target: '30%', industry: '25-26%', color: '#10B981' },
+                    { label: 'Day 7', target: '15%', industry: '11-13%', color: '#3B82F6' },
+                    { label: 'Day 30', target: '10%', industry: '6-7%', color: '#F59E0B' },
+                    { label: 'Day 90', target: '6-8%', industry: '~3%', color: '#EF4444' },
+                  ].map((r) => (
+                    <div key={r.label} className="flex items-center justify-between">
+                      <span className="text-xs font-semibold" style={{ color: 'var(--text)' }}>{r.label}</span>
+                      <div className="flex items-center gap-3">
+                        <span className="text-[10px]" style={{ color: 'var(--text-dim)' }}>Industry: {r.industry}</span>
+                        <span className="text-xs font-bold px-2 py-0.5 rounded-full" style={{ background: `${r.color}22`, color: r.color }}>{r.target}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-[9px] mt-3 italic" style={{ color: 'var(--text-dim)' }}>Push notifications give 2-6x higher 90-day retention. Maintenance reminders are the #1 retention hook.</p>
+              </div>
+            </div>
+
+            {/* Target Segments */}
+            <div>
+              <h3 className="text-sm font-bold mb-3" style={{ color: 'var(--text)' }}>Target Demographics</h3>
+              <div className="grid md:grid-cols-2 gap-3">
+                {SEGMENTS.map((s) => (
+                  <div key={s.name} className="rounded-xl p-4" style={{ background: 'var(--glass)', border: '1px solid var(--glass-border)' }}>
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-lg">{s.icon}</span>
+                      <div>
+                        <p className="text-xs font-bold" style={{ color: 'var(--text)' }}>{s.name}</p>
+                        <p className="text-[10px]" style={{ color: 'var(--text-dim)' }}>Age {s.age} &middot; {s.size}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="text-[10px] px-2 py-0.5 rounded-full font-bold" style={{ background: '#10B98122', color: '#10B981' }}>WTP: {s.wtp}</span>
+                      <span className="text-[10px] px-2 py-0.5 rounded-full" style={{ background: 'var(--bg-deep)', color: 'var(--text-dim)' }}>Trigger: {s.trigger}</span>
+                    </div>
+                    <p className="text-[10px]" style={{ color: 'var(--text-sub)' }}>{s.insight}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ═══════════ VALUATION TAB ═══════════ */}
+        {tab === 'Valuation' && (
+          <div className="space-y-6">
+            <h2 className="text-xl font-bold" style={{ color: 'var(--text)', fontFamily: 'var(--font-heading)' }}>Valuation & Exit Scenarios</h2>
+            <p className="text-sm" style={{ color: 'var(--text-dim)' }}>Research by VC &amp; Exit Analyst. AI premium = 3-5x over non-AI at same revenue.</p>
+
+            {/* Valuation Trajectory */}
+            <div className="rounded-xl overflow-hidden" style={{ border: '1px solid var(--glass-border)' }}>
+              <table className="w-full text-xs">
+                <thead>
+                  <tr style={{ background: 'var(--glass)' }}>
+                    {['Stage', 'ARR', 'MAU', 'Valuation', 'Multiple', 'Basis'].map((h) => (
+                      <th key={h} className="p-3 text-left font-bold" style={{ color: 'var(--text)' }}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {VALUATION.map((v, i) => (
+                    <tr key={v.stage} style={{ borderTop: '1px solid var(--glass-border)', background: i === VALUATION.length - 1 ? 'rgba(99,102,241,0.08)' : 'transparent' }}>
+                      <td className="p-3 font-bold" style={{ color: 'var(--text)' }}>{v.stage}</td>
+                      <td className="p-3" style={{ color: 'var(--text-sub)' }}>{v.arr}</td>
+                      <td className="p-3" style={{ color: 'var(--text-sub)' }}>{v.mau}</td>
+                      <td className="p-3 font-bold" style={{ color: 'var(--accent)' }}>{v.valuation}</td>
+                      <td className="p-3" style={{ color: 'var(--text-dim)' }}>{v.multiple}</td>
+                      <td className="p-3 text-[10px]" style={{ color: 'var(--text-dim)' }}>{v.basis}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Strategic Acquirers */}
+            <div>
+              <h3 className="text-sm font-bold mb-3" style={{ color: 'var(--text)' }}>Strategic Acquirers</h3>
+              <div className="grid md:grid-cols-2 gap-3">
+                {ACQUIRERS.map((a) => (
+                  <button key={a.name} onClick={() => setExpandedAcquirer(expandedAcquirer === a.name ? null : a.name)}
+                    className="rounded-xl p-4 text-left transition-all hover:scale-[1.01]"
+                    style={{ background: 'var(--glass)', border: `1px solid ${expandedAcquirer === a.name ? 'var(--accent)' : 'var(--glass-border)'}` }}>
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="text-2xl">{a.logo}</span>
+                      <div>
+                        <p className="text-sm font-bold" style={{ color: 'var(--text)' }}>{a.name}</p>
+                        <p className="text-xs font-bold" style={{ color: 'var(--accent)' }}>{a.range}</p>
+                      </div>
+                    </div>
+                    <p className="text-[11px]" style={{ color: 'var(--text-sub)' }}>{a.thesis}</p>
+                    {expandedAcquirer === a.name && (
+                      <div className="mt-2 pt-2 border-t" style={{ borderColor: 'var(--glass-border)' }}>
+                        <p className="text-[10px]" style={{ color: 'var(--text-dim)' }}>
+                          <strong style={{ color: 'var(--text)' }}>Trigger:</strong> {a.trigger}
+                        </p>
+                      </div>
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Comparable Exits */}
+            <div className="rounded-xl p-5" style={{ background: 'var(--glass)', border: '1px solid var(--glass-border)' }}>
+              <h3 className="text-sm font-bold mb-3" style={{ color: 'var(--text)' }}>Comparable Exits &amp; Valuations</h3>
+              <div className="space-y-2.5">
+                {[
+                  { name: 'CoStar → Matterport (2024)', value: '$1.6B enterprise value', multiple: '12x revenue', note: '212% premium. AI 3D property scanning. Most relevant AI proptech exit.' },
+                  { name: 'ServiceTitan IPO (2024)', value: '$6.3B valuation', multiple: '7.5x revenue', note: '$685M revenue. Home services contractor SaaS. Re-rated to 11-12x.' },
+                  { name: 'EliseAI Series E (2025)', value: '$2.25B valuation', multiple: '~15-20x revenue', note: 'a16z led. AI for residential leasing. Latest AI proptech unicorn.' },
+                  { name: 'Thumbtack (2021)', value: '$3.2B valuation', multiple: '~8x revenue', note: '$275M Series H. QIA led. Paper valuation, no IPO yet.' },
+                  { name: 'Angi/HomeAdvisor (2017)', value: '$4.2B combined', multiple: '~4x revenue', note: 'IAC reverse-IPO. Peak $7B. Now sub-$500M. Cautionary tale.' },
+                  { name: 'Houzz (2017)', value: '$4B peak valuation', multiple: '~15-20x revenue', note: '$614M raised. Current mark $1.5-2B. Community + marketplace.' },
+                ].map((e) => (
+                  <div key={e.name} className="flex items-center gap-3 rounded-lg p-3" style={{ background: 'var(--bg-deep)' }}>
+                    <div className="flex-1">
+                      <p className="text-xs font-bold" style={{ color: 'var(--text)' }}>{e.name}</p>
+                      <p className="text-[10px]" style={{ color: 'var(--text-dim)' }}>{e.note}</p>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <p className="text-xs font-bold" style={{ color: 'var(--accent)' }}>{e.value}</p>
+                      <p className="text-[9px]" style={{ color: 'var(--text-dim)' }}>{e.multiple}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Revenue Multiple Benchmarks */}
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="rounded-xl p-4" style={{ background: 'var(--glass)', border: '1px solid var(--glass-border)' }}>
+                <h3 className="text-xs font-bold mb-3" style={{ color: 'var(--text)' }}>Revenue Multiples by Model (2025)</h3>
+                {[
+                  { model: 'AI / Data Company', range: '10-20x revenue', note: 'Vertical AI with data moat' },
+                  { model: 'Consumer Subscription', range: '4-7x ARR', note: 'At Series A/B stage' },
+                  { model: 'Marketplace / Platform', range: '2.3x revenue', note: 'Median public (vs 5.6x historical)' },
+                  { model: 'Lead Generation', range: '1.5-3x revenue', note: '3-5x with proprietary data' },
+                ].map((m) => (
+                  <div key={m.model} className="flex items-center justify-between py-2" style={{ borderTop: '1px solid var(--glass-border)' }}>
+                    <div>
+                      <p className="text-[11px] font-semibold" style={{ color: 'var(--text)' }}>{m.model}</p>
+                      <p className="text-[9px]" style={{ color: 'var(--text-dim)' }}>{m.note}</p>
+                    </div>
+                    <span className="text-xs font-bold" style={{ color: 'var(--accent)' }}>{m.range}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="rounded-xl p-4" style={{ background: 'var(--glass)', border: '1px solid var(--glass-border)' }}>
+                <h3 className="text-xs font-bold mb-3" style={{ color: 'var(--text)' }}>Series A Requirements (2025)</h3>
+                {[
+                  { metric: 'ARR', threshold: '$1M-5M', target: '$4.2M median' },
+                  { metric: 'MAU', threshold: '50K-250K', target: 'Top-tier: 250K+' },
+                  { metric: 'Revenue Growth', threshold: '3x YoY minimum', target: '4x for AI premium' },
+                  { metric: 'LTV/CAC', threshold: '3:1 minimum', target: '5:1+ target' },
+                  { metric: 'D30 Retention', threshold: '>25%', target: '>15% for home apps' },
+                  { metric: 'Check Size', threshold: '$8-20M', target: '$15-30M AI premium' },
+                ].map((r) => (
+                  <div key={r.metric} className="flex items-center justify-between py-2" style={{ borderTop: '1px solid var(--glass-border)' }}>
+                    <span className="text-[11px] font-semibold" style={{ color: 'var(--text)' }}>{r.metric}</span>
+                    <div className="text-right">
+                      <p className="text-[11px] font-bold" style={{ color: 'var(--accent)' }}>{r.threshold}</p>
+                      <p className="text-[9px]" style={{ color: 'var(--text-dim)' }}>{r.target}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ═══════════ DATA MOAT TAB ═══════════ */}
+        {tab === 'Data Moat' && (
+          <div className="space-y-6">
+            <h2 className="text-xl font-bold" style={{ color: 'var(--text)', fontFamily: 'var(--font-heading)' }}>Data Moat &amp; Asset Valuation</h2>
+            <p className="text-sm" style={{ color: 'var(--text-dim)' }}>Research by Data Economist. Longitudinal home data compounds in value — Year 5 data worth 3-6x Year 1.</p>
+
+            {/* Data Asset Value by Scale */}
+            <div className="space-y-4">
+              {DATA_MOAT.map((d, i) => (
+                <div key={d.users} className="rounded-xl p-5" style={{ background: 'var(--glass)', border: `1px solid ${i === DATA_MOAT.length - 1 ? 'var(--accent)' : 'var(--glass-border)'}` }}>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <div className="relative">
+                        <MiniRing pct={((i + 1) / DATA_MOAT.length) * 100} size={48} color={i === 0 ? '#F59E0B' : i === 1 ? '#3B82F6' : '#10B981'} />
+                        <span className="absolute inset-0 flex items-center justify-center text-[10px] font-bold" style={{ color: 'var(--text)' }}>{d.users}</span>
+                      </div>
+                      <div>
+                        <p className="text-sm font-bold" style={{ color: 'var(--text)' }}>{d.users} Users</p>
+                        <p className="text-[10px]" style={{ color: 'var(--text-dim)' }}>{d.timeline}</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-lg font-bold" style={{ color: 'var(--accent)' }}>{d.dataValue}</p>
+                      <p className="text-[10px]" style={{ color: 'var(--text-dim)' }}>{d.perUser}/user</p>
+                    </div>
+                  </div>
+                  <p className="text-xs" style={{ color: 'var(--text-sub)' }}>{d.products}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Longitudinal Compounding */}
+            <div className="rounded-xl p-5" style={{ background: 'linear-gradient(135deg, rgba(16,185,129,0.1), rgba(59,130,246,0.1))', border: '1px solid var(--glass-border)' }}>
+              <h3 className="text-sm font-bold mb-3" style={{ color: 'var(--text)' }}>The Compounding Effect</h3>
+              <div className="space-y-3">
+                {[
+                  { year: 'Year 1', value: '$20-50/home', desc: 'System ages, contractor bids, user-reported condition. Snapshot value for insurers.' },
+                  { year: 'Year 3', value: '$50-150/home', desc: 'Maintenance event history, multiple bids showing market pricing, demonstrated owner behavior patterns.' },
+                  { year: 'Year 5+', value: '$100-300/home', desc: 'Actual failure/replacement events with predictive accuracy. Back-testable actuarial data no competitor has.' },
+                ].map((y) => (
+                  <div key={y.year} className="flex items-start gap-3">
+                    <span className="text-xs font-bold px-2 py-1 rounded-lg shrink-0" style={{ background: 'var(--accent)', color: 'white' }}>{y.year}</span>
+                    <div>
+                      <span className="text-xs font-bold" style={{ color: 'var(--text)' }}>{y.value} — </span>
+                      <span className="text-xs" style={{ color: 'var(--text-sub)' }}>{y.desc}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <p className="text-[10px] mt-3 italic" style={{ color: 'var(--text-dim)' }}>
+                A 5-year dataset on 100K homes with verified maintenance &gt; a 1-year dataset on 500K homes. Time-in-market is as important as user count.
+              </p>
+            </div>
+
+            {/* Data Products & Buyers */}
+            <div className="rounded-xl p-5" style={{ background: 'var(--glass)', border: '1px solid var(--glass-border)' }}>
+              <h3 className="text-sm font-bold mb-3" style={{ color: 'var(--text)' }}>Data Products &amp; Buyers</h3>
+              <div className="overflow-x-auto">
+                <table className="w-full text-[11px]">
+                  <thead>
+                    <tr style={{ background: 'var(--bg-deep)' }}>
+                      {['Product', 'Price/Unit', 'Buyer', 'Annual Potential (100K users)'].map((h) => (
+                        <th key={h} className="p-2.5 text-left font-bold" style={{ color: 'var(--text)' }}>{h}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      ['Insurance Property API', '$1-3/call', 'P&C carriers (policy binding)', '$500K-2M'],
+                      ['Home Health Report', '$20-50/report', 'Insurers (new policy)', '$2M-5M'],
+                      ['Maintenance Data License', '$15-40/home/yr', 'Insurers, warranty cos', '$1.5M-4M'],
+                      ['OEM Failure Dataset', '$1-5/record', 'Carrier, Trane, Rheem, GE', '$500K-2M'],
+                      ['Regional Demand Forecast', '$5K-50K/metro/yr', 'HVAC/plumbing chains', '$250K-1M'],
+                      ['Retailer Trend Feed', '$200K-1M/yr flat', 'Home Depot, Lowe\'s', '$200K-1M'],
+                      ['Warranty Underwriting Score', '$5-25/home/yr', 'AHS, Choice, First American', '$500K-2.5M'],
+                    ].map(([product, price, buyer, potential]) => (
+                      <tr key={product} style={{ borderTop: '1px solid var(--glass-border)' }}>
+                        <td className="p-2.5 font-semibold" style={{ color: 'var(--text)' }}>{product}</td>
+                        <td className="p-2.5" style={{ color: 'var(--accent)' }}>{price}</td>
+                        <td className="p-2.5" style={{ color: 'var(--text-sub)' }}>{buyer}</td>
+                        <td className="p-2.5 font-bold" style={{ color: 'var(--text)' }}>{potential}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Comparable Data Companies */}
+            <div className="grid md:grid-cols-3 gap-3">
+              {[
+                { name: 'Verisk', revenue: '$2.9B/yr', asset: '32B insurance transactions', note: '55% EBITDA margin. Per-policy subscription. Took decades to build.' },
+                { name: 'CoreLogic/Cotality', revenue: '$1.6B/yr', asset: '4.5B property data points', note: 'Acquired for $6B (3.75x revenue). API at $1.30-$11.50/call.' },
+                { name: 'ATTOM', revenue: 'Private', asset: '158M properties, 9K attributes', note: 'API at ~$0.10/report. Bulk licenses $50K-$500K/yr.' },
+              ].map((c) => (
+                <div key={c.name} className="rounded-xl p-4" style={{ background: 'var(--glass)', border: '1px solid var(--glass-border)' }}>
+                  <p className="text-sm font-bold mb-1" style={{ color: 'var(--text)' }}>{c.name}</p>
+                  <p className="text-xs font-bold mb-1" style={{ color: 'var(--accent)' }}>{c.revenue}</p>
+                  <p className="text-[10px] mb-1" style={{ color: 'var(--text-sub)' }}>{c.asset}</p>
+                  <p className="text-[9px]" style={{ color: 'var(--text-dim)' }}>{c.note}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Privacy & Compliance */}
+            <div className="rounded-xl p-4" style={{ background: 'var(--glass)', border: '1px solid var(--glass-border)' }}>
+              <h3 className="text-xs font-bold mb-2" style={{ color: 'var(--text)' }}>Privacy-Compliant Monetization</h3>
+              <div className="grid md:grid-cols-2 gap-3 text-[10px]" style={{ color: 'var(--text-sub)' }}>
+                <div>
+                  <p className="font-semibold mb-1" style={{ color: 'var(--text)' }}>Data Clean Room Approach</p>
+                  <p>AWS Clean Rooms / LiveRamp for joint analysis without raw data sharing. Insurer queries against HomeProjectIQ data without seeing individual records. $5K-25K/yr platform fees.</p>
+                </div>
+                <div>
+                  <p className="font-semibold mb-1" style={{ color: 'var(--text)' }}>Consent &amp; Compliance</p>
+                  <p>Model on 60-80% user consent (not 100%). K-anonymity k=5+ minimum. CCPA/GDPR compliant. Frame as &ldquo;home health score&rdquo; benefit, not data sharing risk. Show estimated dollar savings before asking consent.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+      </main>
+
+      {/* ── FOOTER ── */}
+      <footer className="border-t py-6 text-center" style={{ borderColor: 'var(--glass-border)' }}>
+        <p className="text-xs" style={{ color: 'var(--text-dim)' }}>
+          HomeProjectIQ Monetization Intelligence &middot; Synthesized by 10 AI Council Agents &middot; Research-backed projections
+        </p>
+        <p className="text-[10px] mt-1" style={{ color: 'var(--text-sub)' }}>
+          Sources include Angi SEC filings, Verisk 10-K, RevenueCat 2025 benchmarks, PitchBook, and 200+ web research queries
+        </p>
+      </footer>
     </div>
   );
 }
