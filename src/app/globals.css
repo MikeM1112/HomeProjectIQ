@@ -296,6 +296,7 @@
   border-radius: 1px;
   background: var(--accent-gradient);
   transform: scaleX(0);
+  transform-origin: left;
   transition: transform 0.25s ease;
 }
 .nav-link:hover::after {

@@ -13,7 +13,7 @@
   "scope": "/",
   "prefer_related_applications": false,
   "icons": [
-    { "src": "/brand/app-icon.png", "sizes": "274x318", "type": "image/png" },
+    { "src": "/brand/app-icon.png", "sizes": "272x290", "type": "image/png" },
     { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml" },
     { "src": "/icon.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "maskable" }
   ],
