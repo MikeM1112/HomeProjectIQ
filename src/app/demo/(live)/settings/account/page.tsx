@@ -16,7 +16,7 @@ export default function DemoAccountPage() {
 
   return (
     <>
-      <Navbar title="Profile" showBack backHref="/demo/dashboard" />
+      <Navbar title="Profile" showBack backHref="/dashboard" />
       <PageWrapper>
         <div className="space-y-6">
           <div className="flex items-center gap-4">

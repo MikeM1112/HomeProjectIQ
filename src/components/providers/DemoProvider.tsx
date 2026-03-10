@@ -77,9 +77,7 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
   return (
     <DemoContext.Provider value={{ isDemo: true }}>
       <DemoBanner />
-      <div className="pt-[41px]">
-        {children}
-      </div>
+      {children}
     </DemoContext.Provider>
   );
 }

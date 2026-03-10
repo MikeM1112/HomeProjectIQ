@@ -17,7 +17,7 @@ export function ProNetwork({ recommendations }: ProNetworkProps) {
       </div>
       <div className="space-y-2">
         {recommendations.map((pro) => (
-          <Card key={pro.id} padding="sm" variant="interactive">
+          <Card key={pro.id} padding="sm">
             <div className="flex items-start gap-3">
               <div
                 className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0"

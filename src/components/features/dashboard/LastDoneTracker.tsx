@@ -1,6 +1,7 @@
 'use client';
 
 import { Card } from '@/components/ui/Card';
+import { useUIStore } from '@/stores/uiStore';
 import type { LastDoneItem } from '@/lib/demo-data';
 
 interface LastDoneTrackerProps {
@@ -28,6 +29,7 @@ function formatDaysAgo(days: number): string {
 }
 
 export function LastDoneTracker({ items }: LastDoneTrackerProps) {
+  const { showToast } = useUIStore();
   const sorted = [...items].sort((a, b) => b.daysSince - a.daysSince);
   const partnerItems = items.filter((i) => i.partnerRelevant);
 
@@ -84,9 +86,13 @@ export function LastDoneTracker({ items }: LastDoneTrackerProps) {
             {partnerItems.length} items can be auto-scheduled with delivery & service partners
             (filter delivery, lawn care, HVAC service).
             {' '}
-            <span className="font-semibold" style={{ color: 'var(--accent)' }}>
+            <button
+              onClick={() => showToast('Sign up to enable auto-reminders!', 'info')}
+              className="font-semibold inline"
+              style={{ color: 'var(--accent)' }}
+            >
               Enable auto-reminders &rarr;
-            </span>
+            </button>
           </p>
         </div>
       )}

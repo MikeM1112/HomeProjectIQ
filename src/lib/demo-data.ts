@@ -913,6 +913,7 @@ export const DEMO_LAWN_CALENDAR: LawnCalendarItem[] = [
 export const DEMO_API_ROUTES: Record<string, unknown> = {
   '/api/user': DEMO_USER,
   '/api/analyze': DEMO_PROJECTS,
+  '/api/assess': DEMO_DIAGNOSIS,
   '/api/toolbox': DEMO_TOOLBOX,
   '/api/logbook': DEMO_LOGBOOK,
   '/api/admin/flags': [],

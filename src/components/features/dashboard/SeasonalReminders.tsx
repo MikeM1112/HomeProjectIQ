@@ -68,7 +68,7 @@ export function SeasonalReminders() {
       </div>
       <div className="space-y-2">
         {tasks.map((task, i) => (
-          <Card key={i} padding="sm" variant="interactive">
+          <Card key={i} padding="sm">
             <div className="flex items-center gap-3">
               <span className="text-xl">{task.emoji}</span>
               <div className="flex-1 min-w-0">

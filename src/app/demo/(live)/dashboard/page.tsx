@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import { Navbar } from '@/components/layout/Navbar';
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { StatsBar } from '@/components/features/dashboard/StatsBar';
@@ -168,12 +167,12 @@ export default function DemoDashboardPage() {
           <div>
             <div className="flex items-center justify-between mb-3">
               <h2 className="font-serif text-lg text-[var(--text)]">Recent Projects</h2>
-              <Link
-                href="/demo/dashboard"
+              <button
+                onClick={() => showToast('Sign up to see all projects!', 'info')}
                 className="text-xs font-semibold text-[var(--accent)] hover:brightness-110 transition-all"
               >
                 See All
-              </Link>
+              </button>
             </div>
             <RecentProjects />
           </div>

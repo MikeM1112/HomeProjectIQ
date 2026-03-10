@@ -44,7 +44,7 @@ export function ToolLending({ loans }: ToolLendingProps) {
         {active.map((loan) => {
           const s = STATUS_STYLES[loan.status];
           return (
-            <Card key={loan.id} padding="sm" variant="interactive">
+            <Card key={loan.id} padding="sm">
               <div className="flex items-center gap-3">
                 <div
                   className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0"
