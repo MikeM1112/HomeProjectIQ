@@ -51,7 +51,7 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   viewportFit: 'cover',
-  themeColor: '#1A7FE8',
+  themeColor: '#F97316',
 };
 
 export default function RootLayout({
@@ -64,7 +64,7 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#1A7FE8" />
+        <meta name="theme-color" content="#F97316" />
       </head>
       <body className="font-sans antialiased transition-colors duration-300">
         <ThemeProvider>

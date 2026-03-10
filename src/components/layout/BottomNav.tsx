@@ -30,7 +30,7 @@ export function BottomNav() {
         backdropFilter: 'blur(24px)',
         WebkitBackdropFilter: 'blur(24px)',
         borderColor: 'var(--border)',
-        boxShadow: '0 -4px 24px rgba(26,127,232,0.06)',
+        boxShadow: '0 -4px 24px rgba(249,115,22,0.06)',
       }}
     >
       <div className="max-w-[480px] mx-auto flex items-center justify-around h-16">
