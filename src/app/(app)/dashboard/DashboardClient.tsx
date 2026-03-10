@@ -22,6 +22,7 @@ import { BrandIcon } from '@/components/brand/BrandIcon';
 import { useAdvisorStore } from '@/stores/advisorStore';
 import { useUser } from '@/hooks/useUser';
 import { useProjects } from '@/hooks/useProjects';
+import { ActiveQuotes } from '@/components/features/quotes/ActiveQuotes';
 
 export function DashboardClient() {
   const router = useRouter();
@@ -119,6 +120,9 @@ export function DashboardClient() {
             </div>
             <RecentProjects />
           </div>
+
+          {/* Active Quotes */}
+          <ActiveQuotes />
 
           {/* Stats Cards */}
           <StatsBar />

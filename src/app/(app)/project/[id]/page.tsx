@@ -186,7 +186,7 @@ export default function ProjectPage() {
     <>
       <Navbar title={diagnosis.title} showBack backHref="/dashboard" />
       <PageWrapper>
-        <DiagnosisView result={diagnosis} />
+        <DiagnosisView result={diagnosis} projectId={id !== 'new' ? id : undefined} categoryId={project?.category_id} />
         {id !== 'new' && (
           <div className="mt-4">
             <ShareButton

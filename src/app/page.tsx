@@ -9,6 +9,7 @@ import { DashboardScreen } from '@/components/landing/screens/DashboardScreen';
 import { PlannerScreen } from '@/components/landing/screens/PlannerScreen';
 import { BrandIcon } from '@/components/brand/BrandIcon';
 import type { BrandIconName } from '@/components/brand/BrandIcon';
+import { Mascot } from '@/components/brand/Mascot';
 
 /* ── Scroll reveal hook ── */
 function useReveal() {
@@ -126,9 +127,15 @@ export default function LandingPage() {
           </Reveal>
 
           <Reveal delay={100}>
-            <h1 id="hero-heading" className="font-serif text-[2.75rem] sm:text-[3.5rem] lg:text-[4rem] font-normal mb-6 leading-[1.08] tracking-tight text-[var(--text)]">
-              Your Home&rsquo;s<br /><span className="gradient-text">Smartest Upgrade</span>
-            </h1>
+            <div className="flex items-center justify-center gap-4 mb-2">
+              <Mascot size="xxl" mode="celebrate" className="hidden sm:inline-flex shrink-0" />
+              <h1 id="hero-heading" className="font-serif text-[2.75rem] sm:text-[3.5rem] lg:text-[4rem] font-normal leading-[1.08] tracking-tight text-[var(--text)]">
+                Your Home&rsquo;s<br /><span className="gradient-text">Smartest Upgrade</span>
+              </h1>
+            </div>
+            <div className="flex justify-center sm:hidden mb-2">
+              <Mascot size="xl" mode="celebrate" />
+            </div>
           </Reveal>
 
           <Reveal delay={180}>
@@ -193,15 +200,18 @@ export default function LandingPage() {
 
           <div className="grid md:grid-cols-3 gap-10 md:gap-6 relative">
             <div className="hidden md:block absolute top-[130px] left-[20%] right-[20%] h-[2px]" style={{ background: 'linear-gradient(90deg, transparent, var(--border), var(--border), transparent)' }} aria-hidden="true" />
-            {[
-              { step: 1, label: 'Snap', title: 'Take a Photo', desc: 'Point your camera at any home issue\u2014a crack, a leak, a stain, a wall.', phone: <AssessmentScreen /> },
-              { step: 2, label: 'Know', title: 'AI Diagnoses It', desc: 'Identifies the problem, estimates cost, tells you DIY-safe or needs a pro.', phone: <DashboardScreen /> },
-              { step: 3, label: 'Act', title: 'Get Your Plan', desc: 'Step-by-step DIY instructions or live bids from verified local contractors.', phone: <PlannerScreen /> },
-            ].map((item, i) => (
+            {([
+              { step: 1, label: 'Snap', title: 'Take a Photo', desc: 'Point your camera at any home issue\u2014a crack, a leak, a stain, a wall.', phone: <AssessmentScreen />, mascotMode: 'diagnostic' as const },
+              { step: 2, label: 'Know', title: 'AI Diagnoses It', desc: 'Identifies the problem, estimates cost, tells you DIY-safe or needs a pro.', phone: <DashboardScreen />, mascotMode: 'tool' as const },
+              { step: 3, label: 'Act', title: 'Get Your Plan', desc: 'Step-by-step DIY instructions or live bids from verified local contractors.', phone: <PlannerScreen />, mascotMode: 'celebrate' as const },
+            ]).map((item, i) => (
               <Reveal key={item.step} delay={i * 120}>
                 <div className="text-center">
-                  <div className="flex justify-center mb-6">
+                  <div className="flex justify-center mb-4">
                     <PhoneMockup className="scale-[0.65] sm:scale-[0.85]">{item.phone}</PhoneMockup>
+                  </div>
+                  <div className="flex justify-center mb-3">
+                    <Mascot size="sm" mode={item.mascotMode} animate={false} />
                   </div>
                   <div className="w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-3 text-sm font-bold relative z-10" style={{ backgroundImage: 'var(--accent-gradient)', color: 'white', boxShadow: '0 4px 20px var(--accent-glow)' }}>
                     {item.step}
@@ -223,7 +233,10 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           <Reveal>
             <div>
-              <span className="inline-block text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full mb-5" style={{ background: 'var(--accent-soft)', color: 'var(--accent)' }}>Dashboard</span>
+              <div className="flex items-center gap-3 mb-5">
+                <span className="inline-block text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full" style={{ background: 'var(--accent-soft)', color: 'var(--accent)' }}>Dashboard</span>
+                <Mascot size="sm" mode="checklist" animate={false} />
+              </div>
               <h2 className="text-3xl sm:text-4xl font-bold mb-5 text-[var(--text)] tracking-tight">
                 Your home&rsquo;s <span className="gradient-text">command center</span>
               </h2>
@@ -265,7 +278,10 @@ export default function LandingPage() {
           </Reveal>
           <Reveal delay={150} className="order-1 lg:order-2">
             <div>
-              <span className="inline-block text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full mb-5" style={{ background: 'var(--emerald-soft)', color: 'var(--emerald)' }}>AI Vision</span>
+              <div className="flex items-center gap-3 mb-5">
+                <span className="inline-block text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full" style={{ background: 'var(--emerald-soft)', color: 'var(--emerald)' }}>AI Vision</span>
+                <Mascot size="sm" mode="diagnostic" animate={false} />
+              </div>
               <h2 className="text-3xl sm:text-4xl font-bold mb-5 text-[var(--text)] tracking-tight">
                 AI that sees <span className="gradient-text">what you can&rsquo;t</span>
               </h2>
@@ -441,6 +457,9 @@ export default function LandingPage() {
         <div className="absolute inset-0 pointer-events-none -z-10" style={{ background: 'radial-gradient(circle at 50% 50%, var(--hero-glow-sm) 0%, transparent 50%)' }} aria-hidden="true" />
         <Reveal>
           <div className="max-w-2xl mx-auto text-center">
+            <div className="flex justify-center mb-6">
+              <Mascot size="xl" mode="celebrate" />
+            </div>
             <h2 className="font-serif text-3xl sm:text-4xl text-[var(--text)] mb-4 tracking-tight">
               Your home has questions.<br />
               <span className="gradient-text">Now you have answers.</span>
@@ -465,7 +484,10 @@ export default function LandingPage() {
                 HomeProject<span style={{ color: 'var(--accent)' }}>IQ</span>
               </span>
             </div>
-            <p className="text-sm text-[var(--text-dim)]">Built for solo homeowners.</p>
+            <div className="flex items-center gap-2">
+              <Mascot size="sm" mode="default" animate={false} />
+              <p className="text-sm text-[var(--text-dim)]">Built for solo homeowners.</p>
+            </div>
             <div className="flex items-center gap-4">
               <a href="#features" className="text-sm text-[var(--text-sub)] hover:text-[var(--accent)] transition-colors">Features</a>
               <Link href="/demo/dashboard" className="text-sm text-[var(--text-sub)] hover:text-[var(--accent)] transition-colors">Demo</Link>

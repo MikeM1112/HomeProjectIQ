@@ -378,6 +378,74 @@ export type Database = {
         };
         Relationships: [];
       };
+      quote_requests: {
+        Row: {
+          id: string;
+          user_id: string;
+          project_id: string | null;
+          title: string;
+          category_id: string;
+          estimated_pro_lo: number | null;
+          estimated_pro_hi: number | null;
+          estimated_diy_lo: number | null;
+          estimated_diy_hi: number | null;
+          materials_json: Json;
+          tools_json: Json;
+          call_script: string;
+          zip_code: string;
+          preferred_timeline: string;
+          contact_preference: string;
+          contact_phone: string | null;
+          notes: string | null;
+          status: string;
+          bid_count: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          project_id?: string | null;
+          title: string;
+          category_id: string;
+          estimated_pro_lo?: number | null;
+          estimated_pro_hi?: number | null;
+          estimated_diy_lo?: number | null;
+          estimated_diy_hi?: number | null;
+          materials_json?: Json;
+          tools_json?: Json;
+          call_script?: string;
+          zip_code: string;
+          preferred_timeline?: string;
+          contact_preference?: string;
+          contact_phone?: string | null;
+          notes?: string | null;
+          status?: string;
+          bid_count?: number;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          project_id?: string | null;
+          title?: string;
+          category_id?: string;
+          estimated_pro_lo?: number | null;
+          estimated_pro_hi?: number | null;
+          estimated_diy_lo?: number | null;
+          estimated_diy_hi?: number | null;
+          materials_json?: Json;
+          tools_json?: Json;
+          call_script?: string;
+          zip_code?: string;
+          preferred_timeline?: string;
+          contact_preference?: string;
+          contact_phone?: string | null;
+          notes?: string | null;
+          status?: string;
+          bid_count?: number;
+        };
+        Relationships: [];
+      };
     };
     Views: {
       assessment_outcome_stats: {

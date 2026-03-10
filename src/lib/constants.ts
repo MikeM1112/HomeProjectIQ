@@ -70,6 +70,7 @@ export const QUERY_KEYS = {
   FLAGS: 'flags',
   FRIENDS: 'friends',
   MAINTENANCE: 'maintenance',
+  QUOTES: 'quotes',
 } as const;
 
 export const TOOLS: ToolDefinition[] = [

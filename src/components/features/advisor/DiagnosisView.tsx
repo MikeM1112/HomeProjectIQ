@@ -6,6 +6,7 @@ import { ConfidenceGauge } from './ConfidenceGauge';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
+import { Modal } from '@/components/ui/Modal';
 import { useUIStore } from '@/stores/uiStore';
 import { formatCurrency } from '@/lib/utils';
 import { AffiliateBuyButton } from '@/components/monetization/AffiliateBuyButton';
@@ -14,6 +15,9 @@ import { StoreComparison } from '@/components/shopping/StoreComparison';
 import { AisleGuide } from '@/components/shopping/AisleGuide';
 import { useGuidedStore } from '@/stores/guidedStore';
 import { Mascot } from '@/components/brand/Mascot';
+import { QuoteRequestFlow } from '@/components/features/quotes/QuoteRequestFlow';
+import { QuoteTracker } from '@/components/features/quotes/QuoteTracker';
+import { useQuotes } from '@/hooks/useQuotes';
 import { cn } from '@/lib/utils';
 
 const TABS = ['Summary', 'Steps', 'Tools', 'Shop', 'Hire Pro'] as const;
@@ -21,11 +25,18 @@ const TAB_HASHES = ['#summary', '#steps', '#tools', '#shop', '#hire-pro'] as con
 
 interface DiagnosisViewProps {
   result: DiagnosisResult;
+  projectId?: string;
+  categoryId?: string;
 }
 
-export function DiagnosisView({ result }: DiagnosisViewProps) {
+export function DiagnosisView({ result, projectId, categoryId }: DiagnosisViewProps) {
   const [activeTab, setActiveTab] = useState(0);
+  const [showQuoteFlow, setShowQuoteFlow] = useState(false);
   const { showToast } = useUIStore();
+  const { quotes, cancelQuote, isCancelling } = useQuotes();
+  const existingQuote = projectId
+    ? quotes.find((q) => q.project_id === projectId && q.status !== 'cancelled')
+    : null;
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -220,6 +231,34 @@ export function DiagnosisView({ result }: DiagnosisViewProps) {
 
         {activeTab === 4 && (
           <div className="space-y-4">
+            {/* Get Pro Quotes CTA */}
+            {!existingQuote && (
+              <Card
+                className="border-brand/20"
+                style={{ background: 'linear-gradient(135deg, var(--accent-soft), var(--glass))' }}
+              >
+                <div className="flex items-center gap-3">
+                  <Mascot size="sm" mode="celebrate" animate={false} />
+                  <div className="flex-1">
+                    <p className="text-sm font-semibold text-ink">Get Pro Quotes</p>
+                    <p className="text-xs text-ink-sub">One tap to get bids from verified local contractors</p>
+                  </div>
+                  <Button size="sm" onClick={() => setShowQuoteFlow(true)}>
+                    Get Quotes
+                  </Button>
+                </div>
+              </Card>
+            )}
+
+            {/* Quote tracker if quote exists */}
+            {existingQuote && (
+              <QuoteTracker
+                quote={existingQuote}
+                onCancel={() => cancelQuote(existingQuote.id)}
+                isCancelling={isCancelling}
+              />
+            )}
+
             <Card>
               <h3 className="font-serif text-base font-semibold mb-2">Call Script</h3>
               <p className="text-sm text-ink-sub whitespace-pre-line">{result.pro.script}</p>
@@ -237,6 +276,20 @@ export function DiagnosisView({ result }: DiagnosisViewProps) {
             {result.pro.note && (
               <p className="text-sm text-ink-sub">{result.pro.note}</p>
             )}
+
+            {/* Quote Request Modal */}
+            <Modal
+              isOpen={showQuoteFlow}
+              onClose={() => setShowQuoteFlow(false)}
+              title="Get Pro Quotes"
+            >
+              <QuoteRequestFlow
+                diagnosis={result}
+                projectId={projectId}
+                categoryId={categoryId ?? 'general'}
+                onClose={() => setShowQuoteFlow(false)}
+              />
+            </Modal>
           </div>
         )}
       </div>

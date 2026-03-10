@@ -169,3 +169,31 @@ export interface ToolDefinition {
 
 export type Verdict = 'diy_easy' | 'diy_caution' | 'hire_pro';
 export type LaborType = 'diy' | 'hired_pro' | 'warranty';
+
+export type QuoteStatus = 'pending' | 'matched' | 'quoted' | 'accepted' | 'expired' | 'cancelled';
+export type QuoteTimeline = 'asap' | 'this_week' | 'this_month' | 'flexible';
+export type ContactPreference = 'in_app' | 'email' | 'phone';
+
+export interface QuoteRequest {
+  id: string;
+  user_id: string;
+  project_id: string | null;
+  title: string;
+  category_id: string;
+  estimated_pro_lo: number | null;
+  estimated_pro_hi: number | null;
+  estimated_diy_lo: number | null;
+  estimated_diy_hi: number | null;
+  materials_json: unknown[];
+  tools_json: unknown[];
+  call_script: string;
+  zip_code: string;
+  preferred_timeline: QuoteTimeline;
+  contact_preference: ContactPreference;
+  contact_phone: string | null;
+  notes: string | null;
+  status: QuoteStatus;
+  bid_count: number;
+  created_at: string;
+  updated_at: string;
+}

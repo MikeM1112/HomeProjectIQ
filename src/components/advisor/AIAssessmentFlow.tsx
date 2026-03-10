@@ -596,6 +596,29 @@ export function AIAssessmentFlow() {
           </Card>
         )}
 
+        {/* Pro Quote CTA */}
+        <Card
+          className="border-brand/20"
+          style={{ background: 'linear-gradient(135deg, var(--accent-soft), var(--glass))' }}
+        >
+          <p className="text-sm font-semibold text-ink mb-1">Rather have a pro handle this?</p>
+          <p className="text-xs text-ink-sub mb-3">
+            Save this project and request quotes from verified local contractors.
+          </p>
+          <Button
+            size="sm"
+            onClick={() => {
+              // Navigate to project page hire-pro tab if project was saved
+              const projectId = (aiResult as DiagnosisResult & { project_id?: string }).project_id;
+              if (projectId) {
+                window.location.href = `/project/${projectId}#hire-pro`;
+              }
+            }}
+          >
+            Get Pro Quotes
+          </Button>
+        </Card>
+
         {/* Start Over */}
         <Button
           variant="secondary"

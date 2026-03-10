@@ -4,8 +4,8 @@ import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
 interface MascotProps {
-  size?: 'sm' | 'md' | 'lg' | 'xl';
-  mode?: 'default' | 'tool' | 'diagnostic' | 'celebrate';
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+  mode?: 'default' | 'tool' | 'diagnostic' | 'celebrate' | 'idea' | 'checklist' | 'arms-crossed' | 'tools-full';
   className?: string;
   animate?: boolean;
 }
@@ -15,6 +15,7 @@ const sizes = {
   md: 64,
   lg: 96,
   xl: 140,
+  xxl: 200,
 };
 
 const modeImages: Record<string, string> = {
@@ -22,6 +23,10 @@ const modeImages: Record<string, string> = {
   tool: '/brand/mascot-tools.png',
   diagnostic: '/brand/mascot-search.png',
   celebrate: '/brand/mascot-thumbs-up.png',
+  idea: '/brand/mascot-idea.png',
+  checklist: '/brand/mascot-checklist.png',
+  'arms-crossed': '/brand/mascot-arms-crossed.png',
+  'tools-full': '/brand/mascot-with-tools-full.png',
 };
 
 export function Mascot({ size = 'md', mode = 'default', className, animate = true }: MascotProps) {
@@ -43,7 +48,7 @@ export function Mascot({ size = 'md', mode = 'default', className, animate = tru
         width={s}
         height={s}
         className="object-contain"
-        priority={size === 'lg' || size === 'xl'}
+        priority={size === 'lg' || size === 'xl' || size === 'xxl'}
       />
     </div>
   );
