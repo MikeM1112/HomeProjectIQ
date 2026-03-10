@@ -22,6 +22,8 @@ import { ProNetwork } from '@/components/features/dashboard/ProNetwork';
 import { MaintenanceSchedule } from '@/components/features/dashboard/MaintenanceSchedule';
 import { LastDoneTracker } from '@/components/features/dashboard/LastDoneTracker';
 import { HomeHealth } from '@/components/features/dashboard/HomeHealth';
+import { YardAssessment } from '@/components/features/dashboard/YardAssessment';
+import { LawnCalendar } from '@/components/features/dashboard/LawnCalendar';
 import { AIAssessmentFlow } from '@/components/advisor/AIAssessmentFlow';
 import { Button } from '@/components/ui/Button';
 import { useAdvisorStore } from '@/stores/advisorStore';
@@ -38,6 +40,8 @@ import {
   DEMO_MAINTENANCE,
   DEMO_LAST_DONE,
   DEMO_HOME_HEALTH,
+  DEMO_YARD_ASSESSMENT,
+  DEMO_LAWN_CALENDAR,
 } from '@/lib/demo-data';
 
 export default function DemoDashboardPage() {
@@ -113,6 +117,15 @@ export default function DemoDashboardPage() {
 
           {/* Home Health Score */}
           <HomeHealth data={DEMO_HOME_HEALTH} />
+
+          {/* Yard AI Assessment */}
+          <YardAssessment
+            assessment={DEMO_YARD_ASSESSMENT}
+            onAction={() => showToast('Sign up to scan your yard!', 'info')}
+          />
+
+          {/* Lawn & Garden Calendar */}
+          <LawnCalendar items={DEMO_LAWN_CALENDAR} />
 
           {/* Handiness Leaderboard */}
           <Leaderboard entries={DEMO_LEADERBOARD} />

@@ -368,6 +368,39 @@ export const DEMO_SMART_INSIGHTS: SmartInsight[] = [
     timing: 'Do this weekend',
     source: 'ai',
   },
+  {
+    id: 'insight-006',
+    icon: '🔧',
+    accent: 'var(--info)',
+    accentBg: 'var(--info-soft)',
+    label: 'BEST TIME TO AERATE',
+    title: 'Aerate This Weekend Before Overseeding',
+    body: 'Soil is moist from Tuesday\u2019s rain but not waterlogged \u2014 perfect for pulling cores. Aerate Saturday morning, then overseed immediately after for direct seed-to-soil contact.',
+    timing: 'Saturday AM',
+    source: 'weather',
+  },
+  {
+    id: 'insight-007',
+    icon: '🌱',
+    accent: 'var(--emerald)',
+    accentBg: 'var(--emerald-soft)',
+    label: 'YARD AI ASSESSMENT',
+    title: 'Your Backyard Needs ~21 lbs of Seed',
+    body: 'Based on your yard photo, 30% is bare/thin (1,260 sq ft). At 5 lbs/1,000 sq ft overseed rate, you need 21 lbs of sun & shade mix. Total cost: $95-$189 including starter fertilizer.',
+    timing: 'Seed this week',
+    source: 'ai',
+  },
+  {
+    id: 'insight-008',
+    icon: '🛡️',
+    accent: 'var(--gold)',
+    accentBg: 'var(--gold-soft)',
+    label: 'CRITICAL TIMING',
+    title: 'Pre-Emergent Window Closing This Week',
+    body: 'Soil temp hit 55\u00B0F \u2014 crabgrass germinates at 55\u00B0F+. Apply pre-emergent to healthy lawn areas NOW, but NOT where you\u2019re overseeding (it blocks grass seed too).',
+    timing: 'Apply by Mar 15',
+    source: 'ai',
+  },
 ];
 
 // ─── NEW FEATURES: Honey-Do List ────────────────────────────
@@ -639,6 +672,23 @@ export interface HomeHealthCategory {
   lastServiced: string | null;
   nextDue: string | null;
   tip: string;
+  /** System-level details for the expanded view */
+  system?: HomeSystem;
+}
+
+export interface HomeSystem {
+  installYear: number;
+  model?: string;
+  brand?: string;
+  estimatedLifespan: string;
+  ageYears: number;
+  lifespanPct: number; // 0-100, how far through expected life
+  condition: 'like_new' | 'good' | 'worn' | 'failing';
+  conditionNote: string;
+  maintenanceCount: number;
+  maintenanceVerified: boolean;
+  photoAssessed: boolean;
+  photoNote?: string;
 }
 
 export const DEMO_HOME_HEALTH: HomeHealthData = {
@@ -649,15 +699,215 @@ export const DEMO_HOME_HEALTH: HomeHealthData = {
   streakDays: 12,
   lastActivity: '2026-03-09',
   categories: [
-    { id: 'hh-plumbing', label: 'Plumbing', icon: '🚿', score: 92, status: 'excellent', lastServiced: '2026-02-12', nextDue: null, tip: 'All fixtures recently serviced' },
-    { id: 'hh-hvac', label: 'HVAC', icon: '❄️', score: 78, status: 'good', lastServiced: '2026-02-15', nextDue: '2026-04-20', tip: 'Filter fresh — spring tune-up due next month' },
-    { id: 'hh-electrical', label: 'Electrical', icon: '⚡', score: 85, status: 'good', lastServiced: null, nextDue: null, tip: 'Ceiling fan project will boost this' },
-    { id: 'hh-exterior', label: 'Exterior', icon: '🏠', score: 71, status: 'fair', lastServiced: '2025-11-10', nextDue: '2026-05-09', tip: 'Deck staining in progress — gutters due May' },
-    { id: 'hh-safety', label: 'Safety', icon: '🔋', score: 60, status: 'needs_attention', lastServiced: '2026-02-08', nextDue: '2026-03-08', tip: 'Smoke detector test overdue by 1 day' },
-    { id: 'hh-landscape', label: 'Landscaping', icon: '🌿', score: 88, status: 'good', lastServiced: '2026-02-01', nextDue: '2026-03-15', tip: 'Fertilizer application due this week' },
-    { id: 'hh-interior', label: 'Interior', icon: '🎨', score: 95, status: 'excellent', lastServiced: '2026-02-28', nextDue: null, tip: 'Master bedroom freshly painted' },
+    {
+      id: 'hh-plumbing', label: 'Plumbing', icon: '🚿', score: 92, status: 'excellent',
+      lastServiced: '2026-02-12', nextDue: null,
+      tip: 'All fixtures recently serviced',
+      system: { installYear: 2019, brand: 'Kohler / Moen', estimatedLifespan: '15-20 yrs', ageYears: 7, lifespanPct: 40, condition: 'good', conditionNote: 'Faucet replaced Feb 2026, toilet flapper replaced Jan 2026', maintenanceCount: 4, maintenanceVerified: true, photoAssessed: false },
+    },
+    {
+      id: 'hh-hvac', label: 'HVAC', icon: '❄️', score: 78, status: 'good',
+      lastServiced: '2026-02-15', nextDue: '2026-04-20',
+      tip: 'Filter fresh — spring tune-up due next month',
+      system: { installYear: 2016, brand: 'Carrier', model: 'Performance 16', estimatedLifespan: '15-20 yrs', ageYears: 10, lifespanPct: 57, condition: 'good', conditionNote: 'Installed 2016. Routinely maintained — 6 professional services on record. Filter changed every 90 days.', maintenanceCount: 6, maintenanceVerified: true, photoAssessed: false },
+    },
+    {
+      id: 'hh-electrical', label: 'Electrical', icon: '⚡', score: 85, status: 'good',
+      lastServiced: null, nextDue: null,
+      tip: 'Ceiling fan project will boost this',
+      system: { installYear: 2005, brand: 'Panel: Square D', estimatedLifespan: '25-40 yrs', ageYears: 21, lifespanPct: 65, condition: 'good', conditionNote: '200A panel, no known issues. GFCI outlets tested monthly.', maintenanceCount: 2, maintenanceVerified: false, photoAssessed: false },
+    },
+    {
+      id: 'hh-exterior', label: 'Exterior & Deck', icon: '🏠', score: 64, status: 'fair',
+      lastServiced: '2025-11-10', nextDue: '2026-05-09',
+      tip: 'Deck needs staining — wood is graying and showing wear',
+      system: { installYear: 2012, brand: 'Pressure-treated pine', estimatedLifespan: '15-25 yrs (maintained)', ageYears: 14, lifespanPct: 70, condition: 'worn', conditionNote: 'AI photo assessment: Deck boards show UV graying, minor splitting on 3 boards. Staining overdue by ~1 year. Gutters OK — cleaned Nov 2025.', maintenanceCount: 3, maintenanceVerified: true, photoAssessed: true, photoNote: 'Photo analyzed Mar 5 — wood graying, light splitting, stain needed' },
+    },
+    {
+      id: 'hh-safety', label: 'Safety', icon: '🔋', score: 60, status: 'needs_attention',
+      lastServiced: '2026-02-08', nextDue: '2026-03-08',
+      tip: 'Smoke detector test overdue by 1 day',
+      system: { installYear: 2020, brand: 'First Alert / Kidde', estimatedLifespan: '10 yrs', ageYears: 6, lifespanPct: 60, condition: 'good', conditionNote: 'Detectors installed 2020. Battery swap due June. Monthly test overdue.', maintenanceCount: 8, maintenanceVerified: true, photoAssessed: false },
+    },
+    {
+      id: 'hh-landscape', label: 'Landscaping & Yard', icon: '🌿', score: 74, status: 'fair',
+      lastServiced: '2026-02-01', nextDue: '2026-03-15',
+      tip: 'Bare patches detected — overseed now for spring fill-in',
+      system: { installYear: 2005, brand: 'Bermuda / Fescue mix', estimatedLifespan: 'Ongoing', ageYears: 21, lifespanPct: 0, condition: 'worn', conditionNote: 'AI photo assessment: ~30% bare/thin patches in backyard, front lawn 80% healthy. Needs overseeding, aeration, and fertilizer program.', maintenanceCount: 3, maintenanceVerified: true, photoAssessed: true, photoNote: 'Photo analyzed Mar 8 — 30% bare patches, soil compaction likely' },
+    },
+    {
+      id: 'hh-interior', label: 'Interior', icon: '🎨', score: 95, status: 'excellent',
+      lastServiced: '2026-02-28', nextDue: null,
+      tip: 'Master bedroom freshly painted',
+      system: { installYear: 2005, estimatedLifespan: 'Ongoing', ageYears: 21, lifespanPct: 0, condition: 'like_new', conditionNote: 'Master repainted Feb 2026. Kitchen and living areas painted 2024.', maintenanceCount: 5, maintenanceVerified: true, photoAssessed: false },
+    },
+    {
+      id: 'hh-roof', label: 'Roof', icon: '🏗️', score: 72, status: 'fair',
+      lastServiced: '2025-04-15', nextDue: '2026-04-15',
+      tip: 'Annual inspection due next month — 10 yrs into 25-yr shingles',
+      system: { installYear: 2016, brand: 'GAF Timberline HDZ', estimatedLifespan: '25-30 yrs', ageYears: 10, lifespanPct: 38, condition: 'good', conditionNote: 'Installed 2016. Last inspected April 2025 — no missing shingles, flashing intact. Annual inspection recommended.', maintenanceCount: 2, maintenanceVerified: true, photoAssessed: false },
+    },
+    {
+      id: 'hh-water-heater', label: 'Water Heater', icon: '💧', score: 65, status: 'fair',
+      lastServiced: '2025-08-15', nextDue: '2026-08-15',
+      tip: 'Anode rod may need replacement at 8+ years',
+      system: { installYear: 2018, brand: 'Rheem', model: 'Performance Plus 50 gal', estimatedLifespan: '8-12 yrs', ageYears: 8, lifespanPct: 73, condition: 'good', conditionNote: 'Flushed Aug 2025. 8 years old — approaching mid-life. Check anode rod at next flush to prevent tank corrosion.', maintenanceCount: 3, maintenanceVerified: true, photoAssessed: false },
+    },
   ],
 };
+
+// ─── NEW FEATURES: Yard AI Photo Assessment ─────────────────
+export interface YardAssessment {
+  photoDate: string;
+  overallCondition: 'healthy' | 'fair' | 'poor';
+  healthPct: number;
+  barePatchPct: number;
+  estimatedSqFt: number;
+  grassType: string;
+  issues: YardIssue[];
+  seedCalculation: {
+    overseedLbs: number;
+    fullReseedLbs: number;
+    costPerLb: number;
+    totalCostLo: number;
+    totalCostHi: number;
+    coverageNote: string;
+  };
+  materials: YardMaterial[];
+  aiPlan: YardPlanStep[];
+}
+
+export interface YardIssue {
+  id: string;
+  title: string;
+  severity: 'low' | 'medium' | 'high';
+  description: string;
+  icon: string;
+}
+
+export interface YardMaterial {
+  name: string;
+  quantity: string;
+  estimatedCost: number;
+  store: string;
+  icon: string;
+  tag?: string;
+}
+
+export interface YardPlanStep {
+  step: number;
+  title: string;
+  description: string;
+  timing: string;
+  icon: string;
+}
+
+export const DEMO_YARD_ASSESSMENT: YardAssessment = {
+  photoDate: '2026-03-08',
+  overallCondition: 'fair',
+  healthPct: 70,
+  barePatchPct: 30,
+  estimatedSqFt: 4200,
+  grassType: 'Bermuda / Fescue mix',
+  issues: [
+    { id: 'yi-001', title: 'Bare patches in backyard', severity: 'high', description: 'About 1,260 sq ft of thin/bare areas, concentrated near the tree line and high-traffic path.', icon: '🟫' },
+    { id: 'yi-002', title: 'Soil compaction', severity: 'medium', description: 'Ground feels hard underfoot in play areas — aeration needed before overseeding.', icon: '🧱' },
+    { id: 'yi-003', title: 'Thin spots along fence line', severity: 'medium', description: 'Shade from fence causing thinning. Consider shade-tolerant fescue blend.', icon: '🌑' },
+    { id: 'yi-004', title: 'Early weed pressure', severity: 'low', description: 'Some clover and dandelion starting. Pre-emergent timing is critical this week.', icon: '🌼' },
+  ],
+  seedCalculation: {
+    overseedLbs: 21,
+    fullReseedLbs: 42,
+    costPerLb: 4.50,
+    totalCostLo: 95,
+    totalCostHi: 189,
+    coverageNote: 'Overseed rate: 5 lbs/1,000 sq ft for bare patches (1,260 sq ft) + 3 lbs/1,000 sq ft for thin areas (2,940 sq ft). Full reseed: 10 lbs/1,000 sq ft.',
+  },
+  materials: [
+    { name: 'Scotts Turf Builder Grass Seed (Sun & Shade)', quantity: '21 lbs (overseed)', estimatedCost: 95, store: 'Home Depot', icon: '🌱', tag: 'Primary' },
+    { name: 'Scotts Turf Builder Starter Fertilizer', quantity: '1 bag (5,000 sq ft)', estimatedCost: 28, store: 'Home Depot', icon: '🧪' },
+    { name: 'Peat moss or seed cover mulch', quantity: '3 bales', estimatedCost: 18, store: "Lowe's", icon: '🟤' },
+    { name: 'Scotts Halts Crabgrass Preventer', quantity: '1 bag (5,000 sq ft)', estimatedCost: 32, store: 'Home Depot', icon: '🛡️', tag: 'Do NOT apply where overseeding' },
+    { name: 'Core aerator rental (half-day)', quantity: '4 hours', estimatedCost: 75, store: 'Home Depot Rental', icon: '🔧' },
+    { name: 'Garden rake', quantity: '1', estimatedCost: 18, store: 'Already owned', icon: '🧹' },
+    { name: 'Sprinkler / garden hose', quantity: '1', estimatedCost: 0, store: 'Already owned', icon: '💦' },
+  ],
+  aiPlan: [
+    { step: 1, title: 'Aerate the lawn', description: 'Rent a core aerator and make 2 passes over compacted areas. This breaks up soil so seed, water, and nutrients can penetrate. Best done when soil is moist but not wet.', timing: 'This Saturday (Mar 15)', icon: '🔧' },
+    { step: 2, title: 'Apply pre-emergent to front yard ONLY', description: 'Apply crabgrass preventer to healthy front lawn areas. Do NOT apply where you plan to overseed — it will prevent grass seed from germinating too.', timing: 'Same day as aeration', icon: '🛡️' },
+    { step: 3, title: 'Overseed bare and thin patches', description: 'Spread seed at 5 lbs/1,000 sq ft on bare areas, 3 lbs/1,000 sq ft on thin areas. Use a broadcast spreader for even coverage. Rake seed lightly into soil.', timing: 'Mar 15-16', icon: '🌱' },
+    { step: 4, title: 'Apply starter fertilizer', description: 'Spread starter fertilizer over seeded areas. It\u2019s high in phosphorus to promote root growth in new seedlings.', timing: 'Immediately after seeding', icon: '🧪' },
+    { step: 5, title: 'Cover with peat moss', description: 'Lightly cover seeded areas with a thin layer of peat moss. This retains moisture and protects seeds from birds and wind.', timing: 'Same day', icon: '🟤' },
+    { step: 6, title: 'Water 2-3x daily for 2 weeks', description: 'Keep seeded areas consistently moist (not flooded). Water lightly in morning, midday, and late afternoon. Reduce to 1x daily after germination starts.', timing: 'Mar 15 \u2013 Mar 29', icon: '💦' },
+    { step: 7, title: 'First mow at 3.5 inches', description: 'Once new grass reaches 4 inches, mow at 3.5\u201D. Don\u2019t remove more than 1/3 of blade length. Use a sharp blade to avoid pulling up seedlings.', timing: 'Around Apr 5-10', icon: '🌿' },
+    { step: 8, title: 'Apply regular fertilizer', description: 'After first mow, switch to regular lawn fertilizer (Scotts Turf Builder). Apply every 6-8 weeks through growing season.', timing: 'Mid-April', icon: '📅' },
+  ],
+};
+
+// ─── NEW FEATURES: Lawn Calendar (AI-recommended timing) ────
+export interface LawnCalendarItem {
+  id: string;
+  month: string;
+  title: string;
+  icon: string;
+  description: string;
+  bestWindow: string;
+  whyNow: string;
+  accent: string;
+  accentBg: string;
+  category: 'seeding' | 'fertilizing' | 'mowing' | 'aerating' | 'watering' | 'pest' | 'general';
+}
+
+export const DEMO_LAWN_CALENDAR: LawnCalendarItem[] = [
+  {
+    id: 'lc-001', month: 'Mar', title: 'Overseed Bare Patches', icon: '🌱',
+    description: 'Cool-season seed germinates best with soil temps 50-65\u00B0F. March gives seedlings 6-8 weeks to establish before summer heat.',
+    bestWindow: 'Mar 10-25', whyNow: 'Soil temp hit 55\u00B0F this week + rain forecast Wed',
+    accent: 'var(--emerald)', accentBg: 'var(--emerald-soft)', category: 'seeding',
+  },
+  {
+    id: 'lc-002', month: 'Mar', title: 'Apply Pre-Emergent (non-seeded areas)', icon: '🛡️',
+    description: 'Crabgrass preventer must go down before soil hits 55\u00B0F for 3+ consecutive days. You\u2019re right at the edge — this week is the last chance.',
+    bestWindow: 'Mar 8-15', whyNow: 'Soil temp at threshold — window closing',
+    accent: 'var(--gold)', accentBg: 'var(--gold-soft)', category: 'pest',
+  },
+  {
+    id: 'lc-003', month: 'Mar', title: 'Core Aerate Before Overseeding', icon: '🔧',
+    description: 'Aerating breaks up compacted soil and gives seed direct contact with earth. Always aerate BEFORE seeding for best germination.',
+    bestWindow: 'Mar 14-15', whyNow: 'Soil is moist from recent rain — ideal for pulling cores',
+    accent: 'var(--info)', accentBg: 'var(--info-soft)', category: 'aerating',
+  },
+  {
+    id: 'lc-004', month: 'Apr', title: 'First Mow of the Season', icon: '🌿',
+    description: 'Mow when grass reaches 4\u201D, cut to 3.5\u201D. Never remove more than 1/3 of blade. A high first cut encourages root depth.',
+    bestWindow: 'Apr 5-15', whyNow: 'New seedlings will be 3-4 weeks old by then',
+    accent: 'var(--emerald)', accentBg: 'var(--emerald-soft)', category: 'mowing',
+  },
+  {
+    id: 'lc-005', month: 'Apr', title: 'Spring Fertilizer Application', icon: '🧪',
+    description: 'Apply slow-release nitrogen fertilizer after the first mow. This feeds the lawn through spring growth without burning new grass.',
+    bestWindow: 'Apr 15-25', whyNow: 'New seedlings need 4+ weeks before fertilizing',
+    accent: 'var(--accent)', accentBg: 'var(--accent-soft)', category: 'fertilizing',
+  },
+  {
+    id: 'lc-006', month: 'May', title: 'Adjust Irrigation Schedule', icon: '💦',
+    description: 'Switch from daily light watering (for seed) to deep watering 2-3x per week. 1\u201D of water per week total — trains roots to grow deep.',
+    bestWindow: 'May 1-10', whyNow: 'Seedlings are established — shift to deep watering',
+    accent: 'var(--info)', accentBg: 'var(--info-soft)', category: 'watering',
+  },
+  {
+    id: 'lc-007', month: 'Sep', title: 'Fall Aeration & Overseeding', icon: '🍂',
+    description: 'The #1 best time to seed cool-season grass. Warm soil + cool air + fall rain = perfect germination. Plan for Labor Day weekend.',
+    bestWindow: 'Sep 1-20', whyNow: 'Mark your calendar — fall is the prime window',
+    accent: 'var(--gold)', accentBg: 'var(--gold-soft)', category: 'seeding',
+  },
+  {
+    id: 'lc-008', month: 'Nov', title: 'Winterizer Fertilizer', icon: '❄️',
+    description: 'Last feeding before dormancy. High-potassium winterizer strengthens roots for cold months and gives you a head start in spring.',
+    bestWindow: 'Nov 1-15', whyNow: 'Apply before first hard frost',
+    accent: 'var(--info)', accentBg: 'var(--info-soft)', category: 'fertilizing',
+  },
+];
 
 // ─── Mock API Routes (for fetch interception) ───────────────
 export const DEMO_API_ROUTES: Record<string, unknown> = {
