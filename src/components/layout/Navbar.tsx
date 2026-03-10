@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Avatar } from '@/components/ui/Avatar';
 import { useUser } from '@/hooks/useUser';
+import { useDemo } from '@/hooks/useDemo';
 import { ThemeToggle } from '@/components/settings/ThemeToggle';
 
 interface NavbarProps {
@@ -17,6 +18,14 @@ interface NavbarProps {
 export function Navbar({ title, showBack = false, backHref, onBack }: NavbarProps) {
   const router = useRouter();
   const { user } = useUser();
+  const { isDemo } = useDemo();
+  const prefix = isDemo ? '/demo' : '';
+
+  const handleBack = () => {
+    if (onBack) return onBack();
+    if (backHref) return router.push(isDemo ? `/demo${backHref}` : backHref);
+    router.back();
+  };
 
   return (
     <header
@@ -31,7 +40,7 @@ export function Navbar({ title, showBack = false, backHref, onBack }: NavbarProp
       <div className="w-10">
         {(showBack || onBack) && (
           <button
-            onClick={() => onBack ? onBack() : (backHref ? router.push(backHref) : router.back())}
+            onClick={handleBack}
             className="text-[var(--text)] hover:text-[var(--accent)] text-xl transition-colors"
             aria-label="Go back"
           >
@@ -47,7 +56,7 @@ export function Navbar({ title, showBack = false, backHref, onBack }: NavbarProp
       </h1>
       <div className="flex items-center gap-2">
         <ThemeToggle compact />
-        <Link href="/settings/account">
+        <Link href={`${prefix}/settings/account`}>
           <Avatar src={user?.avatar_url} name={user?.display_name ?? ''} size="sm" />
         </Link>
       </div>

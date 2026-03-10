@@ -55,6 +55,14 @@ export default function LoginPage() {
         <Link href="/forgot-password" className="text-xs text-ink-dim hover:underline">
           Forgot password?
         </Link>
+        <br />
+        <Link
+          href="/demo/dashboard"
+          className="text-sm font-semibold hover:brightness-110 transition-all inline-block mt-2"
+          style={{ color: 'var(--accent)' }}
+        >
+          Or try the demo &rarr;
+        </Link>
       </div>
     </Card>
   );

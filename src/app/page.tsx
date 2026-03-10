@@ -43,12 +43,12 @@ export default function LandingPage() {
             >
               Try a Project Free
             </Link>
-            <a
-              href="#how-it-works"
-              className="btn bg-[var(--glass)] backdrop-blur-[12px] border border-[var(--glass-border)] px-8 py-3.5 rounded-full text-base font-semibold tap text-[var(--text)] hover:border-[var(--glass-border-hover)] transition-all duration-200"
+            <Link
+              href="/demo/dashboard"
+              className="btn bg-[var(--glass)] backdrop-blur-[12px] border border-[var(--glass-border)] px-8 py-3.5 rounded-full text-base font-semibold tap text-[var(--text)] hover:border-[var(--glass-border-hover)] hover:-translate-y-0.5 transition-all duration-200"
             >
-              See How It Works
-            </a>
+              Try the Demo
+            </Link>
           </div>
         </div>
       </section>

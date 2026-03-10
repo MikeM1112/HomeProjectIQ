@@ -696,7 +696,14 @@ export default function DemoPage() {
           <span className="animate-pulse">✨</span> Interactive Demo
         </div>
         <h1 className="font-serif text-4xl md:text-5xl mb-2 bg-gradient-to-br from-[var(--text)] to-[var(--text-dim)] bg-clip-text text-transparent">HomeProjectIQ</h1>
-        <p className="text-[var(--text-sub)] text-sm">Toggle between screens — no login required</p>
+        <p className="text-[var(--text-sub)] text-sm mb-4">Toggle between screens — no login required</p>
+        <a
+          href="/demo/dashboard"
+          className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-bold text-white transition-all hover:-translate-y-0.5"
+          style={{ background: 'var(--accent-gradient)', backgroundImage: 'var(--accent-gradient)', boxShadow: '0 4px 20px var(--accent-glow)' }}
+        >
+          Try the Live Demo &rarr;
+        </a>
       </div>
 
       {/* Screen Switcher */}
