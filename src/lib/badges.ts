@@ -23,16 +23,20 @@ export async function checkAndAwardBadges(
   const newBadges: string[] = [];
 
   // Fetch counts
-  const [projectsRes, logbookRes, toolboxRes, categoriesRes] = await Promise.all([
+  const [projectsRes, logbookRes, toolboxRes, categoriesRes, loansLentRes, loansReturnedRes] = await Promise.all([
     supabase.from('projects').select('id', { count: 'exact', head: true }).eq('user_id', userId),
     supabase.from('logbook_entries').select('id', { count: 'exact', head: true }).eq('user_id', userId),
     supabase.from('toolbox_items').select('id', { count: 'exact', head: true }).eq('user_id', userId),
     supabase.from('projects').select('category_id').eq('user_id', userId),
+    supabase.from('tool_loans').select('id', { count: 'exact', head: true }).eq('user_id', userId),
+    supabase.from('tool_loans').select('id', { count: 'exact', head: true }).eq('user_id', userId).eq('status', 'returned'),
   ]);
 
   const projectCount = projectsRes.count ?? 0;
   const logbookCount = logbookRes.count ?? 0;
   const toolCount = toolboxRes.count ?? 0;
+  const loansLentCount = loansLentRes.count ?? 0;
+  const loansReturnedCount = loansReturnedRes.count ?? 0;
   const uniqueCategories = new Set((categoriesRes.data ?? []).map((p) => p.category_id)).size;
   const totalCategories = CATEGORIES.length;
 
@@ -48,6 +52,9 @@ export async function checkAndAwardBadges(
     all_categories: uniqueCategories >= totalCategories,
     logbook_10: logbookCount >= 10,
     tools_20: toolCount >= 20,
+    tools_5: toolCount >= 5,
+    tools_lent_5: loansLentCount >= 5,
+    tools_returned: loansReturnedCount >= 1,
   };
 
   for (const [badgeId, met] of Object.entries(conditions)) {

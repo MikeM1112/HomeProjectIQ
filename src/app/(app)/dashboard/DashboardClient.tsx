@@ -16,12 +16,15 @@ import { QuickTips } from '@/components/features/dashboard/QuickTips';
 import { SavingsInsight } from '@/components/features/dashboard/SavingsInsight';
 import { MaintenanceDashboardCompact } from '@/components/maintenance/MaintenanceDashboardCompact';
 import { AIAssessmentFlow } from '@/components/advisor/AIAssessmentFlow';
+import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Mascot, MascotGreeting } from '@/components/brand/Mascot';
 import { BrandIcon } from '@/components/brand/BrandIcon';
 import { useAdvisorStore } from '@/stores/advisorStore';
 import { useUser } from '@/hooks/useUser';
 import { useProjects } from '@/hooks/useProjects';
+import { useToolbox } from '@/hooks/useToolbox';
+import { useToolLoans } from '@/hooks/useToolLoans';
 import { ActiveQuotes } from '@/components/features/quotes/ActiveQuotes';
 
 export function DashboardClient() {
@@ -30,6 +33,8 @@ export function DashboardClient() {
   const [showAI, setShowAI] = useState(false);
   const { user } = useUser();
   const { projects } = useProjects();
+  const { tools: toolboxTools } = useToolbox();
+  const { activeLoans, overdueLoans } = useToolLoans();
 
   // Listen for scan button from BottomNav
   useEffect(() => {
@@ -100,6 +105,28 @@ export function DashboardClient() {
 
           {/* Maintenance Hub — Home Health Score */}
           <MaintenanceDashboardCompact />
+
+          {/* Toolbox Quick Stats */}
+          <Link href="/toolbox">
+            <Card className="relative overflow-hidden">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">🧰</span>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-[var(--text)]">My Toolbox</p>
+                  <p className="text-xs text-[var(--text-sub)]">
+                    {toolboxTools.length} tool{toolboxTools.length !== 1 ? 's' : ''}
+                    {activeLoans.length > 0 && ` · ${activeLoans.length} lent out`}
+                  </p>
+                </div>
+                {overdueLoans.length > 0 && (
+                  <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-[var(--danger)]/10 text-[var(--danger)]">
+                    {overdueLoans.length} overdue
+                  </span>
+                )}
+                <span className="text-[var(--ink-dim)] text-sm">&rsaquo;</span>
+              </div>
+            </Card>
+          </Link>
 
           {/* XP Progress */}
           <XPProgress />

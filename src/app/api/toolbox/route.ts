@@ -141,6 +141,21 @@ export async function DELETE(request: Request) {
     );
   }
 
+  // Check for active loans on this tool
+  const { count: activeLoanCount } = await supabase
+    .from('tool_loans')
+    .select('id', { count: 'exact', head: true })
+    .eq('user_id', user.id)
+    .eq('tool_id', parsed.data.tool_id)
+    .eq('status', 'out');
+
+  if (activeLoanCount && activeLoanCount > 0) {
+    return NextResponse.json(
+      { error: 'Cannot remove a tool that is currently lent out', code: 'TOOL_LENT_OUT' },
+      { status: 409 }
+    );
+  }
+
   const { error } = await supabase
     .from('toolbox_items')
     .delete()

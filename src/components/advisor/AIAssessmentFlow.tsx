@@ -8,6 +8,8 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Spinner } from '@/components/ui/Spinner';
 import { cn, formatCurrency } from '@/lib/utils';
+import { useToolbox } from '@/hooks/useToolbox';
+import { classifyDiagnosisTools } from '@/lib/tool-matching';
 import type { DiagnosisResult } from '@/types/app';
 
 type Step = 'upload' | 'context' | 'analyzing' | 'results';
@@ -42,6 +44,9 @@ export function AIAssessmentFlow() {
     setExperienceLevel,
     setHomeAge,
   } = useAdvisorStore();
+
+  const { tools: ownedTools, addTool } = useToolbox();
+  const ownedIds = ownedTools.map((t) => t.tool_id);
 
   const [step, setStep] = useState<Step>('upload');
   const [analysisStep, setAnalysisStep] = useState(0);
@@ -507,31 +512,71 @@ export function AIAssessmentFlow() {
           </div>
         )}
 
-        {/* Tools Needed */}
-        {aiResult.tools.length > 0 && (
-          <div className="space-y-2">
-            <h3 className="font-serif text-base font-semibold text-ink">
-              Tools Needed
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {aiResult.tools.map((tool, i) => (
-                <div
-                  key={i}
-                  className={cn(
-                    'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs',
-                    'border',
-                    tool.r === 'Essential'
-                      ? 'border-brand/30 bg-brand/5 text-brand font-medium'
-                      : 'border-border text-ink-sub'
-                  )}
-                >
-                  <span>{tool.e === 'Essential' ? 'Required' : 'Optional'}:</span>
-                  <span>{tool.n}</span>
+        {/* Tools Needed — split by ownership */}
+        {aiResult.tools.length > 0 && (() => {
+          const classified = classifyDiagnosisTools(aiResult.tools, ownedIds);
+          const inToolbox = classified.filter((t) => t.owned);
+          const needTools = classified.filter((t) => !t.owned);
+          return (
+            <div className="space-y-3">
+              <h3 className="font-serif text-base font-semibold text-ink">
+                Tools Needed
+              </h3>
+              <p className="text-xs font-medium text-ink-sub">
+                You own {inToolbox.length} of {classified.length} tools needed
+              </p>
+              {inToolbox.length > 0 && (
+                <div>
+                  <p className="text-xs font-semibold text-success mb-1.5">In Your Toolbox</p>
+                  <div className="flex flex-wrap gap-2">
+                    {inToolbox.map((tool, i) => (
+                      <div
+                        key={i}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs border border-success/30 bg-success/5 text-success font-medium"
+                      >
+                        <span>{tool.e}</span>
+                        <span>{tool.n}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              ))}
+              )}
+              {needTools.length > 0 && (
+                <div>
+                  <p className="text-xs font-semibold text-ink-sub mb-1.5">Buy or Borrow</p>
+                  <div className="flex flex-wrap gap-2">
+                    {needTools.map((tool, i) => (
+                      <div
+                        key={i}
+                        className={cn(
+                          'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs border',
+                          tool.r === 'Essential'
+                            ? 'border-brand/30 bg-brand/5 text-brand font-medium'
+                            : 'border-border text-ink-sub'
+                        )}
+                      >
+                        <span>{tool.e}</span>
+                        <span>{tool.n}</span>
+                        {tool.definition && (
+                          <button
+                            onClick={() => addTool({
+                              tool_id: tool.definition!.id,
+                              tool_name: tool.definition!.name,
+                              category: tool.definition!.category,
+                            }).catch(() => {})}
+                            className="ml-1 text-[var(--accent)] font-bold hover:underline"
+                          >
+                            +
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
-          </div>
-        )}
+          );
+        })()}
 
         {/* Materials */}
         {aiResult.shop.length > 0 && (

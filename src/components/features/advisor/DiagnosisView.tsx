@@ -18,6 +18,8 @@ import { Mascot } from '@/components/brand/Mascot';
 import { QuoteRequestFlow } from '@/components/features/quotes/QuoteRequestFlow';
 import { QuoteTracker } from '@/components/features/quotes/QuoteTracker';
 import { useQuotes } from '@/hooks/useQuotes';
+import { useToolbox } from '@/hooks/useToolbox';
+import { classifyDiagnosisTools } from '@/lib/tool-matching';
 import { cn } from '@/lib/utils';
 
 const TABS = ['Summary', 'Steps', 'Tools', 'Shop', 'Hire Pro'] as const;
@@ -34,6 +36,11 @@ export function DiagnosisView({ result, projectId, categoryId }: DiagnosisViewPr
   const [showQuoteFlow, setShowQuoteFlow] = useState(false);
   const { showToast } = useUIStore();
   const { quotes, cancelQuote, isCancelling } = useQuotes();
+  const { tools: ownedTools, addTool, isAdding } = useToolbox();
+  const ownedIds = ownedTools.map((t) => t.tool_id);
+  const classifiedTools = classifyDiagnosisTools(result.tools, ownedIds);
+  const ownedCount = classifiedTools.filter((t) => t.owned).length;
+  const totalTools = classifiedTools.length;
   const existingQuote = projectId
     ? quotes.find((q) => q.project_id === projectId && q.status !== 'cancelled')
     : null;
@@ -202,19 +209,45 @@ export function DiagnosisView({ result, projectId, categoryId }: DiagnosisViewPr
 
         {activeTab === 2 && (
           <div className="space-y-3">
-            {result.tools.map((tool, i) => (
+            {totalTools > 0 && (
+              <p className="text-xs font-medium text-[var(--ink-sub)]">
+                {ownedCount > 0 ? `✓ ${ownedCount} you own` : ''}{ownedCount > 0 && totalTools - ownedCount > 0 ? ' · ' : ''}{totalTools - ownedCount > 0 ? `${totalTools - ownedCount} to buy/borrow` : ''}
+              </p>
+            )}
+            {classifiedTools.map((tool, i) => (
               <Card key={i} padding="sm">
                 <div className="flex items-start gap-3">
                   <span className="text-2xl">{tool.e}</span>
                   <div className="flex-1">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <span className="text-sm font-medium">{tool.n}</span>
                       <Badge variant={tool.r === 'Essential' ? 'error' : tool.r === 'Safety' ? 'warning' : 'default'}>
                         {tool.r}
                       </Badge>
+                      {tool.owned && (
+                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[var(--success)]/10 text-[var(--success)]">
+                          ✓ You own this
+                        </span>
+                      )}
                     </div>
                     {tool.tip && <p className="text-xs text-ink-sub mt-0.5">{tool.tip}</p>}
                   </div>
+                  {!tool.owned && tool.definition && (
+                    <button
+                      onClick={() => {
+                        addTool({
+                          tool_id: tool.definition!.id,
+                          tool_name: tool.definition!.name,
+                          category: tool.definition!.category,
+                        }).then(() => showToast('+5 XP! Tool added.', 'success'))
+                          .catch(() => {});
+                      }}
+                      disabled={isAdding}
+                      className="shrink-0 text-[10px] font-semibold px-2 py-1 rounded-full border border-[var(--accent)]/30 text-[var(--accent)] hover:bg-[var(--accent)]/5 transition-colors"
+                    >
+                      + Add
+                    </button>
+                  )}
                 </div>
               </Card>
             ))}

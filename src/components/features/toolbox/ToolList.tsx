@@ -9,9 +9,10 @@ import { TOOLS } from '@/lib/constants';
 interface ToolListProps {
   tools: ToolboxItem[];
   onRemove: (toolId: string) => void;
+  lentOutIds?: string[];
 }
 
-export function ToolList({ tools, onRemove }: ToolListProps) {
+export function ToolList({ tools, onRemove, lentOutIds = [] }: ToolListProps) {
   const [confirmId, setConfirmId] = useState<string | null>(null);
 
   const grouped = tools.reduce<Record<string, ToolboxItem[]>>((acc, t) => {
@@ -40,10 +41,16 @@ export function ToolList({ tools, onRemove }: ToolListProps) {
           <div className="grid grid-cols-2 gap-2">
             {items.map((item) => {
               const def = TOOLS.find((t) => t.id === item.tool_id);
+              const isLentOut = lentOutIds.includes(item.tool_id);
               return (
                 <Card key={item.tool_id} padding="sm" className="relative">
                   <span className="text-xl">{def?.emoji ?? '🔧'}</span>
                   <p className="text-xs font-medium mt-1 text-[var(--ink)]">{item.tool_name}</p>
+                  {isLentOut && (
+                    <span className="absolute top-1.5 left-1.5 text-[9px] font-bold uppercase px-1.5 py-0.5 rounded-full bg-[var(--warning)]/15 text-[var(--warning)]">
+                      Out
+                    </span>
+                  )}
                   {confirmId === item.tool_id ? (
                     <div className="absolute inset-0 glass rounded-[20px] flex items-center justify-center gap-2 animate-fade shadow-[var(--card-shadow)]">
                       <Button variant="destructive" size="sm" onClick={() => { onRemove(item.tool_id); setConfirmId(null); }}>
@@ -53,7 +60,7 @@ export function ToolList({ tools, onRemove }: ToolListProps) {
                         Keep
                       </Button>
                     </div>
-                  ) : (
+                  ) : !isLentOut ? (
                     <button
                       onClick={() => setConfirmId(item.tool_id)}
                       className="absolute top-1 right-1 text-[var(--ink-dim)] hover:text-[var(--red)] text-xs"
@@ -61,7 +68,7 @@ export function ToolList({ tools, onRemove }: ToolListProps) {
                     >
                       &times;
                     </button>
-                  )}
+                  ) : null}
                 </Card>
               );
             })}

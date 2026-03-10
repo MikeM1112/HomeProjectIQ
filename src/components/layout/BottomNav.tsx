@@ -13,7 +13,7 @@ const LEFT_TABS = [
 
 const RIGHT_TABS = [
   { href: '/logbook', icon: '📋', label: 'Logbook' },
-  { href: '/settings/account', icon: '👤', label: 'Profile' },
+  { href: '/toolbox', icon: '🧰', label: 'Toolbox' },
 ];
 
 export function BottomNav() {

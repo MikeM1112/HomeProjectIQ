@@ -78,6 +78,24 @@ export interface ToolboxItem {
   added_at: string;
 }
 
+export type ToolLoanStatus = 'out' | 'returned' | 'overdue';
+
+export interface ToolLoan {
+  id: string;
+  user_id: string;
+  tool_id: string;
+  tool_name: string;
+  tool_emoji: string;
+  borrower_name: string;
+  lent_date: string;
+  return_date: string | null;
+  due_date: string | null;
+  status: ToolLoanStatus;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface Friendship {
   id: string;
   requester_id: string;

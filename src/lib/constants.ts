@@ -27,6 +27,8 @@ export const XP_VALUES = {
   AI_ASSESSMENT: 30,
   SHARE_RESULT: 10,
   MAINTENANCE_COMPLETE: 15,
+  TOOL_LENT: 5,
+  TOOL_RETURNED: 3,
 } as const;
 
 export const LEVEL_THRESHOLDS = [
@@ -48,6 +50,9 @@ export const BADGE_DEFINITIONS: Badge[] = [
   { id: 'all_categories', label: 'Renaissance', icon: '🌟', condition: 'Complete a project in every category' },
   { id: 'logbook_10', label: 'Chronicler', icon: '📋', condition: 'Log 10 repairs in your logbook' },
   { id: 'tools_20', label: 'Well Equipped', icon: '🧰', condition: 'Add 20 tools to your toolbox' },
+  { id: 'tools_5', label: 'First Tools', icon: '🔧', condition: 'Add 5 tools to your toolbox' },
+  { id: 'tools_lent_5', label: 'Good Neighbor', icon: '🤝', condition: 'Lend 5 tools to others' },
+  { id: 'tools_returned', label: 'Full Circle', icon: '🔄', condition: 'Have a lent tool returned' },
 ];
 
 export const SKILL_TREES: SkillTree[] = [
@@ -71,6 +76,7 @@ export const QUERY_KEYS = {
   FRIENDS: 'friends',
   MAINTENANCE: 'maintenance',
   QUOTES: 'quotes',
+  TOOL_LOANS: 'tool_loans',
 } as const;
 
 export const TOOLS: ToolDefinition[] = [

@@ -231,6 +231,50 @@ export type Database = {
         };
         Relationships: [];
       };
+      tool_loans: {
+        Row: {
+          id: string;
+          user_id: string;
+          tool_id: string;
+          tool_name: string;
+          tool_emoji: string;
+          borrower_name: string;
+          lent_date: string;
+          return_date: string | null;
+          due_date: string | null;
+          status: 'out' | 'returned' | 'overdue';
+          notes: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          tool_id: string;
+          tool_name: string;
+          tool_emoji?: string;
+          borrower_name: string;
+          lent_date?: string;
+          return_date?: string | null;
+          due_date?: string | null;
+          status?: 'out' | 'returned' | 'overdue';
+          notes?: string | null;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          tool_id?: string;
+          tool_name?: string;
+          tool_emoji?: string;
+          borrower_name?: string;
+          lent_date?: string;
+          return_date?: string | null;
+          due_date?: string | null;
+          status?: 'out' | 'returned' | 'overdue';
+          notes?: string | null;
+        };
+        Relationships: [];
+      };
       friendships: {
         Row: {
           id: string;
