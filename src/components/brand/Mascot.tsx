@@ -32,7 +32,7 @@ export function Mascot({ size = 'md', mode = 'default', className, animate = tru
     <div
       className={cn(
         'relative inline-flex items-center justify-center',
-        animate && 'animate-float',
+        animate && 'motion-safe:animate-float',
         className,
       )}
       style={{ width: s, height: s }}

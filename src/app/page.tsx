@@ -163,8 +163,8 @@ export default function LandingPage() {
                   src="/brand/mascot-tools.png"
                   alt=""
                   role="presentation"
-                  width={180}
-                  height={156}
+                  width={646}
+                  height={409}
                   className="object-contain drop-shadow-xl motion-safe:animate-float w-[120px] h-auto sm:w-[180px]"
                   priority
                 />
@@ -528,9 +528,10 @@ export default function LandingPage() {
           <Reveal className="text-center lg:text-left">
             <Image
               src="/brand/mascot-checklist.png"
-              alt="HomeProjectIQ mascot with checklist"
-              width={120}
-              height={148}
+              alt=""
+              role="presentation"
+              width={403}
+              height={475}
               className="object-contain mx-auto lg:mx-0 mb-6 drop-shadow-lg"
             />
             <h2 className="text-3xl sm:text-4xl font-bold mb-5 text-[var(--text)] tracking-tight">
