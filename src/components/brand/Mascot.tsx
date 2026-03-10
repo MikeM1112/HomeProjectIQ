@@ -28,88 +28,112 @@ export function Mascot({ size = 'md', mode = 'default', className, animate = tru
       )}
       style={{ width: s, height: s }}
     >
-      <svg viewBox="0 0 120 120" width={s} height={s} fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* Body */}
-        <rect x="25" y="38" width="70" height="58" rx="20" fill="url(#bodyGrad)" />
-        <rect x="25" y="38" width="70" height="58" rx="20" fill="url(#bodySheen)" fillOpacity="0.3" />
-        <rect x="25" y="38" width="70" height="58" rx="20" stroke="url(#bodyStroke)" strokeWidth="1.5" />
+      <svg viewBox="0 0 120 130" width={s} height={s} fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id={`hg-${size}`} x1="60" y1="22" x2="60" y2="95" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#1B5588" />
+            <stop offset="45%" stopColor="#113D68" />
+            <stop offset="100%" stopColor="#0A2845" />
+          </linearGradient>
+          <linearGradient id={`hs-${size}`} x1="28" y1="22" x2="75" y2="55" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.12" />
+            <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
+          </linearGradient>
+          <linearGradient id={`tg-${size}`} x1="60" y1="88" x2="60" y2="124" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#1CC8BC" />
+            <stop offset="100%" stopColor="#0EA5A8" />
+          </linearGradient>
+          <radialGradient id={`eg-${size}`} cx="50%" cy="45%" r="55%">
+            <stop offset="0%" stopColor="#80FFFF" />
+            <stop offset="55%" stopColor="#00E5FF" />
+            <stop offset="100%" stopColor="#00C8E0" />
+          </radialGradient>
+          <radialGradient id={`ag-${size}`} cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stopColor="#80FFFF" />
+            <stop offset="100%" stopColor="#00D4FF" />
+          </radialGradient>
+        </defs>
 
-        {/* Hard Hat */}
-        <path d="M30 44 C30 28, 90 28, 90 44 L88 48 L32 48 Z" fill="#FBBF24" />
-        <path d="M30 44 C30 28, 90 28, 90 44 L88 48 L32 48 Z" fill="url(#hatSheen)" fillOpacity="0.4" />
-        <rect x="28" y="43" width="64" height="6" rx="3" fill="#E5A913" />
-        <rect x="52" y="28" width="16" height="8" rx="4" fill="#FCD34D" />
-
-        {/* Face screen */}
-        <rect x="35" y="52" width="50" height="32" rx="10" fill="#0A1628" fillOpacity="0.85" />
-        <rect x="35" y="52" width="50" height="32" rx="10" stroke="rgba(100,180,255,0.15)" strokeWidth="1" />
-
-        {/* Eyes */}
-        <circle cx="48" cy="66" r="5" fill="#3B9EFF" />
-        <circle cx="48" cy="66" r="2.5" fill="#FFFFFF" />
-        <circle cx="72" cy="66" r="5" fill="#3B9EFF" />
-        <circle cx="72" cy="66" r="2.5" fill="#FFFFFF" />
-
-        {/* Smile */}
-        <path d="M52 76 Q60 82, 68 76" stroke="#3B9EFF" strokeWidth="2" strokeLinecap="round" fill="none" />
-
-        {/* Antenna */}
-        <line x1="60" y1="28" x2="60" y2="18" stroke="#8BA3C0" strokeWidth="2" />
-        <circle cx="60" cy="15" r="4" fill="#3B9EFF" opacity="0.9" />
-        <circle cx="60" cy="15" r="2" fill="#FFFFFF" opacity="0.8" />
+        {/* ── Teal Body ── */}
+        <ellipse cx="60" cy="107" rx="22" ry="16" fill={`url(#tg-${size})`} />
 
         {/* Arms */}
-        <rect x="14" y="55" width="14" height="8" rx="4" fill="url(#bodyGrad)" />
-        <rect x="92" y="55" width="14" height="8" rx="4" fill="url(#bodyGrad)" />
+        <ellipse cx="24" cy="103" rx="10" ry="5.5" fill={`url(#tg-${size})`} transform="rotate(-20, 24, 103)" />
+        <ellipse cx="96" cy="103" rx="10" ry="5.5" fill={`url(#tg-${size})`} transform="rotate(20, 96, 103)" />
 
-        {/* Tool (wrench) - shown in tool mode */}
+        {/* Hands */}
+        <circle cx="16" cy="99" r="4" fill={`url(#tg-${size})`} />
+        <circle cx="104" cy="99" r="4" fill={`url(#tg-${size})`} />
+
+        {/* H-bone connector on body */}
+        <rect x="55" y="99" width="10" height="8" rx="2.5" fill="#FFFFFF" opacity="0.45" />
+        <rect x="56.5" y="97" width="2" height="12" rx="1" fill="#FFFFFF" opacity="0.45" />
+        <rect x="61.5" y="97" width="2" height="12" rx="1" fill="#FFFFFF" opacity="0.45" />
+
+        {/* ── House-shaped Head ── */}
+        <path
+          d="M 60 22 L 92 50 L 92 78 Q 92 94, 76 94 L 44 94 Q 28 94, 28 78 L 28 50 Z"
+          fill={`url(#hg-${size})`}
+        />
+        <path
+          d="M 60 22 L 92 50 L 92 78 Q 92 94, 76 94 L 44 94 Q 28 94, 28 78 L 28 50 Z"
+          fill={`url(#hs-${size})`}
+        />
+
+        {/* ── Visor (White Face Plate) ── */}
+        <rect x="34" y="52" width="52" height="36" rx="14" fill="#FFFFFF" opacity="0.95" />
+        <rect x="34" y="52" width="52" height="36" rx="14" fill="none" stroke="rgba(200,230,255,0.25)" strokeWidth="0.5" />
+
+        {/* ── Eyes ── */}
+        <ellipse cx="48" cy="67" rx="8" ry="8" fill={`url(#eg-${size})`} />
+        <ellipse cx="72" cy="67" rx="8" ry="8" fill={`url(#eg-${size})`} />
+        <circle cx="45" cy="64" r="3" fill="#FFFFFF" opacity="0.85" />
+        <circle cx="69" cy="64" r="3" fill="#FFFFFF" opacity="0.85" />
+
+        {/* ── Smile ── */}
+        <path d="M52 78 Q60 84 68 78" stroke="#00D4FF" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+
+        {/* ── Antenna Stems ── */}
+        <line x1="42" y1="35" x2="34" y2="10" stroke="#1B5588" strokeWidth="3.5" strokeLinecap="round" />
+        <line x1="78" y1="35" x2="86" y2="10" stroke="#1B5588" strokeWidth="3.5" strokeLinecap="round" />
+
+        {/* Antenna joints */}
+        <circle cx="42" cy="36" r="3.5" fill={`url(#ag-${size})`} />
+        <circle cx="78" cy="36" r="3.5" fill={`url(#ag-${size})`} />
+
+        {/* Antenna balls */}
+        <circle cx="34" cy="8" r="5.5" fill={`url(#ag-${size})`} />
+        <circle cx="86" cy="8" r="5.5" fill={`url(#ag-${size})`} />
+        <circle cx="32" cy="6" r="2" fill="#FFFFFF" opacity="0.7" />
+        <circle cx="84" cy="6" r="2" fill="#FFFFFF" opacity="0.7" />
+
+        {/* ── Mode: Tool (wrench) ── */}
         {mode === 'tool' && (
-          <g transform="translate(96, 48) rotate(25)">
-            <rect x="0" y="0" width="4" height="20" rx="2" fill="#8BA3C0" />
-            <circle cx="2" cy="2" r="5" fill="none" stroke="#8BA3C0" strokeWidth="2" />
+          <g transform="translate(100, 86) rotate(-30)">
+            <rect x="-2" y="-18" width="4" height="20" rx="2" fill="#8BA3C0" />
+            <path d="M-5,-20 Q-2,-24 2,-20 Q5,-24 8,-20 L6,-16 Q2,-18 -2,-16 Z" fill="#8BA3C0" />
           </g>
         )}
 
-        {/* Diagnostic sparkle - shown in diagnostic mode */}
+        {/* ── Mode: Diagnostic (magnifying glass) ── */}
         {mode === 'diagnostic' && (
-          <g>
-            <circle cx="98" cy="45" r="3" fill="#FBBF24" opacity="0.8" />
-            <circle cx="104" cy="52" r="2" fill="#3B9EFF" opacity="0.6" />
-            <circle cx="100" cy="38" r="2" fill="#10B981" opacity="0.7" />
+          <g transform="translate(102, 88)">
+            <circle cx="0" cy="0" r="7" fill="none" stroke="#8BA3C0" strokeWidth="2.5" />
+            <circle cx="0" cy="0" r="4" fill="rgba(0,229,255,0.15)" />
+            <line x1="5" y1="5" x2="12" y2="12" stroke="#8BA3C0" strokeWidth="2.5" strokeLinecap="round" />
           </g>
         )}
 
-        {/* Celebration stars */}
+        {/* ── Mode: Celebrate (sparkles) ── */}
         {mode === 'celebrate' && (
           <g>
-            <path d="M15 35 L17 31 L19 35 L15 33 L19 33 Z" fill="#FBBF24" />
-            <path d="M100 30 L102 26 L104 30 L100 28 L104 28 Z" fill="#3B9EFF" />
-            <path d="M108 68 L110 64 L112 68 L108 66 L112 66 Z" fill="#10B981" />
+            <path d="M14 30 L16 25 L18 30 L13 27.5 L19 27.5 Z" fill="#FBBF24" />
+            <path d="M102 25 L104 20 L106 25 L101 22.5 L107 22.5 Z" fill="#00E5FF" />
+            <path d="M108 70 L110 65 L112 70 L107 67.5 L113 67.5 Z" fill="#10B981" />
+            <circle cx="10" cy="55" r="2" fill="#FBBF24" opacity="0.7" />
+            <circle cx="112" cy="50" r="2" fill="#00E5FF" opacity="0.7" />
           </g>
         )}
-
-        {/* Level badge */}
-        <circle cx="90" cy="88" r="10" fill="url(#bodyGrad)" stroke="rgba(100,180,255,0.2)" strokeWidth="1" />
-        <text x="90" y="92" textAnchor="middle" fill="#F0F6FF" fontSize="10" fontWeight="700" fontFamily="system-ui">IQ</text>
-
-        <defs>
-          <linearGradient id="bodyGrad" x1="25" y1="38" x2="95" y2="96" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#2A7DE1" />
-            <stop offset="100%" stopColor="#1A5FB4" />
-          </linearGradient>
-          <linearGradient id="bodySheen" x1="25" y1="38" x2="60" y2="50" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.3" />
-            <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
-          </linearGradient>
-          <linearGradient id="bodyStroke" x1="25" y1="38" x2="95" y2="96" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="rgba(100,180,255,0.3)" />
-            <stop offset="100%" stopColor="rgba(100,180,255,0.1)" />
-          </linearGradient>
-          <linearGradient id="hatSheen" x1="30" y1="28" x2="60" y2="38" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#FFFFFF" />
-            <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
-          </linearGradient>
-        </defs>
       </svg>
     </div>
   );
@@ -120,10 +144,10 @@ export function MascotGreeting({ name }: { name?: string | null }) {
     <div className="flex items-center gap-3">
       <Mascot size="sm" />
       <div>
-        <p className="text-sm font-semibold text-ink">
+        <p className="text-sm font-semibold" style={{ color: 'var(--text)' }}>
           {name ? `Welcome back, ${name}!` : 'Welcome!'}
         </p>
-        <p className="text-xs text-ink-sub">Your home assistant is ready</p>
+        <p className="text-xs" style={{ color: 'var(--text-sub)' }}>Your home assistant is ready</p>
       </div>
     </div>
   );

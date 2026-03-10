@@ -1,48 +1,89 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <!-- Background circle -->
-  <circle cx="256" cy="256" r="256" fill="#1A7FE8"/>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="512" y2="512">
+      <stop offset="0%" stop-color="#0F3460"/>
+      <stop offset="100%" stop-color="#0A2845"/>
+    </linearGradient>
+    <linearGradient id="hg" x1="256" y1="90" x2="256" y2="410" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1B5588"/>
+      <stop offset="50%" stop-color="#113D68"/>
+      <stop offset="100%" stop-color="#0A2845"/>
+    </linearGradient>
+    <radialGradient id="eg" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#80FFFF"/>
+      <stop offset="55%" stop-color="#00E5FF"/>
+      <stop offset="100%" stop-color="#00C8E0"/>
+    </radialGradient>
+    <radialGradient id="ag" cx="40%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#80FFFF"/>
+      <stop offset="100%" stop-color="#00D4FF"/>
+    </radialGradient>
+    <linearGradient id="tg" x1="256" y1="365" x2="256" y2="450" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1CC8BC"/>
+      <stop offset="100%" stop-color="#0EA5A8"/>
+    </linearGradient>
+  </defs>
 
-  <!-- Robot head/body (rounded rectangle) -->
-  <rect x="128" y="180" width="256" height="220" rx="40" ry="40" fill="#2A7DE1" stroke="#1565C0" stroke-width="6"/>
+  <!-- Rounded square background -->
+  <rect width="512" height="512" rx="108" fill="url(#bg)"/>
 
-  <!-- Hardhat brim -->
-  <ellipse cx="256" cy="190" rx="155" ry="18" fill="#E5A700"/>
-  <!-- Hardhat dome -->
-  <path d="M140 190 Q145 100 256 90 Q367 100 372 190 Z" fill="#FBBF24" stroke="#E5A700" stroke-width="4"/>
-  <!-- Hardhat ridge -->
-  <line x1="256" y1="92" x2="256" y2="190" stroke="#E5A700" stroke-width="6" stroke-linecap="round"/>
+  <!-- Subtle edge glow -->
+  <rect width="512" height="512" rx="108" fill="none" stroke="rgba(0,229,255,0.08)" stroke-width="2"/>
 
-  <!-- Left eye socket -->
-  <rect x="168" y="230" width="72" height="56" rx="16" ry="16" fill="#0A1628"/>
-  <!-- Right eye socket -->
-  <rect x="272" y="230" width="72" height="56" rx="16" ry="16" fill="#0A1628"/>
+  <!-- Teal body -->
+  <ellipse cx="256" cy="418" rx="72" ry="42" fill="url(#tg)"/>
 
-  <!-- Left eye pupil -->
-  <circle cx="210" cy="258" r="18" fill="#E0F0FF"/>
-  <circle cx="214" cy="254" r="8" fill="#FFFFFF"/>
-  <!-- Right eye pupil -->
-  <circle cx="314" cy="258" r="18" fill="#E0F0FF"/>
-  <circle cx="318" cy="254" r="8" fill="#FFFFFF"/>
+  <!-- Arms -->
+  <ellipse cx="140" cy="405" rx="32" ry="16" fill="url(#tg)" transform="rotate(-20, 140, 405)"/>
+  <ellipse cx="372" cy="405" rx="32" ry="16" fill="url(#tg)" transform="rotate(20, 372, 405)"/>
+  <circle cx="116" cy="396" r="12" fill="url(#tg)"/>
+  <circle cx="396" cy="396" r="12" fill="url(#tg)"/>
 
-  <!-- Mouth (friendly smile) -->
-  <path d="M200 340 Q230 370 256 370 Q282 370 312 340" stroke="#E0F0FF" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <!-- H-bone connector -->
+  <rect x="240" y="406" width="32" height="22" rx="7" fill="#FFFFFF" opacity="0.4"/>
+  <rect x="245" y="402" width="6" height="30" rx="3" fill="#FFFFFF" opacity="0.4"/>
+  <rect x="261" y="402" width="6" height="30" rx="3" fill="#FFFFFF" opacity="0.4"/>
 
-  <!-- Antenna base -->
-  <rect x="244" y="74" width="24" height="20" rx="4" fill="#2A7DE1"/>
-  <!-- Antenna ball -->
-  <circle cx="256" cy="64" r="14" fill="#3B9EFF"/>
-  <circle cx="260" cy="60" r="5" fill="#9DD4FF"/>
+  <!-- House-shaped head -->
+  <path d="M 256 90 L 390 200 L 390 330 Q 390 390 330 390 L 182 390 Q 122 390 122 330 L 122 200 Z" fill="url(#hg)"/>
 
-  <!-- Left ear bolt -->
-  <circle cx="118" cy="280" r="18" fill="#2A7DE1" stroke="#1565C0" stroke-width="4"/>
-  <circle cx="118" cy="280" r="8" fill="#1565C0"/>
-  <!-- Right ear bolt -->
-  <circle cx="394" cy="280" r="18" fill="#2A7DE1" stroke="#1565C0" stroke-width="4"/>
-  <circle cx="394" cy="280" r="8" fill="#1565C0"/>
+  <!-- Head sheen -->
+  <path d="M 256 90 L 390 200 L 390 330 Q 390 390 330 390 L 182 390 Q 122 390 122 330 L 122 200 Z" fill="url(#hs)" opacity="0.1"/>
 
-  <!-- Chin detail (grill lines) -->
-  <line x1="224" y1="375" x2="224" y2="385" stroke="#1565C0" stroke-width="3" stroke-linecap="round"/>
-  <line x1="244" y1="375" x2="244" y2="388" stroke="#1565C0" stroke-width="3" stroke-linecap="round"/>
-  <line x1="264" y1="375" x2="264" y2="388" stroke="#1565C0" stroke-width="3" stroke-linecap="round"/>
-  <line x1="284" y1="375" x2="284" y2="385" stroke="#1565C0" stroke-width="3" stroke-linecap="round"/>
+  <!-- Visor -->
+  <rect x="148" y="212" width="216" height="152" rx="52" fill="#FFFFFF" opacity="0.95"/>
+  <rect x="148" y="212" width="216" height="152" rx="52" fill="none" stroke="rgba(200,230,255,0.2)" stroke-width="1"/>
+
+  <!-- Left eye -->
+  <ellipse cx="210" cy="280" rx="32" ry="32" fill="url(#eg)"/>
+  <circle cx="200" cy="270" r="12" fill="#FFFFFF" opacity="0.85"/>
+
+  <!-- Right eye -->
+  <ellipse cx="302" cy="280" rx="32" ry="32" fill="url(#eg)"/>
+  <circle cx="292" cy="270" r="12" fill="#FFFFFF" opacity="0.85"/>
+
+  <!-- Smile -->
+  <path d="M224 332 Q256 358 288 332" stroke="#00D4FF" stroke-width="10" stroke-linecap="round" fill="none"/>
+
+  <!-- Antenna stems -->
+  <line x1="190" y1="142" x2="156" y2="56" stroke="#1B5588" stroke-width="14" stroke-linecap="round"/>
+  <line x1="322" y1="142" x2="356" y2="56" stroke="#1B5588" stroke-width="14" stroke-linecap="round"/>
+
+  <!-- Antenna joints -->
+  <circle cx="190" cy="144" r="14" fill="url(#ag)"/>
+  <circle cx="322" cy="144" r="14" fill="url(#ag)"/>
+
+  <!-- Antenna balls -->
+  <circle cx="156" cy="50" r="22" fill="url(#ag)"/>
+  <circle cx="356" cy="50" r="22" fill="url(#ag)"/>
+  <circle cx="150" cy="44" r="8" fill="#FFFFFF" opacity="0.7"/>
+  <circle cx="350" cy="44" r="8" fill="#FFFFFF" opacity="0.7"/>
+
+  <!-- Sheen gradient definition -->
+  <defs>
+    <linearGradient id="hs" x1="122" y1="90" x2="300" y2="220" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
 </svg>
