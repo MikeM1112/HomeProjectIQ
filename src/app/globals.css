@@ -274,6 +274,34 @@
   }
 }
 
+/* ── Section divider ── */
+.section-divider {
+  height: 1px;
+  max-width: 600px;
+  margin: 0 auto;
+  background: linear-gradient(90deg, transparent, var(--glass-border-hover), transparent);
+}
+
+/* ── Nav link hover underline ── */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--accent-gradient);
+  transform: scaleX(0);
+  transition: transform 0.25s ease;
+}
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
 /* ── Textures ── */
 .dot-grid {
   background-image: radial-gradient(circle, var(--ink-dim) 1px, transparent 1px);

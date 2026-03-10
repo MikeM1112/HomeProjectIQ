@@ -21,7 +21,7 @@ export function ThemeToggle({ compact = false }: ThemeToggleProps) {
   useEffect(() => setMounted(true), []);
 
   if (!mounted) {
-    return compact ? <div className="w-8 h-8" /> : <div className="h-10" />;
+    return compact ? <div className="w-11 h-11" /> : <div className="h-10" />;
   }
 
   if (compact) {
@@ -32,7 +32,7 @@ export function ThemeToggle({ compact = false }: ThemeToggleProps) {
           const idx = order.indexOf(theme as typeof order[number]);
           setTheme(order[(idx + 1) % order.length]);
         }}
-        className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-[var(--muted)] transition-colors text-base"
+        className="w-11 h-11 flex items-center justify-center rounded-full hover:bg-[var(--muted)] transition-colors text-base"
         aria-label={`Theme: ${theme}`}
       >
         {theme === 'dark' ? '🌙' : theme === 'light' ? '☀️' : '💻'}
