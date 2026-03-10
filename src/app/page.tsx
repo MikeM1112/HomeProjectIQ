@@ -9,6 +9,8 @@ import { DashboardScreen } from '@/components/landing/screens/DashboardScreen';
 import { AssessmentScreen } from '@/components/landing/screens/AssessmentScreen';
 import { PlannerScreen } from '@/components/landing/screens/PlannerScreen';
 import { Mascot } from '@/components/brand/Mascot';
+import { BrandIcon } from '@/components/brand/BrandIcon';
+import type { BrandIconName } from '@/components/brand/BrandIcon';
 
 export default function LandingPage() {
   const [scrolled, setScrolled] = useState(false);
@@ -144,23 +146,20 @@ export default function LandingPage() {
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[
-              { icon: '📸', title: 'AI Photo Assessment', desc: 'Snap a photo of any issue — get a diagnosis, cost estimate, and action plan in seconds.', iconBg: 'var(--accent-soft)' },
-              { icon: '🛠️', title: 'DIY Feasibility', desc: 'AI matches your skill level to every project and tells you honestly when to hire a pro.', iconBg: 'var(--info-soft)' },
-              { icon: '🏠', title: 'Home Health Score', desc: 'Track every system in your home — HVAC, plumbing, roof, electrical — with one score.', iconBg: 'var(--emerald-soft)' },
-              { icon: '💰', title: 'Project Planner', desc: 'Budget and save for future projects with automatic savings goals and timeline tracking.', iconBg: 'var(--gold-soft)' },
-              { icon: '💡', title: 'Smart Insights', desc: 'Weather-aware tips and seasonal reminders personalized to your home and your region.', iconBg: 'var(--accent-soft)' },
-              { icon: '👷', title: 'Pro Marketplace', desc: 'Get live bids from verified contractors when a project is beyond your skill level.', iconBg: 'var(--danger-soft)' },
-            ].map((feature) => (
+            {([
+              { brandIcon: 'diagnose' as BrandIconName, title: 'AI Photo Assessment', desc: 'Snap a photo of any issue — get a diagnosis, cost estimate, and action plan in seconds.' },
+              { brandIcon: 'tools' as BrandIconName, title: 'DIY Feasibility', desc: 'AI matches your skill level to every project and tells you honestly when to hire a pro.' },
+              { brandIcon: 'plan-fix' as BrandIconName, title: 'Home Health Score', desc: 'Track every system in your home — HVAC, plumbing, roof, electrical — with one score.' },
+              { brandIcon: 'cost-savings' as BrandIconName, title: 'Project Planner', desc: 'Budget and save for future projects with automatic savings goals and timeline tracking.' },
+              { brandIcon: 'time' as BrandIconName, title: 'Smart Insights', desc: 'Weather-aware tips and seasonal reminders personalized to your home and your region.' },
+              { brandIcon: 'hire-pro' as BrandIconName, title: 'Pro Marketplace', desc: 'Get live bids from verified contractors when a project is beyond your skill level.' },
+            ]).map((feature) => (
               <div
                 key={feature.title}
                 className="rounded-[20px] bg-[var(--glass)] backdrop-blur-[16px] border border-[var(--glass-border)] shadow-[var(--card-shadow,_0_2px_16px_rgba(0,0,0,0.08))] p-6 transition-all duration-300 hover:border-[var(--glass-border-hover)] hover:-translate-y-1"
               >
-                <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
-                  style={{ background: feature.iconBg }}
-                >
-                  <span className="text-2xl">{feature.icon}</span>
+                <div className="w-14 h-14 flex items-center justify-center mb-4">
+                  <BrandIcon name={feature.brandIcon} size={56} />
                 </div>
                 <h3 className="font-serif text-lg text-[var(--text)] mb-2">{feature.title}</h3>
                 <p className="text-sm text-[var(--text-sub)] leading-relaxed">{feature.desc}</p>
@@ -359,31 +358,33 @@ export default function LandingPage() {
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[
+            {([
               {
-                icon: '🔍',
+                brandIcon: 'diagnose' as BrandIconName,
                 title: 'Mold vs. Soap Scum',
                 desc: 'AI vision distinguishes dangerous mold from harmless buildup — potentially saving thousands in unnecessary remediation.',
                 tag: 'Bathroom Assessment',
               },
               {
-                icon: '🧱',
+                brandIcon: 'plan-fix' as BrandIconName,
                 title: 'Load-Bearing Detection',
                 desc: 'Before you knock down that wall, AI analyzes structural indicators to flag potential load-bearing concerns.',
                 tag: 'Renovation Planning',
               },
               {
-                icon: '🔧',
+                brandIcon: 'tools' as BrandIconName,
                 title: 'DIY Step-by-Step',
                 desc: 'Get guided instructions matched to your skill level — from faucet replacement to drywall repair.',
                 tag: 'Guided Repair',
               },
-            ].map((scenario) => (
+            ]).map((scenario) => (
               <div
                 key={scenario.title}
                 className="rounded-[20px] bg-[var(--glass)] backdrop-blur-[16px] border border-[var(--glass-border)] shadow-[var(--card-shadow,_0_2px_16px_rgba(0,0,0,0.08))] p-6 transition-all duration-300 hover:border-[var(--glass-border-hover)]"
               >
-                <span className="text-3xl block mb-3">{scenario.icon}</span>
+                <div className="mb-3">
+                  <BrandIcon name={scenario.brandIcon} size={44} />
+                </div>
                 <h3 className="font-serif text-lg text-[var(--text)] mb-2">{scenario.title}</h3>
                 <p className="text-sm text-[var(--text-sub)] leading-relaxed mb-4">
                   {scenario.desc}

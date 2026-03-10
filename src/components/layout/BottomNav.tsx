@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
 import { useDemo } from '@/hooks/useDemo';
 
 const LEFT_TABS = [
@@ -70,13 +71,18 @@ export function BottomNav() {
           className="flex flex-col items-center gap-0.5 -mt-5 tap"
         >
           <div
-            className="w-14 h-14 rounded-full flex items-center justify-center shadow-lg"
+            className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg overflow-hidden"
             style={{
-              background: 'var(--accent-gradient)',
               boxShadow: '0 4px 20px var(--accent-glow)',
             }}
           >
-            <span className="text-2xl">📷</span>
+            <Image
+              src="/brand/app-icon.png"
+              alt="Scan"
+              width={56}
+              height={56}
+              className="object-cover w-full h-full"
+            />
           </div>
           <span className="text-[10px] font-semibold" style={{ color: 'var(--accent)' }}>
             Scan

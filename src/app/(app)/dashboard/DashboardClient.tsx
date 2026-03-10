@@ -18,6 +18,7 @@ import { MaintenanceDashboardCompact } from '@/components/maintenance/Maintenanc
 import { AIAssessmentFlow } from '@/components/advisor/AIAssessmentFlow';
 import { Button } from '@/components/ui/Button';
 import { Mascot, MascotGreeting } from '@/components/brand/Mascot';
+import { BrandIcon } from '@/components/brand/BrandIcon';
 import { useAdvisorStore } from '@/stores/advisorStore';
 import { useUser } from '@/hooks/useUser';
 import { useProjects } from '@/hooks/useProjects';
@@ -81,11 +82,8 @@ export function DashboardClient() {
               style={{ background: 'var(--accent-gradient)' }}
             />
             <div className="relative p-5 flex items-center gap-4">
-              <div
-                className="w-14 h-14 rounded-2xl shrink-0 flex items-center justify-center"
-                style={{ background: 'var(--accent-soft)' }}
-              >
-                <span className="text-3xl">📸</span>
+              <div className="w-14 h-14 shrink-0 flex items-center justify-center">
+                <BrandIcon name="diagnose" size={56} />
               </div>
               <div className="flex-1 min-w-0">
                 <h2 className="font-serif text-lg text-[var(--text)]">Diagnose a Problem</h2>
