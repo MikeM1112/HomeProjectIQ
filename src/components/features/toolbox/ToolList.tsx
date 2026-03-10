@@ -45,7 +45,7 @@ export function ToolList({ tools, onRemove }: ToolListProps) {
                   <span className="text-xl">{def?.emoji ?? '🔧'}</span>
                   <p className="text-xs font-medium mt-1 text-[var(--ink)]">{item.tool_name}</p>
                   {confirmId === item.tool_id ? (
-                    <div className="absolute inset-0 glass rounded-2xl flex items-center justify-center gap-2 animate-fade">
+                    <div className="absolute inset-0 glass rounded-[20px] flex items-center justify-center gap-2 animate-fade shadow-[var(--card-shadow)]">
                       <Button variant="destructive" size="sm" onClick={() => { onRemove(item.tool_id); setConfirmId(null); }}>
                         Remove
                       </Button>

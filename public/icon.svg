@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="256" fill="#1A7FE8"/>
+
+  <!-- Robot head/body (rounded rectangle) -->
+  <rect x="128" y="180" width="256" height="220" rx="40" ry="40" fill="#2A7DE1" stroke="#1565C0" stroke-width="6"/>
+
+  <!-- Hardhat brim -->
+  <ellipse cx="256" cy="190" rx="155" ry="18" fill="#E5A700"/>
+  <!-- Hardhat dome -->
+  <path d="M140 190 Q145 100 256 90 Q367 100 372 190 Z" fill="#FBBF24" stroke="#E5A700" stroke-width="4"/>
+  <!-- Hardhat ridge -->
+  <line x1="256" y1="92" x2="256" y2="190" stroke="#E5A700" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- Left eye socket -->
+  <rect x="168" y="230" width="72" height="56" rx="16" ry="16" fill="#0A1628"/>
+  <!-- Right eye socket -->
+  <rect x="272" y="230" width="72" height="56" rx="16" ry="16" fill="#0A1628"/>
+
+  <!-- Left eye pupil -->
+  <circle cx="210" cy="258" r="18" fill="#E0F0FF"/>
+  <circle cx="214" cy="254" r="8" fill="#FFFFFF"/>
+  <!-- Right eye pupil -->
+  <circle cx="314" cy="258" r="18" fill="#E0F0FF"/>
+  <circle cx="318" cy="254" r="8" fill="#FFFFFF"/>
+
+  <!-- Mouth (friendly smile) -->
+  <path d="M200 340 Q230 370 256 370 Q282 370 312 340" stroke="#E0F0FF" stroke-width="8" fill="none" stroke-linecap="round"/>
+
+  <!-- Antenna base -->
+  <rect x="244" y="74" width="24" height="20" rx="4" fill="#2A7DE1"/>
+  <!-- Antenna ball -->
+  <circle cx="256" cy="64" r="14" fill="#3B9EFF"/>
+  <circle cx="260" cy="60" r="5" fill="#9DD4FF"/>
+
+  <!-- Left ear bolt -->
+  <circle cx="118" cy="280" r="18" fill="#2A7DE1" stroke="#1565C0" stroke-width="4"/>
+  <circle cx="118" cy="280" r="8" fill="#1565C0"/>
+  <!-- Right ear bolt -->
+  <circle cx="394" cy="280" r="18" fill="#2A7DE1" stroke="#1565C0" stroke-width="4"/>
+  <circle cx="394" cy="280" r="8" fill="#1565C0"/>
+
+  <!-- Chin detail (grill lines) -->
+  <line x1="224" y1="375" x2="224" y2="385" stroke="#1565C0" stroke-width="3" stroke-linecap="round"/>
+  <line x1="244" y1="375" x2="244" y2="388" stroke="#1565C0" stroke-width="3" stroke-linecap="round"/>
+  <line x1="264" y1="375" x2="264" y2="388" stroke="#1565C0" stroke-width="3" stroke-linecap="round"/>
+  <line x1="284" y1="375" x2="284" y2="385" stroke="#1565C0" stroke-width="3" stroke-linecap="round"/>
+</svg>

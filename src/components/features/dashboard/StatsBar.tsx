@@ -11,9 +11,9 @@ export function StatsBar() {
 
   if (isLoading) {
     return (
-      <div className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4">
+      <div className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
         {Array.from({ length: 4 }).map((_, i) => (
-          <Skeleton key={i} variant="card" className="min-w-[140px] h-24" />
+          <Skeleton key={i} variant="card" className="min-w-[140px] h-24 rounded-[20px]" />
         ))}
       </div>
     );
@@ -38,13 +38,13 @@ export function StatsBar() {
       <Card padding="sm" className="min-w-[120px] shrink-0" style={{ background: 'var(--glass)', borderColor: 'var(--glass-border)' }}>
         <p className="text-[10px] uppercase tracking-[0.8px] text-[var(--text-dim)]">XP</p>
         <p className="text-[26px] font-[800] leading-tight text-[var(--text)]">{user.xp}</p>
-        <div className="mt-1.5 h-1.5 w-full rounded-full bg-[var(--xp-bar-bg)] overflow-hidden">
+        <div className="mt-1.5 h-2 w-full rounded-full bg-[var(--xp-bar-bg)] overflow-hidden">
           <div
             className="h-full rounded-full animate-barGrow origin-left"
             style={{
               width: `${xpInfo.progress}%`,
               background: 'var(--xp-gradient)',
-              boxShadow: '0 0 8px var(--accent-glow)',
+              boxShadow: '0 0 12px var(--accent-glow)',
             }}
           />
         </div>

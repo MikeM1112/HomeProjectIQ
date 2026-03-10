@@ -27,6 +27,7 @@ import { WallAnalysis } from '@/components/features/dashboard/WallAnalysis';
 import { DiagnosisGallery } from '@/components/features/dashboard/DiagnosisGallery';
 import { ProjectPlanner } from '@/components/features/dashboard/ProjectPlanner';
 import { ProMarketplace } from '@/components/features/dashboard/ProMarketplace';
+import { MaintenanceDashboardCompact } from '@/components/maintenance/MaintenanceDashboardCompact';
 import { AIAssessmentFlow } from '@/components/advisor/AIAssessmentFlow';
 import { Button } from '@/components/ui/Button';
 import { useAdvisorStore } from '@/stores/advisorStore';
@@ -164,7 +165,10 @@ export default function DemoDashboardPage() {
           {/* Honey-Do List */}
           <HoneyDoList items={DEMO_HONEY_DO} onToggle={handleDemoAction} />
 
-          {/* Maintenance Schedule */}
+          {/* Maintenance Hub (new engine) */}
+          <MaintenanceDashboardCompact />
+
+          {/* Maintenance Schedule (legacy) */}
           <MaintenanceSchedule
             tasks={DEMO_MAINTENANCE}
             onMarkDone={() => showToast('Sign up to track your maintenance!', 'info')}

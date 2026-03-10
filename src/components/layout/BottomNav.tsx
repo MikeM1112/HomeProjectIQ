@@ -5,9 +5,12 @@ import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useDemo } from '@/hooks/useDemo';
 
-const TABS = [
-  { href: '/dashboard', icon: '🏠', label: 'Projects' },
-  { href: '/toolbox', icon: '🔧', label: 'Toolbox' },
+const LEFT_TABS = [
+  { href: '/dashboard', icon: '🏠', label: 'Home' },
+  { href: '/maintenance', icon: '🔧', label: 'Maintain' },
+];
+
+const RIGHT_TABS = [
   { href: '/logbook', icon: '📋', label: 'Logbook' },
   { href: '/settings/account', icon: '👤', label: 'Profile' },
 ];
@@ -23,13 +26,64 @@ export function BottomNav() {
       className="fixed bottom-0 left-0 right-0 z-40 border-t pb-safe-bottom"
       style={{
         background: 'var(--bottom-nav-bg)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
+        backdropFilter: 'blur(24px)',
+        WebkitBackdropFilter: 'blur(24px)',
         borderColor: 'var(--border)',
+        boxShadow: '0 -4px 24px rgba(26,127,232,0.06)',
       }}
     >
       <div className="max-w-[480px] mx-auto flex items-center justify-around h-16">
-        {TABS.map((tab) => {
+        {LEFT_TABS.map((tab) => {
+          const href = `${prefix}${tab.href}`;
+          const isActive = pathname === href || pathname.startsWith(href + '/');
+          return (
+            <Link
+              key={tab.label}
+              href={href}
+              aria-current={isActive ? 'page' : undefined}
+              className={cn(
+                'flex flex-col items-center gap-0.5 px-2 py-1 tap relative transition-colors',
+                isActive ? 'text-[var(--accent)]' : 'text-[var(--text-dim)]'
+              )}
+            >
+              <span className="text-xl">{tab.icon}</span>
+              <span className={cn('text-[10px]', isActive ? 'font-semibold' : 'font-normal')}>
+                {tab.label}
+              </span>
+              {isActive && (
+                <span
+                  className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-5 h-[2px] rounded-full"
+                  style={{ background: 'var(--accent-gradient)' }}
+                />
+              )}
+            </Link>
+          );
+        })}
+
+        {/* Center Scan/Assess Button */}
+        <Link
+          href={`${prefix}/dashboard`}
+          onClick={() => {
+            // Dispatch custom event to trigger photo assessment (dashboard listens)
+            window.dispatchEvent(new CustomEvent('homeiq:start-assessment'));
+          }}
+          className="flex flex-col items-center gap-0.5 -mt-5 tap"
+        >
+          <div
+            className="w-14 h-14 rounded-full flex items-center justify-center shadow-lg"
+            style={{
+              background: 'var(--accent-gradient)',
+              boxShadow: '0 4px 20px var(--accent-glow)',
+            }}
+          >
+            <span className="text-2xl">📷</span>
+          </div>
+          <span className="text-[10px] font-semibold" style={{ color: 'var(--accent)' }}>
+            Scan
+          </span>
+        </Link>
+
+        {RIGHT_TABS.map((tab) => {
           const href = `${prefix}${tab.href}`;
           const isActive = pathname === href || pathname.startsWith(href + '/');
           return (

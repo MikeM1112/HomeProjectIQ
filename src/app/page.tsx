@@ -8,6 +8,7 @@ import { AppStoreBadge, GooglePlayBadge } from '@/components/landing/AppStoreBad
 import { DashboardScreen } from '@/components/landing/screens/DashboardScreen';
 import { AssessmentScreen } from '@/components/landing/screens/AssessmentScreen';
 import { PlannerScreen } from '@/components/landing/screens/PlannerScreen';
+import { Mascot } from '@/components/brand/Mascot';
 
 export default function LandingPage() {
   const [scrolled, setScrolled] = useState(false);
@@ -19,11 +20,12 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-[var(--bg)] relative overflow-hidden">
-      {/* Background ambient glow */}
+    <main className="min-h-screen relative overflow-hidden" style={{ background: 'var(--bg)' }}>
+      {/* Background ice-blue ambient glow */}
       <div className="fixed inset-0 pointer-events-none -z-10" aria-hidden="true">
-        <div className="absolute top-[-300px] left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full opacity-[0.08] blur-[120px]" style={{ background: 'var(--accent)' }} />
-        <div className="absolute bottom-[-200px] right-[-200px] w-[600px] h-[600px] rounded-full opacity-[0.05] blur-[100px]" style={{ background: 'var(--accent)' }} />
+        <div className="absolute top-[-250px] left-1/2 -translate-x-1/2 w-[900px] h-[900px] rounded-full opacity-[0.10] blur-[160px]" style={{ background: 'var(--accent)' }} />
+        <div className="absolute top-1/3 right-[-200px] w-[500px] h-[500px] rounded-full opacity-[0.05] blur-[140px]" style={{ background: 'var(--accent)' }} />
+        <div className="absolute bottom-[-200px] left-[-100px] w-[600px] h-[600px] rounded-full opacity-[0.04] blur-[120px]" style={{ background: 'var(--emerald)' }} />
       </div>
 
       {/* ═══════════ 1. NAV BAR ═══════════ */}
@@ -38,7 +40,7 @@ export default function LandingPage() {
       >
         <div className="max-w-6xl mx-auto px-5 h-14 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <span className="text-xl">🏠</span>
+            <Mascot mode="default" size="sm" />
             <span className="font-serif text-base text-[var(--text)] font-semibold">HomeProjectIQ</span>
           </Link>
 
@@ -87,10 +89,13 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
           {/* Left: copy */}
           <div className="text-center lg:text-left">
+            <div className="flex items-center gap-3 justify-center lg:justify-start mb-4">
+              <Mascot mode="default" size="lg" />
+            </div>
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl mb-5 leading-[1.1]">
               <span className="gradient-text">Your Home&apos;s</span>
               <br />
-              <span className="gradient-text">Smartest Upgrade</span>
+              <span className="gradient-text">AI Co-Pilot</span>
             </h1>
             <p className="text-[var(--text-sub)] text-lg sm:text-xl mb-8 max-w-lg mx-auto lg:mx-0 leading-relaxed">
               AI-powered home assessment that tells you exactly what to fix, whether to DIY or hire a pro, and how much it&apos;ll cost.
@@ -149,7 +154,7 @@ export default function LandingPage() {
             ].map((feature) => (
               <div
                 key={feature.title}
-                className="rounded-2xl bg-[var(--glass)] backdrop-blur-[12px] border border-[var(--glass-border)] p-6 transition-all duration-300 hover:border-[var(--glass-border-hover)] hover:-translate-y-1"
+                className="rounded-[20px] bg-[var(--glass)] backdrop-blur-[16px] border border-[var(--glass-border)] shadow-[var(--card-shadow,_0_2px_16px_rgba(0,0,0,0.08))] p-6 transition-all duration-300 hover:border-[var(--glass-border-hover)] hover:-translate-y-1"
               >
                 <div
                   className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
@@ -322,16 +327,16 @@ export default function LandingPage() {
       <section className="px-5 py-16">
         <div className="max-w-4xl mx-auto">
           <div
-            className="rounded-2xl bg-[var(--glass)] backdrop-blur-[12px] border border-[var(--glass-border)] p-8 sm:p-10"
+            className="rounded-[20px] bg-[var(--glass)] backdrop-blur-[16px] border border-[var(--glass-border)] shadow-[var(--card-shadow,_0_2px_16px_rgba(0,0,0,0.08))] p-8 sm:p-10"
           >
             <p className="text-center text-sm font-semibold text-[var(--text-sub)] mb-6">
-              Trusted by 10,000+ homeowners
+              Built for homeowners who want to do it right
             </p>
             <div className="grid grid-cols-3 gap-4 text-center">
               {[
-                { stat: '$680', label: 'Avg savings per year' },
-                { stat: '50,000+', label: 'Projects diagnosed' },
-                { stat: '4.8 ★', label: 'App Store rating' },
+                { stat: 'AI-Powered', label: 'Smart diagnostics' },
+                { stat: 'Every Project', label: 'Simplified' },
+                { stat: 'DIY or Pro', label: 'Guided decisions' },
               ].map((item) => (
                 <div key={item.label}>
                   <p className="text-2xl sm:text-3xl font-[800]" style={{ color: 'var(--accent)' }}>{item.stat}</p>
@@ -343,54 +348,49 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ═══════════ 7. TESTIMONIALS ═══════════ */}
+      {/* ═══════════ 7. USE CASES ═══════════ */}
       <section id="reviews" className="px-5 py-20 sm:py-28">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="font-serif text-3xl sm:text-4xl mb-3 text-[var(--text)]">
-              What homeowners are saying
+              Real scenarios, real savings
             </h2>
+            <p className="text-sm text-[var(--text-dim)]">See what HomeProjectIQ can do</p>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
               {
-                name: 'Sarah M.',
-                stars: 5,
-                quote: 'Saved me $2,400 on what I thought was a mold problem. AI diagnosed it as soap scum buildup in 10 seconds. Cleaned it with vinegar.',
-                project: 'Bathroom Assessment',
+                icon: '🔍',
+                title: 'Mold vs. Soap Scum',
+                desc: 'AI vision distinguishes dangerous mold from harmless buildup — potentially saving thousands in unnecessary remediation.',
+                tag: 'Bathroom Assessment',
               },
               {
-                name: 'Jake R.',
-                stars: 5,
-                quote: 'The wall analysis stopped me from removing a load-bearing wall. Would have been a $15,000 mistake. Worth every penny.',
-                project: 'Kitchen Renovation',
+                icon: '🧱',
+                title: 'Load-Bearing Detection',
+                desc: 'Before you knock down that wall, AI analyzes structural indicators to flag potential load-bearing concerns.',
+                tag: 'Renovation Planning',
               },
               {
-                name: 'Maria L.',
-                stars: 5,
-                quote: 'My husband and I fixed our own kitchen faucet following the step-by-step guide. We felt like pros. Plumber would have charged $250.',
-                project: 'Kitchen Faucet Replacement',
+                icon: '🔧',
+                title: 'DIY Step-by-Step',
+                desc: 'Get guided instructions matched to your skill level — from faucet replacement to drywall repair.',
+                tag: 'Guided Repair',
               },
-            ].map((review) => (
+            ].map((scenario) => (
               <div
-                key={review.name}
-                className="rounded-2xl bg-[var(--glass)] backdrop-blur-[12px] border border-[var(--glass-border)] p-6 transition-all duration-300 hover:border-[var(--glass-border-hover)]"
+                key={scenario.title}
+                className="rounded-[20px] bg-[var(--glass)] backdrop-blur-[16px] border border-[var(--glass-border)] shadow-[var(--card-shadow,_0_2px_16px_rgba(0,0,0,0.08))] p-6 transition-all duration-300 hover:border-[var(--glass-border-hover)]"
               >
-                <div className="flex items-center gap-1 mb-3">
-                  {Array.from({ length: review.stars }).map((_, i) => (
-                    <span key={i} className="text-sm" style={{ color: 'var(--gold)' }}>&#9733;</span>
-                  ))}
-                </div>
-                <p className="text-sm text-[var(--text)] leading-relaxed mb-4">
-                  &ldquo;{review.quote}&rdquo;
+                <span className="text-3xl block mb-3">{scenario.icon}</span>
+                <h3 className="font-serif text-lg text-[var(--text)] mb-2">{scenario.title}</h3>
+                <p className="text-sm text-[var(--text-sub)] leading-relaxed mb-4">
+                  {scenario.desc}
                 </p>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-semibold text-[var(--text)]">{review.name}</span>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full" style={{ background: 'var(--accent-soft)', color: 'var(--accent)' }}>
-                    {review.project}
-                  </span>
-                </div>
+                <span className="text-[10px] px-2 py-0.5 rounded-full" style={{ background: 'var(--accent-soft)', color: 'var(--accent)' }}>
+                  {scenario.tag}
+                </span>
               </div>
             ))}
           </div>
@@ -439,7 +439,7 @@ export default function LandingPage() {
             {/* Logo */}
             <div>
               <div className="flex items-center gap-2 mb-3">
-                <span className="text-xl">🏠</span>
+                <Mascot mode="default" size="sm" />
                 <span className="font-serif text-base text-[var(--text)] font-semibold">HomeProjectIQ</span>
               </div>
               <p className="text-sm text-[var(--text-dim)]">Know before you build.</p>
@@ -469,8 +469,8 @@ export default function LandingPage() {
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-[var(--text-dim)] mb-3">Legal</p>
               <div className="space-y-2">
-                <a href="#" className="block text-sm text-[var(--text-sub)] hover:text-[var(--text)] transition-colors">Privacy</a>
-                <a href="#" className="block text-sm text-[var(--text-sub)] hover:text-[var(--text)] transition-colors">Terms</a>
+                <Link href="/privacy" className="block text-sm text-[var(--text-sub)] hover:text-[var(--text)] transition-colors">Privacy</Link>
+                <Link href="/terms" className="block text-sm text-[var(--text-sub)] hover:text-[var(--text)] transition-colors">Terms</Link>
               </div>
             </div>
           </div>

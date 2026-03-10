@@ -51,7 +51,7 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   viewportFit: 'cover',
-  themeColor: '#7C3AED',
+  themeColor: '#1A7FE8',
 };
 
 export default function RootLayout({
@@ -62,8 +62,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={`${geist.variable} ${geistMono.variable} ${instrumentSerif.variable}`}>
       <head>
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#7C3AED" />
+        <meta name="theme-color" content="#1A7FE8" />
       </head>
       <body className="font-sans antialiased transition-colors duration-300">
         <ThemeProvider>

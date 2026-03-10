@@ -9,6 +9,11 @@ import { Button } from '@/components/ui/Button';
 import { useUIStore } from '@/stores/uiStore';
 import { formatCurrency } from '@/lib/utils';
 import { AffiliateBuyButton } from '@/components/monetization/AffiliateBuyButton';
+import { ShoppingList } from '@/components/shopping/ShoppingList';
+import { StoreComparison } from '@/components/shopping/StoreComparison';
+import { AisleGuide } from '@/components/shopping/AisleGuide';
+import { useGuidedStore } from '@/stores/guidedStore';
+import { Mascot } from '@/components/brand/Mascot';
 import { cn } from '@/lib/utils';
 
 const TABS = ['Summary', 'Steps', 'Tools', 'Shop', 'Hire Pro'] as const;
@@ -52,7 +57,7 @@ export function DiagnosisView({ result }: DiagnosisViewProps) {
   return (
     <div className="space-y-4">
       {result.flags.length > 0 && (
-        <div className="sticky top-14 z-30 bg-[var(--yellow-lt)] border border-[var(--yellow)]/20 rounded-2xl p-3 space-y-1">
+        <div className="sticky top-14 z-30 bg-[var(--yellow-lt)] border border-[var(--yellow)]/20 rounded-[20px] shadow-[var(--card-shadow)] p-3 space-y-1">
           {result.flags.map((flag, i) => (
             <p key={i} className="text-sm text-warning font-medium">{flag}</p>
           ))}
@@ -61,7 +66,7 @@ export function DiagnosisView({ result }: DiagnosisViewProps) {
 
       <div
         className="flex gap-[2px] overflow-x-auto -mx-4 px-4"
-        style={{ background: 'var(--tab-bg)', borderRadius: '12px', padding: '4px' }}
+        style={{ background: 'var(--tab-bg)', borderRadius: '9999px', padding: '4px' }}
       >
         {TABS.map((tab, i) => (
           <button
@@ -76,9 +81,9 @@ export function DiagnosisView({ result }: DiagnosisViewProps) {
             style={{
               padding: '8px 14px',
               fontSize: '12px',
-              borderRadius: '8px',
+              borderRadius: '9999px',
               ...(activeTab === i
-                ? { background: 'var(--accent)', boxShadow: '0 2px 8px var(--accent-glow)' }
+                ? { background: 'var(--accent-gradient)', boxShadow: '0 2px 12px var(--accent-glow)' }
                 : {}),
             }}
           >
@@ -94,7 +99,7 @@ export function DiagnosisView({ result }: DiagnosisViewProps) {
             <p className="text-sm text-ink-sub text-center">{result.why}</p>
             <div className="space-y-2">
               <div
-                className="flex items-center justify-between rounded-xl p-3 border"
+                className="flex items-center justify-between rounded-[20px] p-3 border backdrop-blur-[16px] shadow-[var(--card-shadow)]"
                 style={{ background: 'var(--glass)', borderColor: 'var(--glass-border)' }}
               >
                 <span className="text-sm font-medium text-[var(--emerald)]">DIY</span>
@@ -103,7 +108,7 @@ export function DiagnosisView({ result }: DiagnosisViewProps) {
                 </span>
               </div>
               <div
-                className="flex items-center justify-between rounded-xl p-3 border"
+                className="flex items-center justify-between rounded-[20px] p-3 border backdrop-blur-[16px] shadow-[var(--card-shadow)]"
                 style={{ background: 'var(--glass)', borderColor: 'var(--glass-border)' }}
               >
                 <span className="text-sm font-medium text-[var(--info)]">Hire Pro</span>
@@ -112,7 +117,7 @@ export function DiagnosisView({ result }: DiagnosisViewProps) {
                 </span>
               </div>
               <div
-                className="flex items-center justify-between rounded-xl p-3 border"
+                className="flex items-center justify-between rounded-[20px] p-3 border backdrop-blur-[16px] shadow-[var(--card-shadow)]"
                 style={{ background: 'var(--glass)', borderColor: 'var(--accent-glow)' }}
               >
                 <span className="text-sm font-semibold text-[var(--accent)]">Potential Savings</span>
@@ -130,6 +135,25 @@ export function DiagnosisView({ result }: DiagnosisViewProps) {
 
         {activeTab === 1 && (
           <div className="space-y-3">
+            {/* Start Guided Mode CTA */}
+            <Card className="glass glass-sm border border-brand/20">
+              <div className="flex items-center gap-3">
+                <Mascot size="sm" mode="tool" animate={false} />
+                <div className="flex-1">
+                  <p className="text-sm font-semibold text-ink">Project GPS</p>
+                  <p className="text-xs text-ink-sub">Step-by-step guided mode with photo check-ins</p>
+                </div>
+                <Button
+                  size="sm"
+                  onClick={() => useGuidedStore.getState().startGuidedMode(
+                    'current', result.title, result.steps
+                  )}
+                >
+                  Start
+                </Button>
+              </div>
+            </Card>
+
             {result.steps.map((step, i) => (
               <Card key={i} padding="sm">
                 <div className="flex gap-3">
@@ -141,6 +165,11 @@ export function DiagnosisView({ result }: DiagnosisViewProps) {
                     <p className="text-xs text-ink-dim mt-0.5">{step.t}</p>
                     {step.tip && (
                       <p className="text-xs text-brand mt-1">Tip: {step.tip}</p>
+                    )}
+                    {step.photo && (
+                      <span className="inline-flex items-center gap-1 text-[10px] text-brand mt-1">
+                        {'\u{1F4F7}'} Photo check-in
+                      </span>
                     )}
                   </div>
                 </div>
@@ -182,40 +211,10 @@ export function DiagnosisView({ result }: DiagnosisViewProps) {
         )}
 
         {activeTab === 3 && (
-          <div className="space-y-3">
-            {result.shop.map((item, i) => (
-              <Card key={i} padding="sm">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <p className="text-sm font-medium">{item.n}</p>
-                    <p className="text-xs text-ink-dim">{item.sz}</p>
-                    <div className="flex items-center gap-2 mt-1">
-                      <Badge>{item.store}</Badge>
-                      <span className="text-[10px] text-ink-dim font-mono">SKU: {item.sku}</span>
-                    </div>
-                  </div>
-                  <div className="text-right space-y-1">
-                    <p className="font-mono text-sm font-semibold">{formatCurrency(item.pr)}</p>
-                    <p className="text-[10px] text-success">{item.stock}</p>
-                    {item.sku && item.store && (
-                      <AffiliateBuyButton
-                        href={`https://www.google.com/search?q=${encodeURIComponent(`${item.n} ${item.store}`)}`}
-                        label={`Buy at ${item.store}`}
-                        store={item.store}
-                        sku={item.sku}
-                      />
-                    )}
-                  </div>
-                </div>
-              </Card>
-            ))}
-            {result.matEst > 0 && (
-              <Card className="bg-brand-light">
-                <p className="text-sm font-semibold text-brand">
-                  Estimated Materials: {formatCurrency(result.matEst)}
-                </p>
-              </Card>
-            )}
+          <div className="space-y-6">
+            <ShoppingList diagnosis={result} />
+            <StoreComparison diagnosis={result} />
+            <AisleGuide diagnosis={result} />
           </div>
         )}
 

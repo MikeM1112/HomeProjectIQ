@@ -280,6 +280,104 @@ export type Database = {
         };
         Relationships: [];
       };
+      home_profiles: {
+        Row: {
+          id: string;
+          user_id: string;
+          home_type: string;
+          home_age: string;
+          heating_type: string;
+          has_ac: boolean;
+          has_chimney: boolean;
+          has_septic: boolean;
+          has_sump_pump: boolean;
+          has_garage: boolean;
+          has_deck: boolean;
+          has_yard: boolean;
+          setup_completed_at: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          home_type?: string;
+          home_age?: string;
+          heating_type?: string;
+          has_ac?: boolean;
+          has_chimney?: boolean;
+          has_septic?: boolean;
+          has_sump_pump?: boolean;
+          has_garage?: boolean;
+          has_deck?: boolean;
+          has_yard?: boolean;
+          setup_completed_at?: string | null;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          home_type?: string;
+          home_age?: string;
+          heating_type?: string;
+          has_ac?: boolean;
+          has_chimney?: boolean;
+          has_septic?: boolean;
+          has_sump_pump?: boolean;
+          has_garage?: boolean;
+          has_deck?: boolean;
+          has_yard?: boolean;
+          setup_completed_at?: string | null;
+        };
+        Relationships: [];
+      };
+      maintenance_tasks: {
+        Row: {
+          id: string;
+          user_id: string;
+          task_id: string;
+          title: string;
+          category: string;
+          frequency: string;
+          season: string | null;
+          importance: string;
+          last_completed_at: string | null;
+          next_due_at: string | null;
+          is_dismissed: boolean;
+          snoozed_until: string | null;
+          notes: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          task_id: string;
+          title: string;
+          category: string;
+          frequency: string;
+          season?: string | null;
+          importance?: string;
+          next_due_at?: string | null;
+          is_dismissed?: boolean;
+          notes?: string | null;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          task_id?: string;
+          title?: string;
+          category?: string;
+          frequency?: string;
+          season?: string | null;
+          importance?: string;
+          last_completed_at?: string | null;
+          next_due_at?: string | null;
+          is_dismissed?: boolean;
+          snoozed_until?: string | null;
+          notes?: string | null;
+        };
+        Relationships: [];
+      };
     };
     Views: {
       assessment_outcome_stats: {
@@ -363,6 +461,15 @@ export type Database = {
           p_outcome_difficulty?: string | null;
           p_outcome_complications?: string | null;
           p_outcome_would_diy_again?: boolean | null;
+        };
+        Returns: Record<string, unknown>;
+      };
+      complete_maintenance_task: {
+        Args: {
+          p_user_id: string;
+          p_task_id: string;
+          p_xp_amount?: number;
+          p_next_due_at?: string | null;
         };
         Returns: Record<string, unknown>;
       };

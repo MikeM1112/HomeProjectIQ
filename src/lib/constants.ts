@@ -10,6 +10,7 @@ export const ROUTES = {
   PROJECT: '/project',
   LOGBOOK: '/logbook',
   TOOLBOX: '/toolbox',
+  MAINTENANCE: '/maintenance',
   SETTINGS_ACCOUNT: '/settings/account',
   SETTINGS_BILLING: '/settings/billing',
   ADMIN: '/admin',
@@ -25,6 +26,7 @@ export const XP_VALUES = {
   OUTCOME_FEEDBACK: 20,
   AI_ASSESSMENT: 30,
   SHARE_RESULT: 10,
+  MAINTENANCE_COMPLETE: 15,
 } as const;
 
 export const LEVEL_THRESHOLDS = [
@@ -67,6 +69,7 @@ export const QUERY_KEYS = {
   TOOLBOX: 'toolbox',
   FLAGS: 'flags',
   FRIENDS: 'friends',
+  MAINTENANCE: 'maintenance',
 } as const;
 
 export const TOOLS: ToolDefinition[] = [

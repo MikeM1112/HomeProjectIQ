@@ -115,7 +115,7 @@ export function PhotoUpload({ onPhotoSelect, selectedPhoto }: PhotoUploadProps) 
   if (selectedPhoto && previewUrl) {
     return (
       <div className="space-y-2">
-        <div className="relative rounded-xl overflow-hidden border border-border bg-surface-card">
+        <div className="relative rounded-[20px] overflow-hidden border border-[var(--glass-border)] bg-[var(--glass)] shadow-[var(--card-shadow)]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={previewUrl}
@@ -175,12 +175,12 @@ export function PhotoUpload({ onPhotoSelect, selectedPhoto }: PhotoUploadProps) 
         }}
         className={cn(
           'relative flex flex-col items-center justify-center gap-3',
-          'rounded-xl border-2 border-dashed p-8 cursor-pointer',
-          'transition-all duration-200',
+          'rounded-[20px] border-2 border-dashed p-8 cursor-pointer',
+          'transition-all duration-200 backdrop-blur-[16px]',
           isDragging
-            ? 'border-brand bg-brand/5 scale-[1.01]'
-            : 'border-border hover:border-brand/50 hover:bg-surface-muted/50',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 focus-visible:ring-offset-2'
+            ? 'border-[var(--accent)] bg-[var(--accent-soft)] scale-[1.01] shadow-[0_0_24px_var(--accent-glow)]'
+            : 'border-[var(--dashed-border)] hover:border-[var(--accent)]/50 hover:bg-[var(--glass)]',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/40 focus-visible:ring-offset-2'
         )}
       >
         <div

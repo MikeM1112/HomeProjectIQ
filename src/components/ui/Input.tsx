@@ -23,8 +23,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           id={inputId}
           className={cn(
-            'w-full rounded-[10px] border px-3.5 py-2.5 text-sm text-[var(--text)] placeholder:text-[var(--text-dim)]',
-            'bg-[var(--input-bg)]',
+            'w-full rounded-[14px] border px-4 py-3 text-sm text-[var(--text)] placeholder:text-[var(--text-dim)]',
+            'bg-[var(--input-bg)] backdrop-blur-[8px]',
             'transition-colors focus:outline-none',
             error
               ? 'border-[var(--danger)] focus:border-[var(--danger)] focus:shadow-[0_0_0_3px_var(--danger-soft)]'

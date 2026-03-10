@@ -150,10 +150,10 @@ export function AIAssessmentFlow() {
             rows={3}
             maxLength={2000}
             className={cn(
-              'w-full rounded-lg border bg-white px-3.5 py-2.5 text-sm text-ink',
+              'w-full rounded-[16px] border bg-[var(--glass)] backdrop-blur-[16px] px-3.5 py-2.5 text-sm text-ink',
               'placeholder:text-ink-dim resize-none',
-              'transition-colors focus:outline-none focus:ring-2 focus:ring-offset-1',
-              'border-border focus:border-border-focus focus:ring-brand/20'
+              'transition-all focus:outline-none focus:ring-2 focus:ring-offset-1',
+              'border-[var(--glass-border)] focus:border-[var(--accent)] focus:ring-[var(--accent-glow)] shadow-[var(--card-shadow)]'
             )}
           />
           <p className="text-xs text-ink-dim text-right">
@@ -273,10 +273,10 @@ export function AIAssessmentFlow() {
             }}
             placeholder="e.g. 15"
             className={cn(
-              'w-full rounded-lg border bg-white px-3.5 py-2.5 text-sm text-ink',
+              'w-full rounded-[16px] border bg-[var(--glass)] backdrop-blur-[16px] px-3.5 py-2.5 text-sm text-ink',
               'placeholder:text-ink-dim',
-              'transition-colors focus:outline-none focus:ring-2 focus:ring-offset-1',
-              'border-border focus:border-border-focus focus:ring-brand/20'
+              'transition-all focus:outline-none focus:ring-2 focus:ring-offset-1',
+              'border-[var(--glass-border)] focus:border-[var(--accent)] focus:ring-[var(--accent-glow)] shadow-[var(--card-shadow)]'
             )}
           />
         </div>
@@ -428,7 +428,7 @@ export function AIAssessmentFlow() {
 
         {/* Flags */}
         {aiResult.flags.length > 0 && (
-          <div className="bg-warning/5 border border-warning/20 rounded-lg p-3 space-y-1">
+          <div className="bg-warning/5 border border-warning/20 rounded-[20px] p-3 space-y-1 shadow-[var(--card-shadow)]">
             {aiResult.flags.map((flag, i) => (
               <p key={i} className="text-sm text-warning font-medium">
                 {flag}
@@ -489,7 +489,7 @@ export function AIAssessmentFlow() {
             {aiResult.steps.map((s, i) => (
               <Card key={i} padding="sm">
                 <div className="flex gap-3">
-                  <div className="w-7 h-7 rounded-full bg-brand/10 text-brand text-sm font-bold flex items-center justify-center shrink-0">
+                  <div className="w-7 h-7 rounded-full bg-[var(--accent-soft)] text-[var(--accent)] text-sm font-bold flex items-center justify-center shrink-0 shadow-[0_0_8px_var(--accent-glow)]">
                     {i + 1}
                   </div>
                   <div className="flex-1">

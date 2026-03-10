@@ -17,7 +17,7 @@ export function PageWrapper({ children, className, animate = true, withGlow = fa
         animate && 'animate-rise',
         className
       )}
-      style={{ background: 'var(--bg)' }}
+      style={{ background: 'transparent' }}
     >
       {withGlow && (
         <div

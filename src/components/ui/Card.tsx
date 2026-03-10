@@ -20,7 +20,7 @@ export function Card({ variant = 'default', padding = 'md', children, className,
       tabIndex={onClick ? 0 : undefined}
       style={style}
       className={cn(
-        'rounded-2xl bg-[var(--glass)] backdrop-blur-[12px] border border-[var(--glass-border)] transition-all duration-300 hover:border-[var(--glass-border-hover)]',
+        'rounded-[20px] bg-[var(--glass)] backdrop-blur-[16px] border border-[var(--glass-border)] shadow-[var(--card-shadow,_0_2px_12px_rgba(0,0,0,0.08))] transition-all duration-300 hover:border-[var(--glass-border-hover)] hover:shadow-[var(--card-shadow-hover,_0_4px_20px_rgba(0,0,0,0.12))]',
         {
           '': variant === 'default',
           'pressable cursor-pointer hover:bg-[var(--card-hover)]': variant === 'interactive',
