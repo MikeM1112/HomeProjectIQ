@@ -23,6 +23,10 @@ import { LastDoneTracker } from '@/components/features/dashboard/LastDoneTracker
 import { HomeHealth } from '@/components/features/dashboard/HomeHealth';
 import { YardAssessment } from '@/components/features/dashboard/YardAssessment';
 import { LawnCalendar } from '@/components/features/dashboard/LawnCalendar';
+import { WallAnalysis } from '@/components/features/dashboard/WallAnalysis';
+import { DiagnosisGallery } from '@/components/features/dashboard/DiagnosisGallery';
+import { ProjectPlanner } from '@/components/features/dashboard/ProjectPlanner';
+import { ProMarketplace } from '@/components/features/dashboard/ProMarketplace';
 import { AIAssessmentFlow } from '@/components/advisor/AIAssessmentFlow';
 import { Button } from '@/components/ui/Button';
 import { useAdvisorStore } from '@/stores/advisorStore';
@@ -41,6 +45,10 @@ import {
   DEMO_HOME_HEALTH,
   DEMO_YARD_ASSESSMENT,
   DEMO_LAWN_CALENDAR,
+  DEMO_WALL_ANALYSIS,
+  DEMO_DIAGNOSIS_GALLERY,
+  DEMO_PROJECT_PLANNER,
+  DEMO_PRO_MARKETPLACE,
 } from '@/lib/demo-data';
 
 export default function DemoDashboardPage() {
@@ -108,6 +116,18 @@ export default function DemoDashboardPage() {
             </div>
           </div>
 
+          {/* AI Wall Analysis */}
+          <WallAnalysis
+            analysis={DEMO_WALL_ANALYSIS}
+            onAction={() => showToast('Sign up to scan your walls!', 'info')}
+          />
+
+          {/* AI Diagnosis Gallery */}
+          <DiagnosisGallery
+            showcases={DEMO_DIAGNOSIS_GALLERY}
+            onAction={() => showToast('Sign up to try AI diagnosis!', 'info')}
+          />
+
           {/* Quick Tips */}
           <QuickTips />
 
@@ -116,6 +136,12 @@ export default function DemoDashboardPage() {
 
           {/* Home Health Score */}
           <HomeHealth data={DEMO_HOME_HEALTH} />
+
+          {/* Project Planner */}
+          <ProjectPlanner
+            data={DEMO_PROJECT_PLANNER}
+            onAction={() => showToast('Sign up to plan your projects!', 'info')}
+          />
 
           {/* Yard AI Assessment */}
           <YardAssessment
@@ -149,6 +175,12 @@ export default function DemoDashboardPage() {
             bids={DEMO_LIVE_BIDS}
             projectTitle="Ceiling Fan Installation"
             onSelect={() => showToast('Sign up to connect with this pro!', 'info')}
+          />
+
+          {/* DIY Feasibility / Pro Marketplace */}
+          <ProMarketplace
+            data={DEMO_PRO_MARKETPLACE}
+            onAction={() => showToast('Sign up to find pros near you!', 'info')}
           />
 
           {/* Skill Tree */}

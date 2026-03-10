@@ -909,6 +909,325 @@ export const DEMO_LAWN_CALENDAR: LawnCalendarItem[] = [
   },
 ];
 
+// ─── NEW FEATURES: Project Planner (Budget Tracker) ──────────
+export interface PlannedProject {
+  id: string;
+  title: string;
+  property: string;
+  priority: 'high' | 'medium' | 'low';
+  targetDate: string;
+  estimatedCost: number;
+  savedSoFar: number;
+  monthlySavings: number;
+  notes: string;
+  icon: string;
+}
+
+export interface ProjectPlannerData {
+  totalTarget: number;
+  totalSaved: number;
+  properties: string[];
+  projects: PlannedProject[];
+}
+
+export const DEMO_PROJECT_PLANNER: ProjectPlannerData = {
+  totalTarget: 12800,
+  totalSaved: 5200,
+  properties: ['Main Home', 'Beach House'],
+  projects: [
+    {
+      id: 'pp-001',
+      title: 'Kitchen Backsplash',
+      property: 'Main Home',
+      priority: 'high',
+      targetDate: '2026-06-01',
+      estimatedCost: 3200,
+      savedSoFar: 2800,
+      monthlySavings: 175,
+      notes: 'Subway tile, white grout. Already picked out materials at Floor & Decor.',
+      icon: '🍳',
+    },
+    {
+      id: 'pp-002',
+      title: 'Deck Rebuild',
+      property: 'Main Home',
+      priority: 'high',
+      targetDate: '2026-08-15',
+      estimatedCost: 5500,
+      savedSoFar: 1200,
+      monthlySavings: 400,
+      notes: 'Replace rotting boards with composite. Get 3 contractor quotes first.',
+      icon: '🪵',
+    },
+    {
+      id: 'pp-003',
+      title: 'Outdoor Shower',
+      property: 'Beach House',
+      priority: 'medium',
+      targetDate: '2026-07-01',
+      estimatedCost: 2400,
+      savedSoFar: 800,
+      monthlySavings: 200,
+      notes: 'Simple cold water hookup with cedar enclosure. Check HOA rules first.',
+      icon: '🚿',
+    },
+    {
+      id: 'pp-004',
+      title: 'Smart Thermostat Install',
+      property: 'Main Home',
+      priority: 'low',
+      targetDate: '2026-11-01',
+      estimatedCost: 1700,
+      savedSoFar: 400,
+      monthlySavings: 100,
+      notes: 'Ecobee Premium. Will save ~$180/yr on energy bills.',
+      icon: '🌡️',
+    },
+  ],
+};
+
+// ─── NEW FEATURES: Wall Analysis (AI Load-Bearing Assessment) ─
+export interface WallObstacle {
+  id: string;
+  label: string;
+  probability: number;
+  severity: 'critical' | 'moderate' | 'low';
+  icon: string;
+  note: string;
+}
+
+export interface ProCheckItem {
+  id: string;
+  step: number;
+  title: string;
+  critical: boolean;
+  note: string;
+}
+
+export interface WallAnalysisData {
+  wallName: string;
+  photoDate: string;
+  loadBearingProbability: number;
+  verdict: 'likely_load_bearing' | 'possibly_load_bearing' | 'likely_not_load_bearing';
+  verdictLabel: string;
+  verdictNote: string;
+  obstacles: WallObstacle[];
+  proChecklist: ProCheckItem[];
+  costEstimate: {
+    engineering: { lo: number; hi: number };
+    removal: { lo: number; hi: number };
+    permit: { lo: number; hi: number };
+    beam: { lo: number; hi: number };
+    totalLo: number;
+    totalHi: number;
+  };
+  warnings: string[];
+  aiDisclaimer: string;
+}
+
+export const DEMO_WALL_ANALYSIS: WallAnalysisData = {
+  wallName: 'Kitchen-to-Living Room Wall',
+  photoDate: '2026-03-08',
+  loadBearingProbability: 78,
+  verdict: 'likely_load_bearing',
+  verdictLabel: 'Likely Load-Bearing',
+  verdictNote: 'This wall runs perpendicular to floor joists and is centered under the roof ridge. High probability it carries structural load.',
+  obstacles: [
+    { id: 'wo-001', label: 'Electrical', probability: 95, severity: 'critical', icon: '⚡', note: 'Light switch + outlet detected on both sides. Likely contains a circuit run.' },
+    { id: 'wo-002', label: 'Structural', probability: 78, severity: 'critical', icon: '🏗️', note: 'Wall appears to support floor joists above. LVL beam replacement needed if removed.' },
+    { id: 'wo-003', label: 'Plumbing', probability: 40, severity: 'moderate', icon: '🚿', note: 'Kitchen sink is 4 ft away — possible supply/drain lines routed through.' },
+    { id: 'wo-004', label: 'HVAC', probability: 25, severity: 'low', icon: '❄️', note: 'Vent register nearby but likely in floor, not in wall cavity.' },
+  ],
+  proChecklist: [
+    { id: 'pc-001', step: 1, title: 'Hire a structural engineer for assessment', critical: true, note: 'Required before any load-bearing wall work. PE stamp needed for permit.' },
+    { id: 'pc-002', step: 2, title: 'Pull permits from local building dept', critical: true, note: 'Structural modifications require permits in all jurisdictions.' },
+    { id: 'pc-003', step: 3, title: 'Get beam sizing calculations', critical: true, note: 'Engineer will specify LVL or steel beam size to replace wall support.' },
+    { id: 'pc-004', step: 4, title: 'Hire licensed contractor for removal', critical: false, note: 'Must install temporary shoring before wall removal.' },
+    { id: 'pc-005', step: 5, title: 'Schedule inspections (framing + final)', critical: true, note: 'Building inspector must approve beam installation and connections.' },
+  ],
+  costEstimate: {
+    engineering: { lo: 400, hi: 800 },
+    removal: { lo: 2500, hi: 8000 },
+    permit: { lo: 200, hi: 500 },
+    beam: { lo: 1200, hi: 3500 },
+    totalLo: 4300,
+    totalHi: 12800,
+  },
+  warnings: [
+    'Never remove a wall without confirming load-bearing status with a structural engineer.',
+    'Temporary shoring MUST be in place before any structural wall is touched.',
+    'Unpermitted structural work can void homeowner\'s insurance and create liability at resale.',
+  ],
+  aiDisclaimer: 'This AI assessment is based on visual analysis only. A licensed structural engineer must verify load-bearing status before any work begins. This is not a substitute for professional engineering.',
+};
+
+// ─── NEW FEATURES: Diagnosis Gallery (AI Identification Showcase) ─
+export interface DiagnosisOption {
+  label: string;
+  icon: string;
+  severity: 'critical' | 'moderate' | 'cosmetic';
+  severityLabel: string;
+}
+
+export interface DiagnosisShowcase {
+  id: string;
+  title: string;
+  optionA: DiagnosisOption;
+  optionB: DiagnosisOption;
+  verdict: string;
+  confidence: number;
+  actionRequired: string;
+  costEstimate: string;
+  diyFeasible: boolean;
+  proTip: string;
+}
+
+export const DEMO_DIAGNOSIS_GALLERY: DiagnosisShowcase[] = [
+  {
+    id: 'dg-001',
+    title: 'Mold vs Soap Scum',
+    optionA: { label: 'Black Mold', icon: '🦠', severity: 'critical', severityLabel: 'Health Hazard' },
+    optionB: { label: 'Soap Scum', icon: '🧼', severity: 'cosmetic', severityLabel: 'Cosmetic' },
+    verdict: 'Soap scum buildup — not mold',
+    confidence: 94,
+    actionRequired: 'Clean with vinegar + baking soda paste. Improve ventilation.',
+    costEstimate: '$5 – $15',
+    diyFeasible: true,
+    proTip: 'Run the exhaust fan for 20 min after every shower to prevent future buildup.',
+  },
+  {
+    id: 'dg-002',
+    title: 'Termite vs Water Damage',
+    optionA: { label: 'Termite Damage', icon: '🐛', severity: 'critical', severityLabel: 'Structural Risk' },
+    optionB: { label: 'Water Damage', icon: '💧', severity: 'moderate', severityLabel: 'Needs Repair' },
+    verdict: 'Water damage from roof leak — no termites detected',
+    confidence: 87,
+    actionRequired: 'Fix roof leak first, then repair drywall. Check attic for moisture.',
+    costEstimate: '$300 – $1,200',
+    diyFeasible: false,
+    proTip: 'Get a termite inspection anyway — water-damaged wood attracts termites within 1-2 years.',
+  },
+  {
+    id: 'dg-003',
+    title: 'Structural vs Cosmetic Crack',
+    optionA: { label: 'Structural Crack', icon: '🏚️', severity: 'critical', severityLabel: 'Engineer Required' },
+    optionB: { label: 'Cosmetic Crack', icon: '🖌️', severity: 'cosmetic', severityLabel: 'Easy Fix' },
+    verdict: 'Cosmetic settling crack — normal for home age',
+    confidence: 91,
+    actionRequired: 'Fill with flexible caulk, repaint. Monitor for growth over 6 months.',
+    costEstimate: '$10 – $30',
+    diyFeasible: true,
+    proTip: 'Mark the ends of the crack with a pencil and date it. If it grows past the marks, call an engineer.',
+  },
+  {
+    id: 'dg-004',
+    title: 'Asbestos vs Fiberglass',
+    optionA: { label: 'Asbestos Insulation', icon: '☣️', severity: 'critical', severityLabel: 'Do Not Disturb' },
+    optionB: { label: 'Fiberglass Batt', icon: '🧶', severity: 'cosmetic', severityLabel: 'Safe' },
+    verdict: 'Likely vermiculite with asbestos — do not disturb',
+    confidence: 82,
+    actionRequired: 'Do NOT touch or remove. Hire certified asbestos abatement company for testing.',
+    costEstimate: '$200 (test) – $8,000 (removal)',
+    diyFeasible: false,
+    proTip: 'Homes built before 1990 should always be tested before any renovation that disturbs insulation.',
+  },
+];
+
+// ─── NEW FEATURES: Pro Marketplace (DIY Feasibility Scoring) ─
+export interface SkillRequirement {
+  skill: string;
+  levelRequired: number;
+  userLevel: number;
+}
+
+export interface FeasibilityProject {
+  id: string;
+  title: string;
+  feasibilityScore: number;
+  difficulty: number; // 1-5 stars
+  label: 'Easy DIY' | 'Moderate DIY' | 'Advanced DIY' | 'Hire a Pro';
+  skills: SkillRequirement[];
+  diyCost: { lo: number; hi: number };
+  proCost: { lo: number; hi: number };
+  notes: string;
+  icon: string;
+}
+
+export interface ProMarketplaceData {
+  overallFeasibility: number;
+  skillGaps: number;
+  projects: FeasibilityProject[];
+}
+
+export const DEMO_PRO_MARKETPLACE: ProMarketplaceData = {
+  overallFeasibility: 48,
+  skillGaps: 5,
+  projects: [
+    {
+      id: 'fm-001',
+      title: 'Glass Shower Door Install',
+      feasibilityScore: 28,
+      difficulty: 4,
+      label: 'Hire a Pro',
+      skills: [
+        { skill: 'Tiling', levelRequired: 4, userLevel: 1 },
+        { skill: 'Plumbing', levelRequired: 3, userLevel: 4 },
+        { skill: 'Carpentry', levelRequired: 3, userLevel: 3 },
+      ],
+      diyCost: { lo: 400, hi: 800 },
+      proCost: { lo: 1200, hi: 2500 },
+      notes: 'Glass is heavy and fragile. Precise measurement critical — a mistake means a $400 re-order.',
+      icon: '🚿',
+    },
+    {
+      id: 'fm-002',
+      title: 'Ceiling Fan Wiring',
+      feasibilityScore: 35,
+      difficulty: 3,
+      label: 'Hire a Pro',
+      skills: [
+        { skill: 'Electrical', levelRequired: 4, userLevel: 2 },
+        { skill: 'Carpentry', levelRequired: 2, userLevel: 3 },
+      ],
+      diyCost: { lo: 50, hi: 150 },
+      proCost: { lo: 150, hi: 350 },
+      notes: 'Requires working with live circuits. Must verify box is rated for fan weight (35+ lbs).',
+      icon: '💨',
+    },
+    {
+      id: 'fm-003',
+      title: 'Deck Board Repair',
+      feasibilityScore: 82,
+      difficulty: 2,
+      label: 'Easy DIY',
+      skills: [
+        { skill: 'Carpentry', levelRequired: 2, userLevel: 3 },
+        { skill: 'Painting', levelRequired: 1, userLevel: 5 },
+      ],
+      diyCost: { lo: 80, hi: 200 },
+      proCost: { lo: 300, hi: 600 },
+      notes: 'Replace 3 rotting boards + seal. You have all the skills for this — save $300+.',
+      icon: '🪵',
+    },
+    {
+      id: 'fm-004',
+      title: 'Backsplash Tile Install',
+      feasibilityScore: 45,
+      difficulty: 3,
+      label: 'Moderate DIY',
+      skills: [
+        { skill: 'Tiling', levelRequired: 3, userLevel: 1 },
+        { skill: 'Carpentry', levelRequired: 2, userLevel: 3 },
+        { skill: 'Painting', levelRequired: 2, userLevel: 5 },
+      ],
+      diyCost: { lo: 150, hi: 400 },
+      proCost: { lo: 800, hi: 1500 },
+      notes: 'Tiling skill gap is the main barrier. Consider a tiling workshop at Home Depot first.',
+      icon: '🍳',
+    },
+  ],
+};
+
 // ─── Mock API Routes (for fetch interception) ───────────────
 export const DEMO_API_ROUTES: Record<string, unknown> = {
   '/api/user': DEMO_USER,
