@@ -399,6 +399,11 @@
   100% { transform: translateY(-120px) rotate(720deg); opacity: 0; }
 }
 
+@keyframes breathe {
+  0%, 100% { box-shadow: 0 0 16px var(--accent-glow), 0 0 40px rgba(6,156,168,0.12); }
+  50% { box-shadow: 0 0 24px var(--accent-glow), 0 0 60px rgba(6,156,168,0.22); }
+}
+
 /* ── Stagger animation delays ── */
 .r0 { animation-delay: 0ms; }
 .r1 { animation-delay: 60ms; }

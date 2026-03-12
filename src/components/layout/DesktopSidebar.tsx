@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Home,
-  ScanLine,
+  Camera,
   ClipboardList,
   Wrench,
   Settings,
@@ -19,6 +19,7 @@ import {
   Lightbulb,
   Users,
   Building2,
+  Telescope,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useDemo } from '@/hooks/useDemo';
@@ -32,10 +33,11 @@ interface SidebarLink {
 }
 
 const SIDEBAR_LINKS: SidebarLink[] = [
-  { href: '/dashboard', icon: Home, label: 'Overview', section: 'main' },
-  { href: '/diagnose', icon: ScanLine, label: 'Diagnose', section: 'main' },
+  { href: '/dashboard', icon: Home, label: 'Home', section: 'main' },
   { href: '/logbook', icon: ClipboardList, label: 'Projects', section: 'main' },
-  { href: '/toolbox', icon: Wrench, label: 'Toolbox', section: 'main' },
+  { href: '/diagnose', icon: Camera, label: 'Diagnose', section: 'main' },
+  { href: '/scope', icon: Telescope, label: 'Scope', section: 'main' },
+  { href: '/toolbox', icon: Wrench, label: 'Tools', section: 'main' },
   { href: '/property', icon: Building2, label: 'Systems', section: 'manage' },
   { href: '/timeline', icon: Clock, label: 'Timeline', section: 'manage' },
   { href: '/maintenance', icon: FileText, label: 'Documents', section: 'manage' },

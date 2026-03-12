@@ -5,10 +5,10 @@ import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import {
   Home,
-  ScanLine,
+  Camera,
   ClipboardList,
   Wrench,
-  MoreHorizontal,
+  Telescope,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useDemo } from '@/hooks/useDemo';
@@ -24,9 +24,9 @@ interface NavTab {
 const TABS: NavTab[] = [
   { href: '/dashboard', icon: Home, label: 'Home' },
   { href: '/logbook', icon: ClipboardList, label: 'Projects' },
-  { href: '/diagnose', icon: ScanLine, label: 'Diagnose', center: true },
+  { href: '/diagnose', icon: Camera, label: 'Diagnose', center: true },
+  { href: '/scope', icon: Telescope, label: 'Scope' },
   { href: '/toolbox', icon: Wrench, label: 'Tools' },
-  { href: '/settings/account', icon: MoreHorizontal, label: 'More' },
 ];
 
 export function BottomNav() {
@@ -58,25 +58,32 @@ export function BottomNav() {
               pathname === href || pathname.startsWith(href + '/');
             const Icon = tab.icon;
 
-            /* ── Center elevated "Diagnose" button ── */
+            /* ── Center circular "Diagnose" hero button ── */
             if (tab.center) {
               return (
                 <Link
                   key={tab.label}
                   href={href}
-                  className="flex flex-col items-center gap-0.5 -mt-5 tap relative"
+                  className="flex flex-col items-center gap-0.5 -mt-7 tap relative"
                 >
                   <motion.div
-                    whileTap={{ scale: 0.92 }}
-                    className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg"
+                    whileTap={{ scale: 0.9 }}
+                    className="w-[60px] h-[60px] rounded-full flex items-center justify-center motion-safe:animate-[breathe_3s_ease-in-out_infinite]"
                     style={{
-                      background: 'var(--accent-gradient)',
+                      background: 'var(--glass)',
+                      backdropFilter: 'blur(20px)',
+                      WebkitBackdropFilter: 'blur(20px)',
+                      border: '1.5px solid rgba(6,156,168,0.35)',
                       boxShadow: isActive
-                        ? '0 6px 28px var(--accent-glow), 0 0 0 3px var(--accent-soft)'
-                        : '0 4px 20px var(--accent-glow)',
+                        ? '0 0 28px var(--accent-glow), 0 0 60px rgba(6,156,168,0.20), 0 0 0 3px var(--accent-soft)'
+                        : '0 0 16px var(--accent-glow), 0 0 40px rgba(6,156,168,0.12)',
                     }}
                   >
-                    <Icon className="w-6 h-6 text-white" strokeWidth={2.2} />
+                    <Icon
+                      className="w-7 h-7"
+                      strokeWidth={2}
+                      style={{ color: 'var(--accent)' }}
+                    />
                   </motion.div>
                   <span
                     className="text-[10px] font-semibold"

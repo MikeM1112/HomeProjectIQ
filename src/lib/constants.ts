@@ -18,6 +18,8 @@ export const ROUTES = {
   SOCIAL: '/social',
   SETTINGS_ACCOUNT: '/settings/account',
   SETTINGS_BILLING: '/settings/billing',
+  DIAGNOSE: '/diagnose',
+  SCOPE: '/scope',
   ADMIN: '/admin',
 } as const;
 
