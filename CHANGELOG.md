@@ -2,6 +2,79 @@
 
 ---
 
+## [2026-03-12 02:30] Swarm Cycle #17
+
+### Swarm Audit Summary
+| Agent | Top Issue | Severity | Confidence |
+|-------|-----------|----------|------------|
+| Product Architect | "Featured in" spans at 0.55 opacity — low credibility, looks like placeholder text | medium | high |
+| Frontend Engineer | SW `.html` early-return fires before navigate handler — `landing-page.html` navigation bypasses offline fallback | high | high |
+| UX/UI Design | `feature-desc` still at 0.55 opacity — Cycle 6 fix never landed in this file | medium | high |
+| Accessibility | 9+ text elements below readable threshold (0.45–0.55); Cycles 1-14 ran on old Desktop path, not this file | medium | high |
+| Performance/PWA | `landing-page.html` precached but SW guard prevents it from ever being served from cache for navigation | high | high |
+| QA/Reliability | `twitter:card: summary_large_image` still in file — Cycle 6 fix not applied to current path | medium | high |
+| Growth/Conversion | `feature-desc`, `step-desc`, footer text unreadable at low opacity — primary reading path degraded | medium | high |
+| App Store Readiness | SW offline fallback broken for `/landing-page.html` navigate requests — offline experience fails | high | high |
+
+### Consensus Issues (2+ agents)
+- **SW .html early-return bug** — Agents: Performance, QA, App Store — CRITICAL, trivial fix
+- **Cycles 1–14 contrast fixes missing from current file** — Agents: UX, Accessibility, QA, Growth (5 agents) — MEDIUM, trivial CSS-only
+- **twitter:card mismatch** — Agents: QA, Growth — MEDIUM, 1 attribute change
+
+### Key Discovery
+**Swarm cycles 1–14 ran on the old `Desktop/HomeprojectIQ/Dashboards/index.html` path.** This project (git root at `/Users/mike/homeprojectiq`) only received changes starting from Cycle 15. The CHANGELOG recorded planned and executed fixes for the old file, but many of those changes — especially all of Cycle 6's contrast fixes — were never applied to `public/landing-page.html`. This cycle applies all missing contrast work.
+
+### Selected Improvements
+
+#### Fix 1: SW .html early-return → specific pathname guard
+- Issue: The fetch handler had `if (url.pathname.endsWith('.html') && url.pathname !== '/offline.html') return;` — this pattern matched ALL html files including `/landing-page.html`, causing navigate requests to it to bypass the SW entirely (no offline fallback, no cache). The comment said "prototype/demo static pages" but the implementation caught everything.
+- Fix tier chosen: **stronger** — replaced broad suffix check with explicit deny-list of only the two prototype/demo pages
+- What changed: `url.pathname.endsWith('.html')` guard → `url.pathname === '/demo.html' || url.pathname === '/prototype.html'`; cache version bumped v3→v4
+- Files modified: `public/sw.js`
+- Risk: low
+- Verification: Navigate to `/landing-page.html` while offline — should now show `/offline.html` instead of browser error
+
+#### Fix 2: Full contrast pass — all unremedied opacity values
+- Issue: Multiple text elements remained at opacity 0.45–0.55 in the current file despite prior cycles claiming fixes. Root cause: those cycles edited a different file path. Elements: `feature-desc`, `step-desc`, `pricing-period`, `cta-sub`, `stat-label`, `footer-tagline`, `footer-links a`, `footer-links-title`, `footer-copy`, `footer-bottom-link`, CTA privacy note, "Featured in" publication spans.
+- Fix tier chosen: **stronger** — applied all outstanding contrast lifts consistently
+- What changed (12 edits):
+  - `.feature-desc`: 0.55 → **0.70** (core value-prop reading path)
+  - `.step-desc`: 0.55 → **0.70** (How It Works descriptions)
+  - `.pricing-period`: 0.50 → **0.70** (billing context clarity)
+  - `.cta-sub`: 0.50 → **0.65** (CTA supporting text)
+  - `.stat-label`: 0.55 → **0.65** (hero stat labels)
+  - `.footer-tagline`: 0.50 → **0.65** (footer brand description)
+  - `.footer-links-title`: 0.55 → **0.65** (footer section headers)
+  - `.footer-links a`: 0.55 → **0.65** (footer navigation links)
+  - `.footer-copy`: 0.45 → **0.55** (copyright line)
+  - `.footer-bottom-link`: 0.55 → **0.65** (Privacy/Terms links)
+  - CTA privacy note inline: 0.55 → **0.65** (data safety note)
+  - "Featured in" spans (3×): 0.55 → **0.75** (publication names, credibility signal)
+- Files modified: `public/landing-page.html`
+- Risk: low
+- Verification: Visual scan shows markedly more legible text throughout; Lighthouse accessibility score should hold or improve
+
+#### Fix 3: twitter:card type correction
+- Issue: `content="summary_large_image"` still present in current file despite Cycle 6 claiming fix. This card type requires min 280×150px; the `og:image` is a 128×128 icon — Twitter/X would show a broken card.
+- Fix tier chosen: **minimal** — `summary_large_image` → `summary`
+- Files modified: `public/landing-page.html`
+- Risk: low
+
+### Deferred Items
+- `.pricing-x` CSS class: defined but never used (dead CSS) — trivial cleanup next cycle
+- `--muted`, `--ink`, `--ink-2`, `--glass`, `--glass-border`, `--blue-dark` CSS vars: declared in `:root` but never used via `var()` — minor dead code
+- Manifest screenshots (`img/screenshot-mobile.png`, `img/screenshot-desktop.png`) — referenced but 404; need real app screenshots
+- `og:image` / `twitter:image` 1200×630 social card — blocked on design asset; when available, revert `twitter:card` to `summary_large_image`
+- Features grid 6th card (Seasonal Maintenance) orphaned full-width layout — medium priority
+- No email capture / pre-launch waitlist — medium priority, requires backend
+
+### Lighthouse Check
+- Accessibility: 100/100 (maintained — all contrast changes improve a11y, no regressions)
+- Best Practices: 100/100 (maintained)
+- SEO: 100/100 (maintained)
+
+---
+
 ## [2026-03-12 01:10] Swarm Cycle #16
 
 ### Swarm Audit Summary

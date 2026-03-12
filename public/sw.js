@@ -1,4 +1,4 @@
-const CACHE_NAME = 'homeprojectiq-v3';
+const CACHE_NAME = 'homeprojectiq-v4';
 const OFFLINE_URL = '/offline.html';
 const PRECACHE_URLS = [
   '/',
@@ -34,8 +34,8 @@ self.addEventListener('fetch', (event) => {
   // Don't intercept cross-origin requests (CDN scripts, fonts, etc.)
   if (url.origin !== self.location.origin) return;
 
-  // Don't intercept prototype/demo static pages
-  if (url.pathname.endsWith('.html') && url.pathname !== '/offline.html') return;
+  // Don't intercept standalone demo/prototype static pages — not part of the app shell
+  if (url.pathname === '/demo.html' || url.pathname === '/prototype.html') return;
 
   if (event.request.mode === 'navigate') {
     event.respondWith(
