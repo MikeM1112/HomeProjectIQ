@@ -1,9 +1,15 @@
-const CACHE_NAME = 'homeprojectiq-v1';
+const CACHE_NAME = 'homeprojectiq-v3';
 const OFFLINE_URL = '/offline.html';
 const PRECACHE_URLS = [
   '/',
+  '/landing-page.html',
   '/offline.html',
   '/manifest.json',
+  '/fonts/dm-sans-latin-var.woff2',
+  '/fonts/sora-latin-var.woff2',
+  '/fonts/jetbrains-mono-700-latin.woff2',
+  '/img/icon.png',
+  '/img/icon.webp',
 ];
 
 self.addEventListener('install', (event) => {
@@ -23,6 +29,14 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  const url = new URL(event.request.url);
+
+  // Don't intercept cross-origin requests (CDN scripts, fonts, etc.)
+  if (url.origin !== self.location.origin) return;
+
+  // Don't intercept prototype/demo static pages
+  if (url.pathname.endsWith('.html') && url.pathname !== '/offline.html') return;
+
   if (event.request.mode === 'navigate') {
     event.respondWith(
       fetch(event.request).catch(() => caches.match(OFFLINE_URL))
