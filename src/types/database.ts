@@ -490,6 +490,642 @@ export type Database = {
         };
         Relationships: [];
       };
+      households: {
+        Row: {
+          id: string;
+          name: string;
+          created_by: string;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          name: string;
+          created_by: string;
+        };
+        Update: {
+          id?: string;
+          name?: string;
+          created_by?: string;
+        };
+        Relationships: [];
+      };
+      household_members: {
+        Row: {
+          id: string;
+          household_id: string;
+          user_id: string;
+          role: 'owner' | 'admin' | 'member';
+          joined_at: string;
+        };
+        Insert: {
+          id?: string;
+          household_id: string;
+          user_id: string;
+          role?: 'owner' | 'admin' | 'member';
+        };
+        Update: {
+          id?: string;
+          household_id?: string;
+          user_id?: string;
+          role?: 'owner' | 'admin' | 'member';
+        };
+        Relationships: [];
+      };
+      properties: {
+        Row: {
+          id: string;
+          household_id: string;
+          name: string;
+          address: string | null;
+          home_type: string;
+          year_built: number | null;
+          square_footage: number | null;
+          lot_size_sqft: number | null;
+          floors: number | null;
+          bedrooms: number | null;
+          bathrooms: number | null;
+          photo_url: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          household_id: string;
+          name: string;
+          address?: string | null;
+          home_type?: string;
+          year_built?: number | null;
+          square_footage?: number | null;
+          lot_size_sqft?: number | null;
+          floors?: number | null;
+          bedrooms?: number | null;
+          bathrooms?: number | null;
+          photo_url?: string | null;
+        };
+        Update: {
+          id?: string;
+          household_id?: string;
+          name?: string;
+          address?: string | null;
+          home_type?: string;
+          year_built?: number | null;
+          square_footage?: number | null;
+          lot_size_sqft?: number | null;
+          floors?: number | null;
+          bedrooms?: number | null;
+          bathrooms?: number | null;
+          photo_url?: string | null;
+        };
+        Relationships: [];
+      };
+      property_zones: {
+        Row: {
+          id: string;
+          property_id: string;
+          name: string;
+          zone_type: 'interior' | 'exterior' | 'garage' | 'yard' | 'roof' | 'basement' | 'attic';
+          floor_number: number | null;
+          notes: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          property_id: string;
+          name: string;
+          zone_type?: 'interior' | 'exterior' | 'garage' | 'yard' | 'roof' | 'basement' | 'attic';
+          floor_number?: number | null;
+          notes?: string | null;
+        };
+        Update: {
+          id?: string;
+          property_id?: string;
+          name?: string;
+          zone_type?: 'interior' | 'exterior' | 'garage' | 'yard' | 'roof' | 'basement' | 'attic';
+          floor_number?: number | null;
+          notes?: string | null;
+        };
+        Relationships: [];
+      };
+      systems: {
+        Row: {
+          id: string;
+          property_id: string;
+          name: string;
+          system_type: 'hvac' | 'plumbing' | 'electrical' | 'roofing' | 'foundation' | 'appliance' | 'exterior' | 'interior' | 'landscaping' | 'security' | 'other';
+          brand: string | null;
+          model: string | null;
+          install_date: string | null;
+          warranty_expiry: string | null;
+          expected_lifespan_years: number | null;
+          condition: 'excellent' | 'good' | 'fair' | 'poor' | 'critical';
+          last_serviced_at: string | null;
+          notes: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          property_id: string;
+          name: string;
+          system_type: 'hvac' | 'plumbing' | 'electrical' | 'roofing' | 'foundation' | 'appliance' | 'exterior' | 'interior' | 'landscaping' | 'security' | 'other';
+          brand?: string | null;
+          model?: string | null;
+          install_date?: string | null;
+          warranty_expiry?: string | null;
+          expected_lifespan_years?: number | null;
+          condition?: 'excellent' | 'good' | 'fair' | 'poor' | 'critical';
+          last_serviced_at?: string | null;
+          notes?: string | null;
+        };
+        Update: {
+          id?: string;
+          property_id?: string;
+          name?: string;
+          system_type?: 'hvac' | 'plumbing' | 'electrical' | 'roofing' | 'foundation' | 'appliance' | 'exterior' | 'interior' | 'landscaping' | 'security' | 'other';
+          brand?: string | null;
+          model?: string | null;
+          install_date?: string | null;
+          warranty_expiry?: string | null;
+          expected_lifespan_years?: number | null;
+          condition?: 'excellent' | 'good' | 'fair' | 'poor' | 'critical';
+          last_serviced_at?: string | null;
+          notes?: string | null;
+        };
+        Relationships: [];
+      };
+      system_components: {
+        Row: {
+          id: string;
+          system_id: string;
+          name: string;
+          component_type: string | null;
+          brand: string | null;
+          model: string | null;
+          serial_number: string | null;
+          install_date: string | null;
+          warranty_expiry: string | null;
+          condition: 'excellent' | 'good' | 'fair' | 'poor' | 'critical';
+          notes: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          system_id: string;
+          name: string;
+          component_type?: string | null;
+          brand?: string | null;
+          model?: string | null;
+          serial_number?: string | null;
+          install_date?: string | null;
+          warranty_expiry?: string | null;
+          condition?: 'excellent' | 'good' | 'fair' | 'poor' | 'critical';
+          notes?: string | null;
+        };
+        Update: {
+          id?: string;
+          system_id?: string;
+          name?: string;
+          component_type?: string | null;
+          brand?: string | null;
+          model?: string | null;
+          serial_number?: string | null;
+          install_date?: string | null;
+          warranty_expiry?: string | null;
+          condition?: 'excellent' | 'good' | 'fair' | 'poor' | 'critical';
+          notes?: string | null;
+        };
+        Relationships: [];
+      };
+      guided_sessions: {
+        Row: {
+          id: string;
+          project_id: string;
+          user_id: string;
+          status: 'active' | 'paused' | 'completed' | 'abandoned';
+          current_step: number;
+          total_steps: number;
+          started_at: string;
+          completed_at: string | null;
+          paused_at: string | null;
+          notes: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          project_id: string;
+          user_id: string;
+          status?: 'active' | 'paused' | 'completed' | 'abandoned';
+          current_step?: number;
+          total_steps?: number;
+          notes?: string | null;
+        };
+        Update: {
+          id?: string;
+          project_id?: string;
+          user_id?: string;
+          status?: 'active' | 'paused' | 'completed' | 'abandoned';
+          current_step?: number;
+          total_steps?: number;
+          completed_at?: string | null;
+          paused_at?: string | null;
+          notes?: string | null;
+        };
+        Relationships: [];
+      };
+      step_checkpoints: {
+        Row: {
+          id: string;
+          session_id: string;
+          step_number: number;
+          title: string;
+          instructions: string | null;
+          photo_url: string | null;
+          ai_validation_status: 'pending' | 'passed' | 'failed' | 'skipped';
+          ai_feedback: string | null;
+          completed_at: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          session_id: string;
+          step_number: number;
+          title: string;
+          instructions?: string | null;
+          photo_url?: string | null;
+          ai_validation_status?: 'pending' | 'passed' | 'failed' | 'skipped';
+          ai_feedback?: string | null;
+          completed_at?: string | null;
+        };
+        Update: {
+          id?: string;
+          session_id?: string;
+          step_number?: number;
+          title?: string;
+          instructions?: string | null;
+          photo_url?: string | null;
+          ai_validation_status?: 'pending' | 'passed' | 'failed' | 'skipped';
+          ai_feedback?: string | null;
+          completed_at?: string | null;
+        };
+        Relationships: [];
+      };
+      project_required_tools: {
+        Row: {
+          id: string;
+          project_id: string;
+          tool_id: string;
+          tool_name: string;
+          is_owned: boolean;
+          is_borrowable: boolean;
+          source: 'owned' | 'borrow' | 'purchase' | 'rent' | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          project_id: string;
+          tool_id: string;
+          tool_name: string;
+          is_owned?: boolean;
+          is_borrowable?: boolean;
+          source?: 'owned' | 'borrow' | 'purchase' | 'rent' | null;
+        };
+        Update: {
+          id?: string;
+          project_id?: string;
+          tool_id?: string;
+          tool_name?: string;
+          is_owned?: boolean;
+          is_borrowable?: boolean;
+          source?: 'owned' | 'borrow' | 'purchase' | 'rent' | null;
+        };
+        Relationships: [];
+      };
+      handy_profiles: {
+        Row: {
+          id: string;
+          user_id: string;
+          display_name: string | null;
+          bio: string | null;
+          skills: string[];
+          rating: number;
+          total_reviews: number;
+          tools_lent_count: number;
+          repairs_helped: number;
+          is_available: boolean;
+          latitude: number | null;
+          longitude: number | null;
+          neighborhood: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          display_name?: string | null;
+          bio?: string | null;
+          skills?: string[];
+          rating?: number;
+          total_reviews?: number;
+          tools_lent_count?: number;
+          repairs_helped?: number;
+          is_available?: boolean;
+          latitude?: number | null;
+          longitude?: number | null;
+          neighborhood?: string | null;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          display_name?: string | null;
+          bio?: string | null;
+          skills?: string[];
+          rating?: number;
+          total_reviews?: number;
+          tools_lent_count?: number;
+          repairs_helped?: number;
+          is_available?: boolean;
+          latitude?: number | null;
+          longitude?: number | null;
+          neighborhood?: string | null;
+        };
+        Relationships: [];
+      };
+      timeline_events: {
+        Row: {
+          id: string;
+          user_id: string;
+          property_id: string | null;
+          project_id: string | null;
+          event_type: 'repair' | 'maintenance' | 'inspection' | 'purchase' | 'warranty' | 'incident' | 'upgrade' | 'other';
+          title: string;
+          description: string | null;
+          cost: number | null;
+          photo_urls: string[];
+          metadata: Json;
+          event_date: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          property_id?: string | null;
+          project_id?: string | null;
+          event_type: 'repair' | 'maintenance' | 'inspection' | 'purchase' | 'warranty' | 'incident' | 'upgrade' | 'other';
+          title: string;
+          description?: string | null;
+          cost?: number | null;
+          photo_urls?: string[];
+          metadata?: Json;
+          event_date?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          property_id?: string | null;
+          project_id?: string | null;
+          event_type?: 'repair' | 'maintenance' | 'inspection' | 'purchase' | 'warranty' | 'incident' | 'upgrade' | 'other';
+          title?: string;
+          description?: string | null;
+          cost?: number | null;
+          photo_urls?: string[];
+          metadata?: Json;
+          event_date?: string;
+        };
+        Relationships: [];
+      };
+      documents: {
+        Row: {
+          id: string;
+          user_id: string;
+          property_id: string | null;
+          document_type: 'receipt' | 'warranty' | 'manual' | 'inspection_report' | 'insurance' | 'permit' | 'contract' | 'photo' | 'other';
+          title: string;
+          description: string | null;
+          file_url: string;
+          file_type: string | null;
+          file_size: number | null;
+          metadata: Json;
+          expires_at: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          property_id?: string | null;
+          document_type: 'receipt' | 'warranty' | 'manual' | 'inspection_report' | 'insurance' | 'permit' | 'contract' | 'photo' | 'other';
+          title: string;
+          description?: string | null;
+          file_url: string;
+          file_type?: string | null;
+          file_size?: number | null;
+          metadata?: Json;
+          expires_at?: string | null;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          property_id?: string | null;
+          document_type?: 'receipt' | 'warranty' | 'manual' | 'inspection_report' | 'insurance' | 'permit' | 'contract' | 'photo' | 'other';
+          title?: string;
+          description?: string | null;
+          file_url?: string;
+          file_type?: string | null;
+          file_size?: number | null;
+          metadata?: Json;
+          expires_at?: string | null;
+        };
+        Relationships: [];
+      };
+      capability_scores: {
+        Row: {
+          id: string;
+          user_id: string;
+          property_id: string | null;
+          overall_score: number;
+          tool_readiness: number;
+          repair_experience: number;
+          maintenance_completion: number;
+          documentation_score: number;
+          emergency_preparedness: number;
+          capability_level: 'beginner' | 'developing' | 'capable' | 'proficient' | 'expert';
+          suggestions: Json;
+          calculated_at: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          property_id?: string | null;
+          overall_score?: number;
+          tool_readiness?: number;
+          repair_experience?: number;
+          maintenance_completion?: number;
+          documentation_score?: number;
+          emergency_preparedness?: number;
+          capability_level?: 'beginner' | 'developing' | 'capable' | 'proficient' | 'expert';
+          suggestions?: Json;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          property_id?: string | null;
+          overall_score?: number;
+          tool_readiness?: number;
+          repair_experience?: number;
+          maintenance_completion?: number;
+          documentation_score?: number;
+          emergency_preparedness?: number;
+          capability_level?: 'beginner' | 'developing' | 'capable' | 'proficient' | 'expert';
+          suggestions?: Json;
+        };
+        Relationships: [];
+      };
+      risk_scores: {
+        Row: {
+          id: string;
+          user_id: string;
+          property_id: string | null;
+          system_id: string | null;
+          system_type: string;
+          risk_level: 'low' | 'moderate' | 'high' | 'critical';
+          risk_score: number;
+          failure_probability: number | null;
+          estimated_repair_cost: number | null;
+          time_to_failure_days: number | null;
+          contributing_factors: Json;
+          calculated_at: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          property_id?: string | null;
+          system_id?: string | null;
+          system_type: string;
+          risk_level?: 'low' | 'moderate' | 'high' | 'critical';
+          risk_score?: number;
+          failure_probability?: number | null;
+          estimated_repair_cost?: number | null;
+          time_to_failure_days?: number | null;
+          contributing_factors?: Json;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          property_id?: string | null;
+          system_id?: string | null;
+          system_type?: string;
+          risk_level?: 'low' | 'moderate' | 'high' | 'critical';
+          risk_score?: number;
+          failure_probability?: number | null;
+          estimated_repair_cost?: number | null;
+          time_to_failure_days?: number | null;
+          contributing_factors?: Json;
+        };
+        Relationships: [];
+      };
+      alerts: {
+        Row: {
+          id: string;
+          user_id: string;
+          property_id: string | null;
+          alert_type: 'risk' | 'maintenance' | 'warranty' | 'weather' | 'system' | 'recommendation';
+          severity: 'info' | 'warning' | 'urgent' | 'critical';
+          title: string;
+          message: string;
+          action_url: string | null;
+          is_read: boolean;
+          is_dismissed: boolean;
+          metadata: Json;
+          expires_at: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          property_id?: string | null;
+          alert_type: 'risk' | 'maintenance' | 'warranty' | 'weather' | 'system' | 'recommendation';
+          severity?: 'info' | 'warning' | 'urgent' | 'critical';
+          title: string;
+          message: string;
+          action_url?: string | null;
+          is_read?: boolean;
+          is_dismissed?: boolean;
+          metadata?: Json;
+          expires_at?: string | null;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          property_id?: string | null;
+          alert_type?: 'risk' | 'maintenance' | 'warranty' | 'weather' | 'system' | 'recommendation';
+          severity?: 'info' | 'warning' | 'urgent' | 'critical';
+          title?: string;
+          message?: string;
+          action_url?: string | null;
+          is_read?: boolean;
+          is_dismissed?: boolean;
+          metadata?: Json;
+          expires_at?: string | null;
+        };
+        Relationships: [];
+      };
+      recommendations: {
+        Row: {
+          id: string;
+          user_id: string;
+          property_id: string | null;
+          recommendation_type: 'preventative' | 'upgrade' | 'repair' | 'maintenance' | 'efficiency' | 'safety';
+          priority: 'low' | 'medium' | 'high' | 'urgent';
+          title: string;
+          description: string;
+          estimated_cost_lo: number | null;
+          estimated_cost_hi: number | null;
+          estimated_savings: number | null;
+          difficulty: 'easy' | 'moderate' | 'hard' | 'professional' | null;
+          is_completed: boolean;
+          is_dismissed: boolean;
+          metadata: Json;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          property_id?: string | null;
+          recommendation_type: 'preventative' | 'upgrade' | 'repair' | 'maintenance' | 'efficiency' | 'safety';
+          priority?: 'low' | 'medium' | 'high' | 'urgent';
+          title: string;
+          description: string;
+          estimated_cost_lo?: number | null;
+          estimated_cost_hi?: number | null;
+          estimated_savings?: number | null;
+          difficulty?: 'easy' | 'moderate' | 'hard' | 'professional' | null;
+          is_completed?: boolean;
+          is_dismissed?: boolean;
+          metadata?: Json;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          property_id?: string | null;
+          recommendation_type?: 'preventative' | 'upgrade' | 'repair' | 'maintenance' | 'efficiency' | 'safety';
+          priority?: 'low' | 'medium' | 'high' | 'urgent';
+          title?: string;
+          description?: string;
+          estimated_cost_lo?: number | null;
+          estimated_cost_hi?: number | null;
+          estimated_savings?: number | null;
+          difficulty?: 'easy' | 'moderate' | 'hard' | 'professional' | null;
+          is_completed?: boolean;
+          is_dismissed?: boolean;
+          metadata?: Json;
+        };
+        Relationships: [];
+      };
     };
     Views: {
       assessment_outcome_stats: {

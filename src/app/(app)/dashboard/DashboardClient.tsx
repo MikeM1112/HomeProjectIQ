@@ -25,7 +25,9 @@ import { useUser } from '@/hooks/useUser';
 import { useProjects } from '@/hooks/useProjects';
 import { useToolbox } from '@/hooks/useToolbox';
 import { useToolLoans } from '@/hooks/useToolLoans';
+import { useCapabilityScore, useRiskRadar, useAlerts } from '@/hooks/useIntelligence';
 import { ActiveQuotes } from '@/components/features/quotes/ActiveQuotes';
+import { ROUTES } from '@/lib/constants';
 
 export function DashboardClient() {
   const router = useRouter();
@@ -35,6 +37,9 @@ export function DashboardClient() {
   const { projects } = useProjects();
   const { tools: toolboxTools } = useToolbox();
   const { activeLoans, overdueLoans } = useToolLoans();
+  const { score: capScore } = useCapabilityScore();
+  const { criticalCount, highCount } = useRiskRadar();
+  const { unreadCount: alertCount } = useAlerts();
 
   // Listen for scan button from BottomNav
   useEffect(() => {
@@ -105,6 +110,45 @@ export function DashboardClient() {
 
           {/* Maintenance Hub — Home Health Score */}
           <MaintenanceDashboardCompact />
+
+          {/* Home Intelligence Summary */}
+          <Link href={ROUTES.INTELLIGENCE}>
+            <Card className="relative overflow-hidden">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">🧠</span>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-[var(--text)]">Home Intelligence</p>
+                  <p className="text-xs text-[var(--text-sub)]">
+                    {capScore ? `Score: ${capScore.overall_score}/100` : 'Set up your home profile'}
+                    {(criticalCount > 0 || highCount > 0) &&
+                      ` · ${criticalCount + highCount} risk${criticalCount + highCount !== 1 ? 's' : ''}`}
+                  </p>
+                </div>
+                {alertCount > 0 && (
+                  <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-[var(--danger)]/10 text-[var(--danger)]">
+                    {alertCount} alert{alertCount !== 1 ? 's' : ''}
+                  </span>
+                )}
+                <span className="text-[var(--ink-dim)] text-sm">&rsaquo;</span>
+              </div>
+            </Card>
+          </Link>
+
+          {/* Quick Links Grid */}
+          <div className="grid grid-cols-3 gap-2">
+            {[
+              { href: ROUTES.PROPERTY, icon: '🏡', label: 'Property' },
+              { href: ROUTES.TIMELINE, icon: '📅', label: 'Timeline' },
+              { href: ROUTES.SOCIAL, icon: '👥', label: 'Community' },
+            ].map((link) => (
+              <Link key={link.label} href={link.href}>
+                <Card className="text-center py-3">
+                  <span className="text-xl">{link.icon}</span>
+                  <p className="text-[10px] font-medium text-[var(--text-sub)] mt-1">{link.label}</p>
+                </Card>
+              </Link>
+            ))}
+          </div>
 
           {/* Toolbox Quick Stats */}
           <Link href="/toolbox">

@@ -11,6 +11,11 @@ export const ROUTES = {
   LOGBOOK: '/logbook',
   TOOLBOX: '/toolbox',
   MAINTENANCE: '/maintenance',
+  PROPERTY: '/property',
+  GUIDED_REPAIR: '/guided-repair',
+  TIMELINE: '/timeline',
+  INTELLIGENCE: '/intelligence',
+  SOCIAL: '/social',
   SETTINGS_ACCOUNT: '/settings/account',
   SETTINGS_BILLING: '/settings/billing',
   ADMIN: '/admin',
@@ -29,6 +34,11 @@ export const XP_VALUES = {
   MAINTENANCE_COMPLETE: 15,
   TOOL_LENT: 5,
   TOOL_RETURNED: 3,
+  GUIDED_STEP_COMPLETE: 10,
+  GUIDED_SESSION_COMPLETE: 50,
+  DOCUMENT_UPLOADED: 5,
+  SYSTEM_ADDED: 10,
+  PROPERTY_SETUP: 25,
 } as const;
 
 export const LEVEL_THRESHOLDS = [
@@ -77,6 +87,24 @@ export const QUERY_KEYS = {
   MAINTENANCE: 'maintenance',
   QUOTES: 'quotes',
   TOOL_LOANS: 'tool_loans',
+  HOUSEHOLDS: 'households',
+  PROPERTIES: 'properties',
+  PROPERTY: 'property',
+  ZONES: 'zones',
+  SYSTEMS: 'systems',
+  GUIDED_SESSIONS: 'guided_sessions',
+  CHECKPOINTS: 'checkpoints',
+  TIMELINE: 'timeline',
+  DOCUMENTS: 'documents',
+  CAPABILITY_SCORE: 'capability_score',
+  RISK_SCORES: 'risk_scores',
+  ALERTS: 'alerts',
+  RECOMMENDATIONS: 'recommendations',
+  HANDY_PROFILES: 'handy_profiles',
+  SOCIAL_NETWORK: 'social_network',
+  TOOL_READINESS: 'tool_readiness',
+  DIY_DECISION: 'diy_decision',
+  TRUST_SCORE: 'trust_score',
 } as const;
 
 export const TOOLS: ToolDefinition[] = [

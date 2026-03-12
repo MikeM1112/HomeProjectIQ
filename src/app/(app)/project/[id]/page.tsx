@@ -15,6 +15,8 @@ import { ShareButton } from '@/components/share/ShareButton';
 import { ShareButton as QuickShareButton } from '@/components/features/project/ShareButton';
 import { OutcomeComparison } from '@/components/features/project/OutcomeComparison';
 import { OutcomeReportForm } from '@/components/outcome/OutcomeReportForm';
+import { ToolReadinessCard } from '@/components/features/intelligence/ToolReadinessCard';
+import { DIYDecisionCard } from '@/components/features/intelligence/DIYDecisionCard';
 import type { DiagnosisResult, Project } from '@/types/app';
 
 export default function ProjectPage() {
@@ -187,6 +189,12 @@ export default function ProjectPage() {
       <Navbar title={diagnosis.title} showBack backHref="/dashboard" />
       <PageWrapper>
         <DiagnosisView result={diagnosis} projectId={id !== 'new' ? id : undefined} categoryId={project?.category_id} />
+        {id !== 'new' && (
+          <div className="mt-4 space-y-3">
+            <DIYDecisionCard projectId={id} />
+            <ToolReadinessCard projectId={id} />
+          </div>
+        )}
         {id !== 'new' && (
           <div className="mt-4">
             <ShareButton
