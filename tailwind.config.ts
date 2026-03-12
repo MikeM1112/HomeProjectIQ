@@ -16,6 +16,12 @@ const config: Config = {
           medium: 'var(--accent-glow)',
           soft: 'var(--accent-soft)',
           glow: 'var(--accent-glow)',
+          midnight: 'var(--midnight)',
+          cobalt: 'var(--cobalt)',
+          teal: 'var(--teal)',
+          aqua: 'var(--aqua)',
+          frost: 'var(--frost)',
+          slate: 'var(--slate)',
         },
         surface: {
           base: 'var(--bg)',

@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { BottomNav } from '@/components/layout/BottomNav';
+import { DesktopSidebar } from '@/components/layout/DesktopSidebar';
 import { GuidedModeOverlay } from '@/components/guided/GuidedModeOverlay';
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
@@ -10,11 +11,8 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   if (!user) redirect('/login');
 
   return (
-    <div
-      className="min-h-screen pt-safe-top pb-20 relative"
-      style={{ transition: 'all 0.5s ease' }}
-    >
-      {/* Background gradient blobs — ice-blue ambient glow */}
+    <div className="min-h-screen relative" style={{ transition: 'all 0.5s ease' }}>
+      {/* Background gradient blobs -- ice-blue ambient glow */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
         <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-[var(--accent)] opacity-[0.06] blur-[140px] animate-glow-pulse" />
         <div
@@ -26,7 +24,16 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           style={{ animationDelay: '4s' }}
         />
       </div>
-      {children}
+
+      {/* Desktop sidebar (lg+ only) */}
+      <DesktopSidebar />
+
+      {/* Main content area */}
+      <div className="pt-safe-top pb-20 lg:pb-0 lg:pl-[260px]">
+        {children}
+      </div>
+
+      {/* Mobile bottom nav (hidden on lg+) */}
       <BottomNav />
       <GuidedModeOverlay />
     </div>
