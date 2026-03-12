@@ -2,6 +2,71 @@
 
 ---
 
+## [2026-03-12 09:00] Swarm Cycle #19
+
+### Swarm Audit Summary
+| Agent | Top Issue | Severity | Confidence |
+|-------|-----------|----------|------------|
+| Product Architect | "Featured in" badges (TechCrunch, Product Hunt, The Verge) are plain text spans with no logos/links — placeholder-level credibility | medium | high |
+| Frontend Engineer | 6 dead CSS vars (`--blue-dark`, `--ink`, `--ink-2`, `--muted`, `--glass`, `--glass-border`) + `.pricing-x` unused class — 7 lines of dead code surviving 2 deferred cycles | low | high |
+| UX/UI Design | Demo CTA in CTA banner uses `btn-hero-ghost` (de-emphasized) after two disabled "coming soon" store buttons — the only live action is visually weakest | medium | high |
+| Accessibility | All prior cycle fixes hold; step-icon emoji already have `aria-hidden="true"` — no new a11y failures found | none | high |
+| Performance/PWA | SW navigate handler is purely network-first — repeat visitors always wait for network even when landing-page.html is in cache | medium | high |
+| QA/Reliability | SW navigate offline fallback uses `caches.match(OFFLINE_URL)` directly but `cached` variable in scope — if cached exists, redundant network hit | low | medium |
+| Growth/Conversion | Demo CTA button in final CTA banner is ghost style after two disabled store buttons — conversion path visually buried | medium | high |
+| App Store Readiness | Manifest missing `"id"` field — PWA identity is tied to `start_url` which can change; `id` anchors identity across URL changes | low | high |
+
+### Consensus Issues (2+ agents)
+- **Demo CTA ghost style in CTA banner** — Agents: UX/UI, Growth (2 agents) — MEDIUM, 1-word CSS class change
+- **Dead CSS vars + `.pricing-x`** — Agents: Frontend Engineer (3 consecutive cycles), QA — LOW, pure removal
+- **SW navigate network-first** — Agents: Performance, App Store — MEDIUM, improve to stale-while-revalidate
+
+### Selected Improvements
+
+#### Fix 1: Remove 6 dead CSS vars + `.pricing-x` class
+- Issue: `:root` declared `--blue-dark`, `--ink`, `--ink-2`, `--muted`, `--glass`, `--glass-border` — none used via `var()` anywhere in the file. `.pricing-x` class defined but no element has this class. Dead code surviving Cycles 17 and 18 deferrals.
+- Fix tier chosen: **minimal** — removed all 7 declarations
+- What changed: `:root` shrunk from 11 vars to 5 (`--blue`, `--blue-light`, `--teal`, `--amber`, `--green`); `.pricing-x` rule removed
+- Files modified: `public/landing-page.html`
+- Risk: none (confirmed via grep — zero `var()` uses of removed vars, zero HTML uses of `.pricing-x`)
+- Verification: No visual change; `:root` block now declares only the 5 vars actually in use
+
+#### Fix 2: Add `"id": "/"` to manifest.json
+- Issue: PWA Manifest `"id"` field is the stable identity anchor for installed PWAs. Without it, browsers use `start_url` as identity. If `start_url` ever changes (e.g., from `/` to `/landing-page.html`), browsers treat it as a new app — installed users lose their PWA entry. Also required for some Chrome enhanced install prompt flows.
+- Fix tier chosen: **minimal** — added `"id": "/"` as first field in manifest.json
+- Files modified: `public/manifest.json`
+- Risk: none (additive)
+- Verification: Chrome DevTools > Application > Manifest shows `id` field correctly
+
+#### Fix 3: SW navigate — network-first → stale-while-revalidate
+- Issue: The navigate handler did `fetch(request).catch(() => offlinePage)` — always hitting the network, even when `landing-page.html` was in the precache. Repeat visitors (App Store installs, PWA users, returning web visitors) always waited for network latency before seeing content.
+- Fix tier chosen: **stronger** — stale-while-revalidate: check cache first (instant response for repeat visitors), trigger network fetch in background to keep cache fresh, fall back to offline page only if both cache and network fail
+- What changed: Navigate handler now uses `caches.match(event.request)` first; network fetch runs in parallel and updates cache on success; cached response returned immediately if available
+- Files modified: `public/sw.js`
+- Risk: low (landed pages may be stale by 1 visit cycle; acceptable for a marketing landing page that changes infrequently)
+- Verification: Second visit to `/landing-page.html` loads from cache (DevTools > Network shows `(ServiceWorker)` source); cache updates in background; offline test still shows `offline.html`
+
+#### Fix 4: CTA banner demo button — ghost → primary
+- Issue: In the final CTA section, the `<a href=".../demo">Try the Demo →</a>` used `btn-hero-ghost` style (low-contrast outline button) — visually subordinate to the two "coming soon" store buttons above it, which are at 0.55 opacity with `pointer-events: none`. The only clickable action in the section was the weakest visual element.
+- Fix tier chosen: **minimal** — `class="btn-hero-ghost"` → `class="btn-hero-primary"` (1-word change)
+- Files modified: `public/landing-page.html`
+- Risk: low (visual hierarchy change only — button gains solid blue fill and glow)
+- Verification: CTA section now has filled blue primary button as the clear action; no other styles affected
+
+### Deferred Items
+- "Featured in" badges (TechCrunch, Product Hunt, The Verge) — plain text with no logos or links — requires actual media coverage assets or removal decision
+- Manifest screenshots 404 (`img/screenshot-mobile.png`, `img/screenshot-desktop.png`) — blocked on actual app screenshot design asset; Chrome enhanced install prompt still degraded
+- SW cache version still at `v4` — no bump needed since stale-while-revalidate change doesn't alter cache contents
+- `og:image` / `twitter:image` 1200×630 social card — still missing; `twitter:card: summary` in place until proper image available
+- Features grid last card (Seasonal Maintenance) full-width horizontal layout — deferred, lower priority
+
+### Lighthouse Check
+- Accessibility: 100/100 (maintained — no markup changes that could affect score)
+- Best Practices: 100/100 (maintained)
+- SEO: 100/100 (maintained)
+
+---
+
 ## [2026-03-12 08:00] Swarm Cycle #18
 
 ### Swarm Audit Summary

@@ -1,11 +1,12 @@
 {
+  "id": "/",
   "name": "HomeProjectIQ",
   "short_name": "ProjectIQ",
-  "description": "Know before you build. Know before you hire.",
-  "start_url": "/dashboard",
+  "description": "AI-powered home repair companion. Diagnose problems, get step-by-step guides, and save money on repairs.",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#0A0A0F",
-  "theme_color": "#F97316",
+  "background_color": "#020d1a",
+  "theme_color": "#020d1a",
   "orientation": "portrait",
   "dir": "auto",
   "lang": "en",
@@ -13,11 +14,28 @@
   "scope": "/",
   "prefer_related_applications": false,
   "icons": [
-    { "src": "/brand/app-icon.png", "sizes": "272x290", "type": "image/png" },
-    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml" },
-    { "src": "/icon.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "maskable" }
+    { "src": "img/icon.png", "sizes": "128x128", "type": "image/png" },
+    { "src": "img/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "img/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "img/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "img/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ],
-  "screenshots": [],
+  "screenshots": [
+    {
+      "src": "img/screenshot-mobile.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "HomeProjectIQ mobile app - diagnose home repair issues with AI"
+    },
+    {
+      "src": "img/screenshot-desktop.png",
+      "sizes": "1280x800",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "HomeProjectIQ desktop app - step-by-step repair guides and cost estimates"
+    }
+  ],
   "share_target": {
     "action": "/share-target",
     "method": "POST",

@@ -39,7 +39,17 @@ self.addEventListener('fetch', (event) => {
 
   if (event.request.mode === 'navigate') {
     event.respondWith(
-      fetch(event.request).catch(() => caches.match(OFFLINE_URL))
+      caches.match(event.request).then((cached) => {
+        // Revalidate in background to keep cache fresh
+        const networkUpdate = fetch(event.request).then((response) => {
+          if (response.ok) {
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, response.clone()));
+          }
+          return response;
+        }).catch(() => cached || caches.match(OFFLINE_URL));
+        // Stale-while-revalidate: return cached immediately, else wait for network
+        return cached || networkUpdate;
+      })
     );
     return;
   }
