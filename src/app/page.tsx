@@ -75,8 +75,8 @@ export default function LandingPage() {
 
       {/* Ambient glow */}
       <div className="fixed inset-0 pointer-events-none -z-10" aria-hidden="true">
-        <div className="absolute top-[-300px] left-1/2 -translate-x-1/2 w-[900px] h-[900px] rounded-full opacity-[0.07] blur-[200px]" style={{ background: '#F97316' }} />
-        <div className="absolute top-[60%] right-[-200px] w-[500px] h-[500px] rounded-full opacity-[0.04] blur-[150px]" style={{ background: '#F97316' }} />
+        <div className="absolute top-[-300px] left-1/2 -translate-x-1/2 w-[900px] h-[900px] rounded-full opacity-[0.07] blur-[200px]" style={{ background: '#069CA8' }} />
+        <div className="absolute top-[60%] right-[-200px] w-[500px] h-[500px] rounded-full opacity-[0.04] blur-[150px]" style={{ background: '#069CA8' }} />
       </div>
 
       {/* ═══════════ NAV ═══════════ */}
