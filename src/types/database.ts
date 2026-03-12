@@ -1126,6 +1126,591 @@ export type Database = {
         };
         Relationships: [];
       };
+      issue_types: {
+        Row: {
+          id: string;
+          code: string;
+          name: string;
+          category: string | null;
+          description: string | null;
+          default_severity: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          code: string;
+          name: string;
+          category?: string | null;
+          description?: string | null;
+          default_severity?: string | null;
+        };
+        Update: {
+          id?: string;
+          code?: string;
+          name?: string;
+          category?: string | null;
+          description?: string | null;
+          default_severity?: string | null;
+        };
+        Relationships: [];
+      };
+      scans: {
+        Row: {
+          id: string;
+          property_id: string;
+          zone_id: string | null;
+          user_id: string;
+          scan_type: string;
+          status: string;
+          user_note: string | null;
+          started_at: string;
+          completed_at: string | null;
+          metadata: Json | null;
+        };
+        Insert: {
+          id?: string;
+          property_id: string;
+          zone_id?: string | null;
+          user_id: string;
+          scan_type: string;
+          status?: string;
+          user_note?: string | null;
+          metadata?: Json | null;
+        };
+        Update: {
+          id?: string;
+          property_id?: string;
+          zone_id?: string | null;
+          user_id?: string;
+          scan_type?: string;
+          status?: string;
+          user_note?: string | null;
+          completed_at?: string | null;
+          metadata?: Json | null;
+        };
+        Relationships: [];
+      };
+      scan_images: {
+        Row: {
+          id: string;
+          scan_id: string;
+          image_url: string;
+          image_order: number | null;
+          captured_at: string | null;
+          metadata: Json | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          scan_id: string;
+          image_url: string;
+          image_order?: number | null;
+          captured_at?: string | null;
+          metadata?: Json | null;
+        };
+        Update: {
+          id?: string;
+          scan_id?: string;
+          image_url?: string;
+          image_order?: number | null;
+          captured_at?: string | null;
+          metadata?: Json | null;
+        };
+        Relationships: [];
+      };
+      diagnoses: {
+        Row: {
+          id: string;
+          scan_id: string;
+          issue_type_id: string | null;
+          title: string;
+          summary: string | null;
+          confidence_score: number | null;
+          severity: string | null;
+          urgency: string | null;
+          risk_if_ignored: string | null;
+          recommended_action: string | null;
+          diy_possible: boolean | null;
+          estimated_diy_cost_min: number | null;
+          estimated_diy_cost_max: number | null;
+          estimated_pro_cost_min: number | null;
+          estimated_pro_cost_max: number | null;
+          estimated_time_minutes: number | null;
+          skill_level: string | null;
+          status: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          scan_id: string;
+          issue_type_id?: string | null;
+          title: string;
+          summary?: string | null;
+          confidence_score?: number | null;
+          severity?: string | null;
+          urgency?: string | null;
+          risk_if_ignored?: string | null;
+          recommended_action?: string | null;
+          diy_possible?: boolean | null;
+          estimated_diy_cost_min?: number | null;
+          estimated_diy_cost_max?: number | null;
+          estimated_pro_cost_min?: number | null;
+          estimated_pro_cost_max?: number | null;
+          estimated_time_minutes?: number | null;
+          skill_level?: string | null;
+          status?: string | null;
+        };
+        Update: {
+          id?: string;
+          scan_id?: string;
+          issue_type_id?: string | null;
+          title?: string;
+          summary?: string | null;
+          confidence_score?: number | null;
+          severity?: string | null;
+          urgency?: string | null;
+          risk_if_ignored?: string | null;
+          recommended_action?: string | null;
+          diy_possible?: boolean | null;
+          estimated_diy_cost_min?: number | null;
+          estimated_diy_cost_max?: number | null;
+          estimated_pro_cost_min?: number | null;
+          estimated_pro_cost_max?: number | null;
+          estimated_time_minutes?: number | null;
+          skill_level?: string | null;
+          status?: string | null;
+        };
+        Relationships: [];
+      };
+      diagnosis_evidence: {
+        Row: {
+          id: string;
+          diagnosis_id: string;
+          evidence_type: string;
+          description: string | null;
+          confidence_score: number | null;
+          source_region: Json | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          diagnosis_id: string;
+          evidence_type: string;
+          description?: string | null;
+          confidence_score?: number | null;
+          source_region?: Json | null;
+        };
+        Update: {
+          id?: string;
+          diagnosis_id?: string;
+          evidence_type?: string;
+          description?: string | null;
+          confidence_score?: number | null;
+          source_region?: Json | null;
+        };
+        Relationships: [];
+      };
+      project_steps: {
+        Row: {
+          id: string;
+          project_id: string;
+          step_order: number;
+          title: string;
+          description: string | null;
+          safety_note: string | null;
+          expected_visual_state: string | null;
+          status: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          project_id: string;
+          step_order: number;
+          title: string;
+          description?: string | null;
+          safety_note?: string | null;
+          expected_visual_state?: string | null;
+          status?: string;
+        };
+        Update: {
+          id?: string;
+          project_id?: string;
+          step_order?: number;
+          title?: string;
+          description?: string | null;
+          safety_note?: string | null;
+          expected_visual_state?: string | null;
+          status?: string;
+        };
+        Relationships: [];
+      };
+      project_materials: {
+        Row: {
+          id: string;
+          project_id: string;
+          name: string;
+          quantity: number | null;
+          unit: string | null;
+          estimated_cost: number | null;
+          purchase_url: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          project_id: string;
+          name: string;
+          quantity?: number | null;
+          unit?: string | null;
+          estimated_cost?: number | null;
+          purchase_url?: string | null;
+        };
+        Update: {
+          id?: string;
+          project_id?: string;
+          name?: string;
+          quantity?: number | null;
+          unit?: string | null;
+          estimated_cost?: number | null;
+          purchase_url?: string | null;
+        };
+        Relationships: [];
+      };
+      guided_step_checkpoints: {
+        Row: {
+          id: string;
+          guided_session_id: string;
+          project_step_id: string;
+          checkpoint_type: string | null;
+          status: string | null;
+          ai_feedback: string | null;
+          confidence_score: number | null;
+          requires_reroute: boolean;
+          safety_flag: boolean;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          guided_session_id: string;
+          project_step_id: string;
+          checkpoint_type?: string | null;
+          status?: string | null;
+          ai_feedback?: string | null;
+          confidence_score?: number | null;
+          requires_reroute?: boolean;
+          safety_flag?: boolean;
+        };
+        Update: {
+          id?: string;
+          guided_session_id?: string;
+          project_step_id?: string;
+          checkpoint_type?: string | null;
+          status?: string | null;
+          ai_feedback?: string | null;
+          confidence_score?: number | null;
+          requires_reroute?: boolean;
+          safety_flag?: boolean;
+        };
+        Relationships: [];
+      };
+      guided_checkpoint_images: {
+        Row: {
+          id: string;
+          guided_step_checkpoint_id: string;
+          image_url: string;
+          image_order: number | null;
+          metadata: Json | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          guided_step_checkpoint_id: string;
+          image_url: string;
+          image_order?: number | null;
+          metadata?: Json | null;
+        };
+        Update: {
+          id?: string;
+          guided_step_checkpoint_id?: string;
+          image_url?: string;
+          image_order?: number | null;
+          metadata?: Json | null;
+        };
+        Relationships: [];
+      };
+      guided_messages: {
+        Row: {
+          id: string;
+          guided_session_id: string;
+          sender_type: string;
+          message: string;
+          message_type: string | null;
+          metadata: Json | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          guided_session_id: string;
+          sender_type: string;
+          message: string;
+          message_type?: string | null;
+          metadata?: Json | null;
+        };
+        Update: {
+          id?: string;
+          guided_session_id?: string;
+          sender_type?: string;
+          message?: string;
+          message_type?: string | null;
+          metadata?: Json | null;
+        };
+        Relationships: [];
+      };
+      tools: {
+        Row: {
+          id: string;
+          name: string;
+          category: string | null;
+          sub_category: string | null;
+          brand: string | null;
+          model: string | null;
+          typical_use_cases: string[] | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          name: string;
+          category?: string | null;
+          sub_category?: string | null;
+          brand?: string | null;
+          model?: string | null;
+          typical_use_cases?: string[] | null;
+        };
+        Update: {
+          id?: string;
+          name?: string;
+          category?: string | null;
+          sub_category?: string | null;
+          brand?: string | null;
+          model?: string | null;
+          typical_use_cases?: string[] | null;
+        };
+        Relationships: [];
+      };
+      system_readings: {
+        Row: {
+          id: string;
+          system_id: string;
+          reading_type: string;
+          reading_value: number | null;
+          unit: string | null;
+          source: string | null;
+          metadata: Json | null;
+          recorded_at: string;
+        };
+        Insert: {
+          id?: string;
+          system_id: string;
+          reading_type: string;
+          reading_value?: number | null;
+          unit?: string | null;
+          source?: string | null;
+          metadata?: Json | null;
+        };
+        Update: {
+          id?: string;
+          system_id?: string;
+          reading_type?: string;
+          reading_value?: number | null;
+          unit?: string | null;
+          source?: string | null;
+          metadata?: Json | null;
+        };
+        Relationships: [];
+      };
+      badges: {
+        Row: {
+          id: string;
+          code: string;
+          name: string;
+          description: string | null;
+          badge_type: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          code: string;
+          name: string;
+          description?: string | null;
+          badge_type?: string | null;
+        };
+        Update: {
+          id?: string;
+          code?: string;
+          name?: string;
+          description?: string | null;
+          badge_type?: string | null;
+        };
+        Relationships: [];
+      };
+      user_badges: {
+        Row: {
+          id: string;
+          user_id: string;
+          badge_id: string;
+          awarded_at: string;
+          reason: string | null;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          badge_id: string;
+          reason?: string | null;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          badge_id?: string;
+          reason?: string | null;
+        };
+        Relationships: [];
+      };
+      leaderboard_entries: {
+        Row: {
+          id: string;
+          user_id: string;
+          leaderboard_type: string;
+          period_start: string;
+          period_end: string;
+          score: number;
+          rank: number | null;
+          metadata: Json | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          leaderboard_type: string;
+          period_start: string;
+          period_end: string;
+          score?: number;
+          rank?: number | null;
+          metadata?: Json | null;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          leaderboard_type?: string;
+          period_start?: string;
+          period_end?: string;
+          score?: number;
+          rank?: number | null;
+          metadata?: Json | null;
+        };
+        Relationships: [];
+      };
+      receipts: {
+        Row: {
+          id: string;
+          property_id: string;
+          project_id: string | null;
+          merchant_name: string | null;
+          amount: number | null;
+          purchase_date: string | null;
+          file_url: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          property_id: string;
+          project_id?: string | null;
+          merchant_name?: string | null;
+          amount?: number | null;
+          purchase_date?: string | null;
+          file_url?: string | null;
+        };
+        Update: {
+          id?: string;
+          property_id?: string;
+          project_id?: string | null;
+          merchant_name?: string | null;
+          amount?: number | null;
+          purchase_date?: string | null;
+          file_url?: string | null;
+        };
+        Relationships: [];
+      };
+      warranties: {
+        Row: {
+          id: string;
+          property_id: string;
+          system_id: string | null;
+          provider: string | null;
+          coverage_type: string | null;
+          start_date: string | null;
+          end_date: string | null;
+          document_id: string | null;
+          notes: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          property_id: string;
+          system_id?: string | null;
+          provider?: string | null;
+          coverage_type?: string | null;
+          start_date?: string | null;
+          end_date?: string | null;
+          document_id?: string | null;
+          notes?: string | null;
+        };
+        Update: {
+          id?: string;
+          property_id?: string;
+          system_id?: string | null;
+          provider?: string | null;
+          coverage_type?: string | null;
+          start_date?: string | null;
+          end_date?: string | null;
+          document_id?: string | null;
+          notes?: string | null;
+        };
+        Relationships: [];
+      };
+      inspections: {
+        Row: {
+          id: string;
+          property_id: string;
+          inspection_type: string;
+          performed_by: string | null;
+          inspection_date: string;
+          summary: string | null;
+          score: number | null;
+          document_id: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          property_id: string;
+          inspection_type: string;
+          performed_by?: string | null;
+          inspection_date: string;
+          summary?: string | null;
+          score?: number | null;
+          document_id?: string | null;
+        };
+        Update: {
+          id?: string;
+          property_id?: string;
+          inspection_type?: string;
+          performed_by?: string | null;
+          inspection_date?: string;
+          summary?: string | null;
+          score?: number | null;
+          document_id?: string | null;
+        };
+        Relationships: [];
+      };
     };
     Views: {
       assessment_outcome_stats: {
