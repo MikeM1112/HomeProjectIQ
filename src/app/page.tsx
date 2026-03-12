@@ -4,11 +4,17 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { PhoneMockup } from '@/components/landing/PhoneMockup';
-import { AssessmentScreen } from '@/components/landing/screens/AssessmentScreen';
 import { DashboardScreen } from '@/components/landing/screens/DashboardScreen';
+import { AssessmentScreen } from '@/components/landing/screens/AssessmentScreen';
 import { PlannerScreen } from '@/components/landing/screens/PlannerScreen';
-import { BrandIcon } from '@/components/brand/BrandIcon';
-import type { BrandIconName } from '@/components/brand/BrandIcon';
+import {
+  DiagnoseScreen,
+  GuidedRepairScreen,
+  ToolboxScreen,
+  RiskRadarScreen,
+  CapabilityScreen,
+  TimelineScreen,
+} from '@/components/landing/screens/ShowcaseScreens';
 import { Mascot } from '@/components/brand/Mascot';
 
 /* ── Scroll reveal hook ── */
@@ -24,7 +30,7 @@ function useReveal() {
     }
     const obs = new IntersectionObserver(
       ([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } },
-      { threshold: 0.15 }
+      { threshold: 0.12 }
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -40,11 +46,61 @@ function Reveal({ children, className = '', delay = 0 }: { children: React.React
       className={className}
       style={{
         opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(24px)',
-        transition: `opacity 0.7s ease ${delay}ms, transform 0.7s ease ${delay}ms`,
+        transform: visible ? 'translateY(0)' : 'translateY(28px)',
+        transition: `opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`,
       }}
     >
       {children}
+    </div>
+  );
+}
+
+/* ── Coming Soon Pill ── */
+function ComingSoonPill({ store }: { store: 'apple' | 'google' }) {
+  return (
+    <div
+      className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full text-[13px] font-medium"
+      style={{
+        background: 'var(--glass)',
+        backdropFilter: 'blur(12px)',
+        border: '1px solid var(--glass-border)',
+        color: 'var(--text-sub)',
+      }}
+    >
+      <span className="text-base">{store === 'apple' ? '🍎' : '▶️'}</span>
+      Coming Soon to {store === 'apple' ? 'App Store' : 'Google Play'}
+    </div>
+  );
+}
+
+/* ── Section heading reusable ── */
+function SectionHeading({
+  tag,
+  tagColor = 'var(--accent)',
+  tagBg = 'var(--accent-soft)',
+  title,
+  subtitle,
+}: {
+  tag: string;
+  tagColor?: string;
+  tagBg?: string;
+  title: React.ReactNode;
+  subtitle?: string;
+}) {
+  return (
+    <div className="text-center mb-14 sm:mb-20">
+      <span
+        className="inline-block text-[11px] font-bold tracking-widest uppercase px-4 py-1.5 rounded-full mb-5"
+        style={{ background: tagBg, color: tagColor }}
+      >
+        {tag}
+      </span>
+      <h2 className="text-3xl sm:text-[2.75rem] lg:text-5xl font-bold text-[var(--text)] tracking-tight leading-tight mb-4">
+        {title}
+      </h2>
+      {subtitle && (
+        <p className="text-[var(--text-sub)] text-base sm:text-lg max-w-xl mx-auto leading-relaxed">{subtitle}</p>
+      )}
     </div>
   );
 }
@@ -58,8 +114,104 @@ function Check() {
   );
 }
 
+/* ── Screen showcase data ── */
+const SHOWCASE_SCREENS = [
+  { label: 'Dashboard', component: <DashboardScreen /> },
+  { label: 'Diagnose', component: <DiagnoseScreen /> },
+  { label: 'Assessment', component: <AssessmentScreen /> },
+  { label: 'Guided Repair', component: <GuidedRepairScreen /> },
+  { label: 'Toolbox', component: <ToolboxScreen /> },
+  { label: 'Risk Radar', component: <RiskRadarScreen /> },
+  { label: 'Capability Score', component: <CapabilityScreen /> },
+  { label: 'Timeline', component: <TimelineScreen /> },
+  { label: 'Project Planner', component: <PlannerScreen /> },
+];
+
+/* ── Feature data ── */
+const FEATURES = [
+  {
+    tag: 'AI Diagnosis',
+    tagBg: 'var(--accent-soft)',
+    tagColor: 'var(--accent)',
+    headline: <>See what&rsquo;s wrong <span className="gradient-text">fast</span></>,
+    copy: 'Upload a photo or describe the issue and get a clear, structured diagnosis with severity, urgency, and next steps.',
+    points: [
+      'AI-powered photo analysis identifies problems in seconds',
+      'Severity rating with urgency classification',
+      'Immediate safety warnings for hazardous issues',
+    ],
+    screen: <DiagnoseScreen />,
+    tilt: 'right' as const,
+    reversed: false,
+  },
+  {
+    tag: 'DIY vs Pro',
+    tagBg: 'var(--emerald-soft)',
+    tagColor: 'var(--emerald)',
+    headline: <>Know if DIY makes sense <span className="gradient-text">before you start</span></>,
+    copy: 'Compare DIY cost, tools, time, and professional pricing so you can make the right call for your situation.',
+    points: [
+      'Side-by-side cost comparison: DIY vs. hiring a pro',
+      'Tool availability check against your toolbox',
+      'Time estimate based on your skill level',
+    ],
+    screen: <AssessmentScreen />,
+    tilt: 'left' as const,
+    reversed: true,
+  },
+  {
+    tag: 'Guided Repair',
+    tagBg: 'var(--gold-soft)',
+    tagColor: 'var(--gold)',
+    headline: <>Repair with <span className="gradient-text">GPS-style guidance</span></>,
+    copy: 'HomeProjectIQ stays with you through the project, letting you upload progress photos and get feedback as you go.',
+    points: [
+      'Step-by-step repair instructions with photo checkpoints',
+      'AI validates your progress at each step',
+      'Pro tips and safety warnings throughout',
+    ],
+    screen: <GuidedRepairScreen />,
+    tilt: 'right' as const,
+    reversed: false,
+  },
+  {
+    tag: 'Risk Intelligence',
+    tagBg: 'var(--accent-soft)',
+    tagColor: 'var(--accent)',
+    headline: <>Track what&rsquo;s most likely to <span className="gradient-text">fail next</span></>,
+    copy: 'See your home\u2019s risk radar, capability score, active issues, and next best move in one clean command center.',
+    points: [
+      'System-by-system risk visualization',
+      'Proactive alerts before small issues become expensive',
+      'Home Capability Score tracks your readiness',
+    ],
+    screen: <RiskRadarScreen />,
+    tilt: 'left' as const,
+    reversed: true,
+  },
+  {
+    tag: 'Smart Toolbox',
+    tagBg: 'var(--emerald-soft)',
+    tagColor: 'var(--emerald)',
+    headline: <>Your toolbox, your readiness, <span className="gradient-text">your network</span></>,
+    copy: 'Track tools, compare what a project needs, and see when a friend\u2019s tool makes DIY worth it.',
+    points: [
+      'Digital tool inventory with condition tracking',
+      'Project-to-tool matching tells you what you need',
+      'Borrow from friends to avoid unnecessary purchases',
+    ],
+    screen: <ToolboxScreen />,
+    tilt: 'right' as const,
+    reversed: false,
+  },
+];
+
+/* ═══════════════════════════════════════════════════════════════════
+   LANDING PAGE
+   ═══════════════════════════════════════════════════════════════════ */
 export default function LandingPage() {
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenu, setMobileMenu] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -69,17 +221,25 @@ export default function LandingPage() {
 
   return (
     <main className="min-h-screen relative overflow-hidden" style={{ background: 'var(--bg)' }}>
-      <a href="#hero" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm focus:font-bold" style={{ background: 'var(--accent)', color: 'white' }}>
+      {/* Skip link */}
+      <a
+        href="#hero"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm focus:font-bold"
+        style={{ background: 'var(--accent)', color: 'white' }}
+      >
         Skip to main content
       </a>
 
-      {/* Ambient glow */}
+      {/* ═══════ Ambient glow ═══════ */}
       <div className="fixed inset-0 pointer-events-none -z-10" aria-hidden="true">
-        <div className="absolute top-[-300px] left-1/2 -translate-x-1/2 w-[900px] h-[900px] rounded-full opacity-[0.07] blur-[200px]" style={{ background: '#069CA8' }} />
-        <div className="absolute top-[60%] right-[-200px] w-[500px] h-[500px] rounded-full opacity-[0.04] blur-[150px]" style={{ background: '#069CA8' }} />
+        <div className="absolute top-[-300px] left-1/2 -translate-x-1/2 w-[900px] h-[900px] rounded-full opacity-[0.06] blur-[200px]" style={{ background: '#069CA8' }} />
+        <div className="absolute top-[55%] right-[-250px] w-[600px] h-[600px] rounded-full opacity-[0.04] blur-[180px]" style={{ background: '#069CA8' }} />
+        <div className="absolute bottom-[-200px] left-[-200px] w-[500px] h-[500px] rounded-full opacity-[0.03] blur-[150px]" style={{ background: '#0B5491' }} />
       </div>
 
-      {/* ═══════════ NAV ═══════════ */}
+      {/* ═══════════════════════════════════════════════════════════
+          TOP NAVIGATION
+         ═══════════════════════════════════════════════════════════ */}
       <nav
         aria-label="Main navigation"
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
@@ -91,360 +251,283 @@ export default function LandingPage() {
         }}
       >
         <div className="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
+          {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            <Image src="/brand/app-icon.png" alt="HomeProjectIQ" width={36} height={36} className="rounded-xl shadow-sm transition-transform duration-200 group-hover:scale-105" />
+            <Image
+              src="/brand/app-icon.png"
+              alt="HomeProjectIQ"
+              width={36}
+              height={36}
+              className="rounded-xl shadow-sm transition-transform duration-200 group-hover:scale-105"
+            />
             <span className="text-[15px] text-[var(--text)] font-bold tracking-tight">
               HomeProject<span style={{ color: 'var(--accent)' }}>IQ</span>
             </span>
           </Link>
-          <div className="hidden sm:flex items-center gap-8">
-            {[{ label: 'Features', href: '#features' }, { label: 'How It Works', href: '#how-it-works' }].map((link) => (
-              <a key={link.label} href={link.href} className="nav-link text-sm font-medium text-[var(--text-sub)] hover:text-[var(--text)] transition-colors">{link.label}</a>
+
+          {/* Center links — desktop only */}
+          <div className="hidden lg:flex items-center gap-8">
+            {[
+              { label: 'Features', href: '#features' },
+              { label: 'Screens', href: '#screens' },
+              { label: 'Coming Soon', href: '#coming-soon' },
+            ].map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="text-sm font-medium text-[var(--text-sub)] hover:text-[var(--text)] transition-colors"
+              >
+                {link.label}
+              </a>
             ))}
           </div>
-          <div className="flex items-center gap-3">
-            <Link href="/login" className="hidden sm:inline-flex text-sm font-medium text-[var(--text-sub)] hover:text-[var(--text)] transition-colors px-3 py-2">Log in</Link>
+
+          {/* Right CTA cluster */}
+          <div className="hidden sm:flex items-center gap-3">
             <Link
-              href="/signup"
-              className="text-sm font-bold px-5 py-2.5 rounded-full transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 min-h-[44px] flex items-center"
-              style={{ backgroundImage: 'var(--accent-gradient)', color: 'white', boxShadow: '0 2px 16px var(--accent-glow)' }}
+              href="/demo/dashboard"
+              className="text-sm font-medium text-[var(--text-sub)] hover:text-[var(--text)] transition-colors px-3 py-2"
             >
-              Get Started
+              Demo
+            </Link>
+            <Link
+              href="/sign-in"
+              className="text-sm font-medium text-[var(--text-sub)] hover:text-[var(--text)] transition-colors px-3 py-2"
+            >
+              Sign In
+            </Link>
+            <Link
+              href="/sign-up"
+              className="text-sm font-bold px-5 py-2.5 rounded-full transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 min-h-[44px] flex items-center"
+              style={{
+                backgroundImage: 'var(--accent-gradient)',
+                color: 'white',
+                boxShadow: '0 2px 16px var(--accent-glow)',
+              }}
+            >
+              Sign Up
             </Link>
           </div>
+
+          {/* Mobile hamburger */}
+          <button
+            className="sm:hidden p-2 rounded-lg"
+            onClick={() => setMobileMenu(!mobileMenu)}
+            aria-label="Toggle menu"
+            style={{ color: 'var(--text)' }}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              {mobileMenu ? (
+                <>
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </>
+              ) : (
+                <>
+                  <line x1="4" y1="7" x2="20" y2="7" />
+                  <line x1="4" y1="12" x2="20" y2="12" />
+                  <line x1="4" y1="17" x2="20" y2="17" />
+                </>
+              )}
+            </svg>
+          </button>
         </div>
+
+        {/* Mobile menu dropdown */}
+        {mobileMenu && (
+          <div
+            className="sm:hidden px-5 pb-6 pt-2 space-y-2"
+            style={{
+              background: 'var(--nav-bg)',
+              backdropFilter: 'blur(24px)',
+              borderBottom: '1px solid var(--border)',
+            }}
+          >
+            {[
+              { label: 'Features', href: '#features' },
+              { label: 'Screens', href: '#screens' },
+              { label: 'Coming Soon', href: '#coming-soon' },
+            ].map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                onClick={() => setMobileMenu(false)}
+                className="block text-sm font-medium py-2 text-[var(--text-sub)] hover:text-[var(--text)]"
+              >
+                {link.label}
+              </a>
+            ))}
+            <div className="pt-3 space-y-2" style={{ borderTop: '1px solid var(--border)' }}>
+              <Link
+                href="/demo/dashboard"
+                className="block text-sm font-medium py-2 text-center rounded-xl"
+                style={{ background: 'var(--glass)', border: '1px solid var(--glass-border)', color: 'var(--text)' }}
+                onClick={() => setMobileMenu(false)}
+              >
+                View Demo
+              </Link>
+              <Link
+                href="/sign-up"
+                className="block text-sm font-bold py-3 text-center rounded-xl text-white"
+                style={{ backgroundImage: 'var(--accent-gradient)' }}
+                onClick={() => setMobileMenu(false)}
+              >
+                Sign Up
+              </Link>
+              <Link
+                href="/sign-in"
+                className="block text-sm font-medium py-2 text-center text-[var(--text-sub)]"
+                onClick={() => setMobileMenu(false)}
+              >
+                Sign In
+              </Link>
+            </div>
+          </div>
+        )}
       </nav>
 
-      {/* ═══════════ HERO ═══════════ */}
-      <section id="hero" aria-labelledby="hero-heading" className="relative pt-28 sm:pt-40 pb-8 sm:pb-16 px-5">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] pointer-events-none -z-10" style={{ background: 'radial-gradient(circle, var(--hero-glow-sm) 0%, transparent 65%)' }} aria-hidden="true" />
-        <div className="max-w-3xl mx-auto text-center">
-          <Reveal>
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-8 text-xs font-bold tracking-widest uppercase" style={{ background: 'var(--accent-soft)', color: 'var(--accent)', border: '1px solid var(--glass-border)' }}>
-              <span className="w-1.5 h-1.5 rounded-full motion-safe:animate-pulse" style={{ background: 'var(--accent)' }} aria-hidden="true" />
-              AI-Powered Home Intelligence
-            </div>
-          </Reveal>
+      {/* ═══════════════════════════════════════════════════════════
+          HERO SECTION
+         ═══════════════════════════════════════════════════════════ */}
+      <section id="hero" aria-labelledby="hero-heading" className="relative pt-28 sm:pt-36 lg:pt-40 pb-12 sm:pb-20 px-5">
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] pointer-events-none -z-10"
+          style={{ background: 'radial-gradient(circle, var(--hero-glow-sm) 0%, transparent 60%)' }}
+          aria-hidden="true"
+        />
 
-          <Reveal delay={100}>
-            <div className="flex items-center justify-center gap-4 mb-2">
-              <Mascot size="xxl" mode="celebrate" className="hidden sm:inline-flex shrink-0" />
-              <h1 id="hero-heading" className="font-serif text-[2.75rem] sm:text-[3.5rem] lg:text-[4rem] font-normal leading-[1.08] tracking-tight text-[var(--text)]">
-                Your Home&rsquo;s<br /><span className="gradient-text">Smartest Upgrade</span>
-              </h1>
-            </div>
-            <div className="flex justify-center sm:hidden mb-2">
-              <Mascot size="xl" mode="celebrate" />
-            </div>
-          </Reveal>
-
-          <Reveal delay={180}>
-            <p className="text-[var(--text-sub)] text-base sm:text-lg mb-8 max-w-xl mx-auto leading-relaxed">
-              AI-powered photo assessment that tells you exactly what to fix, whether to DIY or hire a pro, and how much it&rsquo;ll actually cost.
-            </p>
-          </Reveal>
-
-          <Reveal delay={260}>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
-              <Link href="/signup" className="inline-flex items-center justify-center text-white px-8 py-4 rounded-full text-[15px] font-bold tap transition-all duration-200 hover:-translate-y-1 active:scale-[0.98]" style={{ backgroundImage: 'var(--accent-gradient)', boxShadow: '0 6px 28px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.2)' }}>
-                Get Started Free
-              </Link>
-              <Link href="/demo/dashboard" className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-semibold tap text-[var(--text-sub)] transition-all duration-200 hover:text-[var(--text)] hover:-translate-y-0.5" style={{ border: '1px solid var(--glass-border)' }}>
-                Try the Demo
-                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></svg>
-              </Link>
-            </div>
-          </Reveal>
-
-          {/* Stats row */}
-          <Reveal delay={320}>
-            <div className="flex items-center justify-center gap-6 sm:gap-10 text-center mb-12">
-              {[
-                { value: '$2,200', label: 'Avg savings per fix' },
-                { value: '50+', label: 'Issues diagnosed' },
-                { value: '4.9', label: 'App Store rating' },
-              ].map((s) => (
-                <div key={s.label}>
-                  <p className="text-lg sm:text-xl font-bold gradient-text">{s.value}</p>
-                  <p className="text-[11px] text-[var(--text-dim)] mt-0.5">{s.label}</p>
-                </div>
-              ))}
-            </div>
-          </Reveal>
-
-          <Reveal delay={400} className="flex justify-center">
-            <PhoneMockup glow>
-              <AssessmentScreen />
-            </PhoneMockup>
-          </Reveal>
-        </div>
-      </section>
-
-      <div className="section-divider" aria-hidden="true" />
-
-      {/* ═══════════ HOW IT WORKS ═══════════ */}
-      <section id="how-it-works" aria-labelledby="hiw-heading" className="px-5 py-24 sm:py-32 relative">
-        <div className="absolute inset-0 pointer-events-none -z-10" style={{ background: 'radial-gradient(ellipse at 50% 30%, var(--hero-glow) 0%, transparent 60%)' }} aria-hidden="true" />
-        <div className="max-w-6xl mx-auto">
-          <Reveal>
-            <div className="text-center mb-16">
-              <span className="inline-block text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full mb-4" style={{ background: 'var(--accent-soft)', color: 'var(--accent)' }}>
-                How It Works
-              </span>
-              <h2 id="hiw-heading" className="text-3xl sm:text-4xl font-bold mb-4 text-[var(--text)] tracking-tight">
-                Up and running in <span className="gradient-text">60 seconds</span>
-              </h2>
-              <p className="text-[var(--text-sub)] text-base max-w-md mx-auto">Three taps&mdash;that&rsquo;s it. Take a photo, let AI do its thing, and see exactly what to do next.</p>
-            </div>
-          </Reveal>
-
-          <div className="grid md:grid-cols-3 gap-10 md:gap-6 relative">
-            <div className="hidden md:block absolute top-[130px] left-[20%] right-[20%] h-[2px]" style={{ background: 'linear-gradient(90deg, transparent, var(--border), var(--border), transparent)' }} aria-hidden="true" />
-            {([
-              { step: 1, label: 'Snap', title: 'Take a Photo', desc: 'Point your camera at any home issue\u2014a crack, a leak, a stain, a wall.', phone: <AssessmentScreen />, mascotMode: 'diagnostic' as const },
-              { step: 2, label: 'Know', title: 'AI Diagnoses It', desc: 'Identifies the problem, estimates cost, tells you DIY-safe or needs a pro.', phone: <DashboardScreen />, mascotMode: 'tool' as const },
-              { step: 3, label: 'Act', title: 'Get Your Plan', desc: 'Step-by-step DIY instructions or live bids from verified local contractors.', phone: <PlannerScreen />, mascotMode: 'celebrate' as const },
-            ]).map((item, i) => (
-              <Reveal key={item.step} delay={i * 120}>
-                <div className="text-center">
-                  <div className="flex justify-center mb-4">
-                    <PhoneMockup className="scale-[0.65] sm:scale-[0.85]">{item.phone}</PhoneMockup>
-                  </div>
-                  <div className="flex justify-center mb-3">
-                    <Mascot size="sm" mode={item.mascotMode} animate={false} />
-                  </div>
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-3 text-sm font-bold relative z-10" style={{ backgroundImage: 'var(--accent-gradient)', color: 'white', boxShadow: '0 4px 20px var(--accent-glow)' }}>
-                    {item.step}
-                  </div>
-                  <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: 'var(--accent)' }}>{item.label}</p>
-                  <h3 className="text-lg font-bold text-[var(--text)] mb-2 tracking-tight">{item.title}</h3>
-                  <p className="text-sm text-[var(--text-sub)] max-w-[260px] mx-auto leading-relaxed">{item.desc}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <div className="section-divider" aria-hidden="true" />
-
-      {/* ═══════════ COMMAND CENTER ═══════════ */}
-      <section id="features" className="px-5 py-24 sm:py-32">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
-          <Reveal>
-            <div>
-              <div className="flex items-center gap-3 mb-5">
-                <span className="inline-block text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full" style={{ background: 'var(--accent-soft)', color: 'var(--accent)' }}>Dashboard</span>
-                <Mascot size="sm" mode="checklist" animate={false} />
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-5 text-[var(--text)] tracking-tight">
-                Your home&rsquo;s <span className="gradient-text">command center</span>
-              </h2>
-              <p className="text-[var(--text-sub)] text-base mb-8 leading-relaxed">
-                AI-powered hub. Real-time diagnostics, smart cost tracking, proactive maintenance. One dashboard for all of it.
-              </p>
-              <div className="flex flex-wrap gap-2 mb-8">
-                {['AI Diagnostics', 'Cost Tracking', 'Maintenance Alerts', 'Health Score'].map((tag) => (
-                  <span key={tag} className="text-xs font-semibold px-3 py-1.5 rounded-full" style={{ background: 'var(--surface-2)', color: 'var(--text-sub)', border: '1px solid var(--border)' }}>{tag}</span>
-                ))}
-              </div>
-              <div className="space-y-4">
-                {[
-                  'Track every system at a glance\u2014HVAC, plumbing, roof, electrical',
-                  'Smart alerts before a $50 fix becomes a $5,000 emergency',
-                  'Photo-verified history so you always know where things stand',
-                ].map((point) => (
-                  <div key={point} className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5" style={{ background: 'var(--accent-soft)' }}><Check /></div>
-                    <p className="text-sm text-[var(--text-sub)] leading-relaxed">{point}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </Reveal>
-          <Reveal delay={150} className="flex justify-center lg:justify-end">
-            <PhoneMockup tilt="right" glow><DashboardScreen /></PhoneMockup>
-          </Reveal>
-        </div>
-      </section>
-
-      <div className="section-divider" aria-hidden="true" />
-
-      {/* ═══════════ AI VISION ═══════════ */}
-      <section className="px-5 py-24 sm:py-32">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
-          <Reveal className="flex justify-center lg:justify-start order-2 lg:order-1">
-            <PhoneMockup tilt="left" glow><AssessmentScreen /></PhoneMockup>
-          </Reveal>
-          <Reveal delay={150} className="order-1 lg:order-2">
-            <div>
-              <div className="flex items-center gap-3 mb-5">
-                <span className="inline-block text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full" style={{ background: 'var(--emerald-soft)', color: 'var(--emerald)' }}>AI Vision</span>
-                <Mascot size="sm" mode="diagnostic" animate={false} />
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-5 text-[var(--text)] tracking-tight">
-                AI that sees <span className="gradient-text">what you can&rsquo;t</span>
-              </h2>
-              <p className="text-[var(--text-sub)] text-base mb-8 leading-relaxed">
-                Advanced computer vision identifies problems humans often miss. Trained on thousands of real home issues.
-              </p>
-              <div className="space-y-4">
-                {[
-                  { title: 'Surface Pattern Analysis', desc: 'Distinguishes mold from soap scum, structural from cosmetic cracks' },
-                  { title: 'Damage Classification', desc: 'Separates termite damage from water damage at a glance' },
-                  { title: 'Material Identification', desc: 'Detects load-bearing walls and hidden obstacles behind drywall' },
-                  { title: 'Risk Assessment', desc: 'Confidence scores so you know when to trust the diagnosis' },
-                ].map((item) => (
-                  <div key={item.title} className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5" style={{ background: 'var(--accent-soft)' }}><Check /></div>
-                    <div>
-                      <p className="text-sm font-semibold text-[var(--text)]">{item.title}</p>
-                      <p className="text-xs text-[var(--text-dim)] mt-0.5">{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      <div className="section-divider" aria-hidden="true" />
-
-      {/* ═══════════ TAKE ACTION ═══════════ */}
-      <section className="px-5 py-24 sm:py-32">
-        <div className="max-w-4xl mx-auto">
-          <Reveal>
-            <div className="text-center mb-14">
-              <span className="inline-block text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full mb-4" style={{ background: 'var(--gold-soft)', color: 'var(--gold)' }}>Cost Planning</span>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-[var(--text)] tracking-tight">
-                Everything you need to <span className="gradient-text">take action</span>
-              </h2>
-              <p className="text-[var(--text-sub)] text-base max-w-lg mx-auto leading-relaxed">
-                Each diagnosis delivers a complete action plan&mdash;materials, estimated cost, timeline, and whether you should DIY or hire a pro.
-              </p>
-            </div>
-          </Reveal>
-
-          <div className="grid sm:grid-cols-2 gap-6">
+        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Left column — text */}
+          <div className="text-center lg:text-left">
             <Reveal>
-              <div className="rounded-[20px] p-6 sm:p-8 h-full" style={{ background: 'var(--surface-1)', border: '1px solid var(--border)' }}>
-                <div className="w-10 h-10 rounded-full flex items-center justify-center mb-4" style={{ background: 'var(--accent-soft)' }}>
-                  <BrandIcon name="tools" size={24} />
-                </div>
-                <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: 'var(--accent)' }}>DIY Estimate</p>
-                <p className="text-3xl sm:text-4xl font-bold gradient-text mb-3">$25&ndash;$600</p>
-                <p className="text-sm text-[var(--text-sub)] leading-relaxed">Materials, tools, and your time. Step-by-step instructions matched to your skill level.</p>
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-6 text-xs font-bold tracking-widest uppercase" style={{ background: 'var(--accent-soft)', color: 'var(--accent)', border: '1px solid var(--glass-border)' }}>
+                <span className="w-1.5 h-1.5 rounded-full motion-safe:animate-pulse" style={{ background: 'var(--accent)' }} aria-hidden="true" />
+                AI-Powered Home Intelligence
               </div>
             </Reveal>
-            <Reveal delay={100}>
-              <div className="rounded-[20px] p-6 sm:p-8 h-full" style={{ background: 'var(--surface-1)', border: '1px solid var(--border)' }}>
-                <div className="w-10 h-10 rounded-full flex items-center justify-center mb-4" style={{ background: 'var(--emerald-soft)' }}>
-                  <BrandIcon name="hire-pro" size={24} />
-                </div>
-                <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: 'var(--emerald)' }}>Pro Estimate</p>
-                <p className="text-3xl sm:text-4xl font-bold gradient-text mb-3">$150&ndash;$3,000</p>
-                <p className="text-sm text-[var(--text-sub)] leading-relaxed">Licensed contractor, fully insured. Live bids from verified local pros.</p>
+
+            <Reveal delay={80}>
+              <h1
+                id="hero-heading"
+                className="font-serif text-[2.5rem] sm:text-[3.25rem] lg:text-[3.75rem] font-normal leading-[1.08] tracking-tight text-[var(--text)] mb-6"
+              >
+                Know what&rsquo;s wrong.<br />
+                Know what to do.<br />
+                <span className="gradient-text">Know if DIY is worth it.</span>
+              </h1>
+            </Reveal>
+
+            <Reveal delay={160}>
+              <p className="text-[var(--text-sub)] text-base sm:text-lg mb-8 max-w-lg mx-auto lg:mx-0 leading-relaxed">
+                HomeProjectIQ helps homeowners diagnose issues, compare DIY vs pro, track tools, follow guided repairs, and stay ahead of home risk.
+              </p>
+            </Reveal>
+
+            <Reveal delay={240}>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-6">
+                <Link
+                  href="/demo/dashboard"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5 min-h-[48px]"
+                  style={{
+                    border: '1.5px solid var(--glass-border)',
+                    color: 'var(--text)',
+                    background: 'var(--glass)',
+                    backdropFilter: 'blur(12px)',
+                  }}
+                >
+                  <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+                  View Demo
+                </Link>
+                <Link
+                  href="/sign-up"
+                  className="inline-flex items-center justify-center text-white px-8 py-4 rounded-full text-[15px] font-bold transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98] min-h-[48px]"
+                  style={{
+                    backgroundImage: 'var(--accent-gradient)',
+                    boxShadow: '0 6px 28px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.2)',
+                  }}
+                >
+                  Sign Up Free
+                </Link>
+              </div>
+            </Reveal>
+
+            <Reveal delay={300}>
+              <p className="text-xs text-[var(--text-dim)] mb-6">
+                Already have an account?{' '}
+                <Link href="/sign-in" className="font-medium hover:underline" style={{ color: 'var(--accent)' }}>
+                  Sign In
+                </Link>
+              </p>
+            </Reveal>
+
+            <Reveal delay={360}>
+              <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
+                <ComingSoonPill store="apple" />
+                <ComingSoonPill store="google" />
               </div>
             </Reveal>
           </div>
-        </div>
-      </section>
 
-      <div className="section-divider" aria-hidden="true" />
-
-      {/* ═══════════ MAINTENANCE RECORD ═══════════ */}
-      <section className="px-5 py-24 sm:py-32">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
-          <Reveal>
-            <div>
-              <span className="inline-block text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full mb-5" style={{ background: 'var(--accent-soft)', color: 'var(--accent)' }}>Logbook</span>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-5 text-[var(--text)] tracking-tight">
-                Your home&rsquo;s <span className="gradient-text">maintenance record</span>
-              </h2>
-              <p className="text-[var(--text-sub)] text-base mb-8 leading-relaxed">
-                Every repair, every diagnosis, every cost&mdash;auto-logged. Build a complete maintenance history that adds real value.
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {['Auto-Logged', 'Before & After', 'Cost History', 'Seasonal Alerts'].map((tag) => (
-                  <span key={tag} className="text-xs font-semibold px-3 py-1.5 rounded-full" style={{ background: 'var(--surface-2)', color: 'var(--text-sub)', border: '1px solid var(--border)' }}>{tag}</span>
-                ))}
+          {/* Right column — phone stack */}
+          <Reveal delay={200} className="flex justify-center lg:justify-end">
+            <div className="relative">
+              {/* Back phone — left */}
+              <div className="absolute -left-8 sm:-left-12 top-8 sm:top-12 z-0 opacity-80 scale-[0.7] sm:scale-[0.78]">
+                <PhoneMockup tilt="left">
+                  <DashboardScreen />
+                </PhoneMockup>
               </div>
-            </div>
-          </Reveal>
-          <Reveal delay={150} className="flex justify-center lg:justify-end">
-            <PhoneMockup tilt="right" glow><PlannerScreen /></PhoneMockup>
-          </Reveal>
-        </div>
-      </section>
 
-      <div className="section-divider" aria-hidden="true" />
+              {/* Center phone — main */}
+              <div className="relative z-10">
+                <PhoneMockup glow>
+                  <AssessmentScreen />
+                </PhoneMockup>
+              </div>
 
-      {/* ═══════════ LEVEL UP ═══════════ */}
-      <section className="px-5 py-24 sm:py-32">
-        <div className="max-w-3xl mx-auto text-center">
-          <Reveal>
-            <span className="inline-block text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full mb-4" style={{ background: 'var(--gold-soft)', color: 'var(--gold)' }}>Gamification</span>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-[var(--text)] tracking-tight">
-              Level up your <span className="gradient-text">home skills</span>
-            </h2>
-            <p className="text-[var(--text-sub)] text-base max-w-lg mx-auto mb-10 leading-relaxed">
-              Earn XP with every project. Unlock badges as you master plumbing, electrical, painting, and more.
-            </p>
-          </Reveal>
-          <Reveal delay={100}>
-            <div className="grid grid-cols-5 sm:grid-cols-10 gap-3 max-w-md sm:max-w-xl mx-auto mb-8">
-              {['🔧','🔨','🪚','🪛','💡','🎨','🪠','🔩','🧱','🏆','⚡','🛠️','📐','🧰','🪜','🔑','🚿','❄️','🔥','🌱'].map((emoji, i) => (
-                <div
-                  key={i}
-                  className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center text-lg sm:text-xl"
-                  style={{ background: 'var(--surface-2)', border: '1px solid var(--border)' }}
-                >
-                  {emoji}
+              {/* Back phone — right */}
+              <div className="absolute -right-8 sm:-right-12 top-8 sm:top-12 z-0 opacity-80 scale-[0.7] sm:scale-[0.78]">
+                <PhoneMockup tilt="right">
+                  <GuidedRepairScreen />
+                </PhoneMockup>
+              </div>
+
+              {/* Floating glass callouts */}
+              <div
+                className="absolute -left-4 sm:left-0 top-[55%] z-20 rounded-xl px-3 py-2 hidden sm:flex items-center gap-2"
+                style={{
+                  background: 'var(--glass)',
+                  backdropFilter: 'blur(16px)',
+                  border: '1px solid var(--glass-border)',
+                  boxShadow: 'var(--card-shadow)',
+                }}
+              >
+                <div className="w-6 h-6 rounded-lg flex items-center justify-center" style={{ background: 'var(--emerald-soft)' }}>
+                  <span className="text-xs">✅</span>
                 </div>
-              ))}
-            </div>
-          </Reveal>
-          <Reveal delay={200}>
-            <div className="rounded-[20px] p-5 inline-flex items-center gap-4" style={{ background: 'var(--surface-1)', border: '1px solid var(--border)' }}>
-              <div className="text-left">
-                <p className="text-xs text-[var(--text-dim)]">Your level</p>
-                <p className="text-sm font-bold text-[var(--text)]">Level 3 &middot; Handy</p>
-              </div>
-              <div className="w-32 h-2 rounded-full overflow-hidden" style={{ background: 'var(--xp-bar-bg)' }}>
-                <div className="h-full rounded-full w-[65%]" style={{ backgroundImage: 'var(--xp-gradient)' }} />
-              </div>
-              <p className="text-xs font-bold" style={{ color: 'var(--accent)' }}>650 XP</p>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      <div className="section-divider" aria-hidden="true" />
-
-      {/* ═══════════ SOCIAL PROOF ═══════════ */}
-      <section className="px-5 py-24 sm:py-32">
-        <div className="max-w-4xl mx-auto">
-          <Reveal>
-            <div className="text-center mb-14">
-              <h2 className="text-3xl sm:text-4xl font-bold text-[var(--text)] tracking-tight">
-                True. Grit. Then <span className="font-serif italic gradient-text">expertise.</span>
-              </h2>
-            </div>
-          </Reveal>
-          <Reveal delay={100}>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
-              {[
-                { value: '$2,200', label: 'Average DIY savings' },
-                { value: '60s', label: 'Photo to action plan' },
-                { value: '$0', label: 'Free to start' },
-                { value: '$23,100', label: 'Total user savings' },
-              ].map((s) => (
-                <div key={s.label} className="rounded-[16px] p-5" style={{ background: 'var(--surface-1)', border: '1px solid var(--border)' }}>
-                  <p className="text-2xl sm:text-3xl font-bold gradient-text mb-1">{s.value}</p>
-                  <p className="text-xs text-[var(--text-dim)]">{s.label}</p>
+                <div>
+                  <p className="text-[9px] font-bold" style={{ color: 'var(--text)' }}>DIY Worth It</p>
+                  <p className="text-[7px]" style={{ color: 'var(--text-dim)' }}>Save $1,200</p>
                 </div>
-              ))}
+              </div>
+
+              <div
+                className="absolute -right-4 sm:right-0 top-[35%] z-20 rounded-xl px-3 py-2 hidden sm:flex items-center gap-2"
+                style={{
+                  background: 'var(--glass)',
+                  backdropFilter: 'blur(16px)',
+                  border: '1px solid var(--glass-border)',
+                  boxShadow: 'var(--card-shadow)',
+                }}
+              >
+                <div className="w-6 h-6 rounded-lg flex items-center justify-center" style={{ background: 'var(--accent-soft)' }}>
+                  <span className="text-xs">🏠</span>
+                </div>
+                <div>
+                  <p className="text-[9px] font-bold" style={{ color: 'var(--text)' }}>Home Score</p>
+                  <p className="text-[7px]" style={{ color: 'var(--accent)' }}>82 / B+</p>
+                </div>
+              </div>
             </div>
           </Reveal>
         </div>
@@ -452,51 +535,321 @@ export default function LandingPage() {
 
       <div className="section-divider" aria-hidden="true" />
 
-      {/* ═══════════ FINAL CTA ═══════════ */}
-      <section className="px-5 py-24 sm:py-32 relative">
-        <div className="absolute inset-0 pointer-events-none -z-10" style={{ background: 'radial-gradient(circle at 50% 50%, var(--hero-glow-sm) 0%, transparent 50%)' }} aria-hidden="true" />
+      {/* ═══════════════════════════════════════════════════════════
+          PROOF SECTION — See the App in Action
+         ═══════════════════════════════════════════════════════════ */}
+      <section id="screens" className="px-5 py-24 sm:py-32 relative">
+        <div className="absolute inset-0 pointer-events-none -z-10" style={{ background: 'radial-gradient(ellipse at 50% 30%, var(--hero-glow) 0%, transparent 55%)' }} aria-hidden="true" />
+
         <Reveal>
-          <div className="max-w-2xl mx-auto text-center">
-            <div className="flex justify-center mb-6">
-              <Mascot size="xl" mode="celebrate" />
+          <SectionHeading
+            tag="App Screens"
+            title={<>See how HomeProjectIQ <span className="gradient-text">works</span></>}
+            subtitle="Real screens from the app — every feature designed for clarity and speed."
+          />
+        </Reveal>
+
+        {/* Horizontal scrollable screen showcase */}
+        <Reveal delay={100}>
+          <div className="relative -mx-5">
+            <div className="flex gap-8 overflow-x-auto px-5 pb-6 snap-x snap-mandatory scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
+              {SHOWCASE_SCREENS.map((screen, i) => (
+                <div key={screen.label} className="flex-none snap-center">
+                  <div className="flex flex-col items-center gap-4">
+                    <div className="scale-[0.72] sm:scale-[0.82] origin-top">
+                      <PhoneMockup glow={i === 0}>{screen.component}</PhoneMockup>
+                    </div>
+                    <span
+                      className="text-xs font-semibold px-3 py-1 rounded-full"
+                      style={{
+                        background: 'var(--glass)',
+                        border: '1px solid var(--glass-border)',
+                        color: 'var(--text-sub)',
+                      }}
+                    >
+                      {screen.label}
+                    </span>
+                  </div>
+                </div>
+              ))}
             </div>
-            <h2 className="font-serif text-3xl sm:text-4xl text-[var(--text)] mb-4 tracking-tight">
-              Your home has questions.<br />
-              <span className="gradient-text">Now you have answers.</span>
-            </h2>
-            <p className="text-[var(--text-sub)] text-base mb-8 max-w-md mx-auto leading-relaxed">
-              Stop Googling, stop guessing, stop overpaying. One photo is all it takes.
-            </p>
-            <Link href="/signup" className="inline-flex items-center justify-center text-white px-10 py-4 rounded-full text-[15px] font-bold tap transition-all duration-200 hover:-translate-y-1 active:scale-[0.98]" style={{ backgroundImage: 'var(--accent-gradient)', boxShadow: '0 6px 28px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.2)' }}>
-              Get Started Free
+          </div>
+        </Reveal>
+
+        {/* View Full Demo CTA */}
+        <Reveal delay={200}>
+          <div className="text-center mt-8">
+            <Link
+              href="/demo/dashboard"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-bold transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98]"
+              style={{
+                backgroundImage: 'var(--accent-gradient)',
+                color: 'white',
+                boxShadow: '0 4px 20px var(--accent-glow)',
+              }}
+            >
+              View Full Demo
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
             </Link>
           </div>
         </Reveal>
       </section>
 
-      {/* ═══════════ FOOTER ═══════════ */}
-      <footer className="px-5 py-14" style={{ borderTop: '1px solid var(--border)' }}>
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-6 mb-10">
-            <div className="flex items-center gap-2.5">
-              <Image src="/brand/app-icon.png" alt="HomeProjectIQ" width={32} height={32} className="rounded-lg" />
-              <span className="text-[15px] text-[var(--text)] font-bold tracking-tight">
-                HomeProject<span style={{ color: 'var(--accent)' }}>IQ</span>
-              </span>
+      <div className="section-divider" aria-hidden="true" />
+
+      {/* ═══════════════════════════════════════════════════════════
+          FEATURE SECTIONS (5)
+         ═══════════════════════════════════════════════════════════ */}
+      <div id="features">
+        {FEATURES.map((feat, idx) => (
+          <section key={feat.tag} className="px-5 py-20 sm:py-28">
+            <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+              {/* Text column */}
+              <Reveal className={feat.reversed ? 'order-1 lg:order-2' : ''}>
+                <div>
+                  <div className="flex items-center gap-3 mb-5">
+                    <span
+                      className="inline-block text-[11px] font-bold tracking-widest uppercase px-4 py-1.5 rounded-full"
+                      style={{ background: feat.tagBg, color: feat.tagColor }}
+                    >
+                      {feat.tag}
+                    </span>
+                    {idx === 0 && <Mascot size="sm" mode="diagnostic" animate={false} />}
+                    {idx === 2 && <Mascot size="sm" mode="checklist" animate={false} />}
+                  </div>
+                  <h2 className="text-3xl sm:text-[2.5rem] font-bold mb-5 text-[var(--text)] tracking-tight leading-tight">
+                    {feat.headline}
+                  </h2>
+                  <p className="text-[var(--text-sub)] text-base mb-8 leading-relaxed max-w-lg">
+                    {feat.copy}
+                  </p>
+                  <div className="space-y-4">
+                    {feat.points.map((point) => (
+                      <div key={point} className="flex items-start gap-3">
+                        <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5" style={{ background: feat.tagBg }}>
+                          <Check />
+                        </div>
+                        <p className="text-sm text-[var(--text-sub)] leading-relaxed">{point}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </Reveal>
+
+              {/* Phone column */}
+              <Reveal
+                delay={150}
+                className={`flex justify-center ${feat.reversed ? 'order-2 lg:order-1 lg:justify-start' : 'lg:justify-end'}`}
+              >
+                <PhoneMockup tilt={feat.tilt} glow>{feat.screen}</PhoneMockup>
+              </Reveal>
             </div>
-            <div className="flex items-center gap-2">
-              <Mascot size="sm" mode="default" animate={false} />
-              <p className="text-sm text-[var(--text-dim)]">Built for solo homeowners.</p>
+
+            {idx < FEATURES.length - 1 && <div className="section-divider mt-20 sm:mt-28" aria-hidden="true" />}
+          </section>
+        ))}
+      </div>
+
+      <div className="section-divider" aria-hidden="true" />
+
+      {/* ═══════════════════════════════════════════════════════════
+          DEMO CTA SECTION
+         ═══════════════════════════════════════════════════════════ */}
+      <section className="px-5 py-24 sm:py-32 relative">
+        <div className="absolute inset-0 pointer-events-none -z-10" style={{ background: 'radial-gradient(ellipse at 50% 50%, var(--hero-glow) 0%, transparent 50%)' }} aria-hidden="true" />
+        <Reveal>
+          <div className="max-w-2xl mx-auto text-center">
+            <div className="flex justify-center mb-6">
+              <Mascot size="xl" mode="celebrate" />
             </div>
-            <div className="flex items-center gap-4">
-              <a href="#features" className="text-sm text-[var(--text-sub)] hover:text-[var(--accent)] transition-colors">Features</a>
-              <Link href="/demo/dashboard" className="text-sm text-[var(--text-sub)] hover:text-[var(--accent)] transition-colors">Demo</Link>
-              <Link href="/privacy" className="text-sm text-[var(--text-sub)] hover:text-[var(--accent)] transition-colors">Privacy</Link>
-              <Link href="/terms" className="text-sm text-[var(--text-sub)] hover:text-[var(--accent)] transition-colors">Terms</Link>
+            <h2 className="text-3xl sm:text-4xl font-bold text-[var(--text)] tracking-tight mb-4">
+              See it in action
+            </h2>
+            <p className="text-[var(--text-sub)] text-base mb-8 max-w-md mx-auto leading-relaxed">
+              Explore the full HomeProjectIQ experience. Browse every screen, every feature, every detail.
+            </p>
+            <Link
+              href="/demo/dashboard"
+              className="inline-flex items-center justify-center gap-2 text-white px-10 py-4 rounded-full text-[15px] font-bold transition-all duration-200 hover:-translate-y-1 active:scale-[0.98]"
+              style={{
+                backgroundImage: 'var(--accent-gradient)',
+                boxShadow: '0 6px 28px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.2)',
+              }}
+            >
+              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+              Explore Full Demo
+            </Link>
+          </div>
+        </Reveal>
+      </section>
+
+      <div className="section-divider" aria-hidden="true" />
+
+      {/* ═══════════════════════════════════════════════════════════
+          COMING SOON SECTION
+         ═══════════════════════════════════════════════════════════ */}
+      <section id="coming-soon" className="px-5 py-24 sm:py-32">
+        <Reveal>
+          <div
+            className="max-w-3xl mx-auto rounded-[28px] p-8 sm:p-14 text-center relative overflow-hidden"
+            style={{
+              background: 'var(--glass)',
+              backdropFilter: 'blur(24px)',
+              WebkitBackdropFilter: 'blur(24px)',
+              border: '1px solid var(--glass-border)',
+              boxShadow: 'var(--card-shadow)',
+            }}
+          >
+            {/* Ambient glow inside card */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[200px] rounded-full opacity-[0.08] blur-[80px] pointer-events-none -z-10" style={{ background: 'var(--accent)' }} aria-hidden="true" />
+
+            <h2 className="text-3xl sm:text-4xl font-bold text-[var(--text)] tracking-tight mb-4">
+              Coming soon to <span className="gradient-text">iPhone and Android</span>
+            </h2>
+            <p className="text-[var(--text-sub)] text-base mb-8 max-w-md mx-auto leading-relaxed">
+              Be first to know when HomeProjectIQ launches on the Apple App Store and Google Play.
+            </p>
+
+            <div className="flex flex-wrap gap-3 justify-center mb-8">
+              <ComingSoonPill store="apple" />
+              <ComingSoonPill store="google" />
+            </div>
+
+            {/* Notify Me — email capture */}
+            <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="flex-1 px-5 py-3 rounded-full text-sm outline-none transition-all focus:ring-2"
+                style={{
+                  background: 'var(--surface-2)',
+                  border: '1px solid var(--border)',
+                  color: 'var(--text)',
+                }}
+              />
+              <button
+                className="px-6 py-3 rounded-full text-sm font-bold text-white transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98] shrink-0"
+                style={{
+                  backgroundImage: 'var(--accent-gradient)',
+                  boxShadow: '0 4px 16px var(--accent-glow)',
+                }}
+              >
+                Notify Me
+              </button>
             </div>
           </div>
-          <div className="pt-6" style={{ borderTop: '1px solid var(--border)' }}>
-            <p className="text-xs text-[var(--text-dim)] text-center">&copy; {new Date().getFullYear()} HomeProjectIQ. All rights reserved.</p>
+        </Reveal>
+      </section>
+
+      <div className="section-divider" aria-hidden="true" />
+
+      {/* ═══════════════════════════════════════════════════════════
+          SIGN UP / SIGN IN CTA BAND
+         ═══════════════════════════════════════════════════════════ */}
+      <section className="px-5 py-24 sm:py-32 relative">
+        <div className="absolute inset-0 pointer-events-none -z-10" style={{ background: 'radial-gradient(circle at 50% 50%, var(--hero-glow-sm) 0%, transparent 50%)' }} aria-hidden="true" />
+        <Reveal>
+          <div className="max-w-2xl mx-auto text-center">
+            <h2 className="font-serif text-3xl sm:text-4xl text-[var(--text)] mb-4 tracking-tight">
+              Get early access to<br />
+              <span className="gradient-text">HomeProjectIQ</span>
+            </h2>
+            <p className="text-[var(--text-sub)] text-base mb-8 max-w-md mx-auto leading-relaxed">
+              Start diagnosing issues, planning projects, and building your home intelligence today.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Link
+                href="/sign-up"
+                className="inline-flex items-center justify-center text-white px-10 py-4 rounded-full text-[15px] font-bold transition-all duration-200 hover:-translate-y-1 active:scale-[0.98]"
+                style={{
+                  backgroundImage: 'var(--accent-gradient)',
+                  boxShadow: '0 6px 28px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.2)',
+                }}
+              >
+                Sign Up Free
+              </Link>
+              <Link
+                href="/sign-in"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5"
+                style={{
+                  border: '1.5px solid var(--glass-border)',
+                  color: 'var(--text)',
+                  background: 'var(--glass)',
+                  backdropFilter: 'blur(12px)',
+                }}
+              >
+                Sign In
+              </Link>
+            </div>
+            <p className="text-xs text-[var(--text-dim)] mt-4">
+              Already exploring the platform? Sign in to continue.
+            </p>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════
+          FOOTER
+         ═══════════════════════════════════════════════════════════ */}
+      <footer className="px-5 py-14" style={{ borderTop: '1px solid var(--border)' }}>
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-10 mb-12">
+            {/* Brand column */}
+            <div className="col-span-2 sm:col-span-1">
+              <div className="flex items-center gap-2.5 mb-4">
+                <Image src="/brand/app-icon.png" alt="HomeProjectIQ" width={32} height={32} className="rounded-lg" />
+                <span className="text-[15px] text-[var(--text)] font-bold tracking-tight">
+                  HomeProject<span style={{ color: 'var(--accent)' }}>IQ</span>
+                </span>
+              </div>
+              <p className="text-sm text-[var(--text-dim)] leading-relaxed mb-4">
+                The AI-powered operating system for home repair readiness.
+              </p>
+              <div className="flex items-center gap-2">
+                <Mascot size="sm" mode="default" animate={false} />
+                <span className="text-xs text-[var(--text-dim)]">Built for homeowners.</span>
+              </div>
+            </div>
+
+            {/* Product */}
+            <div>
+              <h4 className="text-xs font-bold uppercase tracking-widest mb-4 text-[var(--text-dim)]">Product</h4>
+              <div className="space-y-3">
+                <a href="#features" className="block text-sm text-[var(--text-sub)] hover:text-[var(--accent)] transition-colors">Features</a>
+                <a href="#screens" className="block text-sm text-[var(--text-sub)] hover:text-[var(--accent)] transition-colors">Screens</a>
+                <Link href="/demo/dashboard" className="block text-sm text-[var(--text-sub)] hover:text-[var(--accent)] transition-colors">Demo</Link>
+              </div>
+            </div>
+
+            {/* Account */}
+            <div>
+              <h4 className="text-xs font-bold uppercase tracking-widest mb-4 text-[var(--text-dim)]">Account</h4>
+              <div className="space-y-3">
+                <Link href="/sign-up" className="block text-sm text-[var(--text-sub)] hover:text-[var(--accent)] transition-colors">Sign Up</Link>
+                <Link href="/sign-in" className="block text-sm text-[var(--text-sub)] hover:text-[var(--accent)] transition-colors">Sign In</Link>
+              </div>
+            </div>
+
+            {/* Legal */}
+            <div>
+              <h4 className="text-xs font-bold uppercase tracking-widest mb-4 text-[var(--text-dim)]">Legal</h4>
+              <div className="space-y-3">
+                <Link href="/privacy" className="block text-sm text-[var(--text-sub)] hover:text-[var(--accent)] transition-colors">Privacy</Link>
+                <Link href="/terms" className="block text-sm text-[var(--text-sub)] hover:text-[var(--accent)] transition-colors">Terms</Link>
+                <a href="mailto:support@homeprojectiq.com" className="block text-sm text-[var(--text-sub)] hover:text-[var(--accent)] transition-colors">Contact</a>
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4" style={{ borderTop: '1px solid var(--border)' }}>
+            <p className="text-xs text-[var(--text-dim)]">&copy; {new Date().getFullYear()} HomeProjectIQ. All rights reserved.</p>
+            <div className="flex gap-4">
+              <ComingSoonPill store="apple" />
+              <ComingSoonPill store="google" />
+            </div>
           </div>
         </div>
       </footer>
