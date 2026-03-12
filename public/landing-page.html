@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>HomeProjectIQ — Your AI Home Repair Companion</title>
+<meta name="description" content="HomeProjectIQ diagnoses home problems with AI, guides you step-by-step through repairs, and tells you when to DIY or call a pro. Save money on home repairs today.">
+<meta property="og:title" content="HomeProjectIQ — Fix It Smarter. Know Before You Call.">
+<meta property="og:description" content="AI-powered home repair companion. Diagnose problems, get step-by-step guides, and save thousands on repairs.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#020d1a">
+<meta name="twitter:title" content="HomeProjectIQ — Your AI Home Repair Companion">
+<meta name="twitter:description" content="AI-powered home repair companion. Diagnose problems, get step-by-step guides, and save thousands on repairs.">
+<meta property="og:url" content="https://www.homeprojectiq.com/">
+<meta property="og:image" content="https://www.homeprojectiq.com/img/icon.png">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.homeprojectiq.com/">
+<link rel="icon" type="image/png" href="img/icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" sizes="180x180" href="img/icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="HomeProjectIQ">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet"></noscript>
+<noscript><style>.reveal{opacity:1!important;transform:none!important;}</style></noscript>
+<style>
+  :root {
+    --blue: #0088ff;
+    --blue-light: #40aaff;
+    --blue-dark: #0055cc;
+    --teal: #00d4c8;
+    --amber: #ffb020;
+    --green: #22cc88;
+    --ink: #020d1a;
+    --ink-2: #0a2540;
+    --muted: #6b8eaa;
+    --glass: rgba(255,255,255,0.06);
+    --glass-border: rgba(255,255,255,0.1);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #020d1a;
+    color: #e8f4ff;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  .bg-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; background: #020d1a; overflow: hidden; }
+  .bg-orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.35; will-change: transform; }
+  .bg-orb-1 { width: 900px; height: 900px; background: radial-gradient(circle, #0066ff, transparent 70%); top: -200px; left: -200px; animation: orbDrift1 20s ease-in-out infinite; }
+  .bg-orb-2 { width: 700px; height: 700px; background: radial-gradient(circle, #00d4c8, transparent 70%); top: 30%; right: -150px; animation: orbDrift2 25s ease-in-out infinite; }
+  .bg-orb-3 { width: 600px; height: 600px; background: radial-gradient(circle, #0044aa, transparent 70%); bottom: -100px; left: 20%; animation: orbDrift3 18s ease-in-out infinite; }
+  .bg-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(0,136,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,136,255,0.04) 1px, transparent 1px); background-size: 60px 60px; }
+  @keyframes orbDrift1 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(80px,60px) scale(1.1)} 66%{transform:translate(-40px,100px) scale(0.9)} }
+  @keyframes orbDrift2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-80px,80px)} }
+  @keyframes orbDrift3 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(60px,-60px)} }
+  .wrap { position: relative; z-index: 1; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+  @media(max-width:768px) { .container { padding: 0 20px; } }
+
+  /* SKIP LINK */
+  .skip-link { position: absolute; top: -50px; left: 0; background: #0088ff; color: white; padding: 8px 16px; z-index: 1000; font-size: 14px; transition: top 0.3s; text-decoration: none; }
+  .skip-link:focus { top: 0; }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 16px 0; backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-bottom: 1px solid rgba(255,255,255,0.06); background: rgba(2,13,26,0.7); transition: all 0.3s ease; }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; transition: opacity 0.2s ease; flex-shrink: 0; }
+  .nav-logo:hover { opacity: 0.85; }
+  .nav-logo-img { width: 38px; height: 38px; border-radius: 8px; object-fit: contain; filter: drop-shadow(0 0 8px rgba(0,136,255,0.35)) drop-shadow(0 2px 6px rgba(0,60,180,0.2)); transition: filter 0.25s ease; image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; }
+  .nav-logo:hover .nav-logo-img { filter: drop-shadow(0 0 14px rgba(0,136,255,0.55)) drop-shadow(0 2px 8px rgba(0,60,180,0.3)); }
+  .nav-logo-text { font-family: 'Sora', sans-serif; font-size: 18px; font-weight: 700; color: white; letter-spacing: -0.02em; transition: color 0.2s ease; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.2s; position: relative; }
+  .nav-links a:hover { color: white; }
+  .nav-links a.active { color: white; }
+  .nav-links a.active::after { content: ''; position: absolute; left: 0; right: 0; bottom: -3px; height: 2px; border-radius: 999px; background: linear-gradient(90deg, var(--blue-light), var(--teal)); }
+  .nav-cta { display: flex; gap: 12px; align-items: center; }
+  .btn-nav { font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 600; padding: 9px 20px; border-radius: 10px; cursor: pointer; transition: all 0.2s; text-decoration: none; }
+  .btn-nav-ghost { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: white; }
+  .btn-nav-ghost:hover { border-color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.06); }
+  .btn-nav-solid { background: #006acc; border: 1px solid transparent; color: white; box-shadow: 0 4px 16px rgba(0,136,255,0.35); }
+  .btn-nav-solid:hover { background: var(--blue-light); box-shadow: 0 6px 24px rgba(0,136,255,0.5); transform: translateY(-1px); }
+
+  /* HERO */
+  .hero { min-height: 100vh; display: flex; align-items: center; padding-top: 100px; padding-bottom: 80px; position: relative; }
+  .hero-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+  @media(max-width:900px) { .hero-inner { grid-template-columns: 1fr; } }
+  @media(max-width:900px) { .hero-phones { height: 520px; } .iphone-wrapper.iphone-left, .iphone-wrapper.iphone-right { display: none; } }
+
+  .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,136,255,0.1); border: 1px solid rgba(0,136,255,0.25); border-radius: 999px; padding: 6px 14px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; color: var(--blue-light); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 24px; animation: fadeUp 0.8s 0.1s ease both; }
+  .hero-eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
+  .hero-h1 { font-family: 'Sora', sans-serif; font-size: clamp(40px, 5.5vw, 72px); font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; color: white; margin-bottom: 24px; animation: fadeUp 0.8s 0.2s ease both; }
+  .hero-h1 .gradient-text { background: linear-gradient(135deg, var(--blue-light) 0%, var(--teal) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero-sub { font-size: 18px; font-weight: 400; color: rgba(255,255,255,0.7); line-height: 1.6; max-width: 480px; margin-bottom: 40px; animation: fadeUp 0.8s 0.3s ease both; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; animation: fadeUp 0.8s 0.4s ease both; }
+  .btn-hero-primary { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, var(--blue), #0066dd); color: white; font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 700; padding: 16px 32px; border-radius: 14px; text-decoration: none; border: none; cursor: pointer; box-shadow: 0 8px 32px rgba(0,136,255,0.4), 0 2px 8px rgba(0,136,255,0.2); transition: all 0.25s ease; letter-spacing: -0.01em; }
+  .btn-hero-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 48px rgba(0,136,255,0.5); }
+  .btn-hero-ghost { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.06); color: white; font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 600; padding: 16px 28px; border-radius: 14px; text-decoration: none; border: 1px solid rgba(255,255,255,0.12); cursor: pointer; transition: all 0.25s ease; backdrop-filter: blur(10px); }
+  .btn-hero-ghost:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.25); transform: translateY(-1px); }
+  .hero-stats { display: flex; gap: 32px; margin-top: 52px; animation: fadeUp 0.8s 0.5s ease both; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; padding: 20px 28px; }
+  .stat-num { font-family: 'JetBrains Mono', monospace; font-size: 28px; font-weight: 700; color: white; letter-spacing: -0.02em; }
+  .stat-num span { font-size: 18px; color: var(--blue-light); }
+  .stat-label { font-size: 12px; color: rgba(255,255,255,0.55); font-weight: 500; margin-top: 2px; letter-spacing: 0.02em; }
+  .stat-divider { width: 1px; background: rgba(255,255,255,0.08); align-self: stretch; }
+
+  /* HERO PHONES */
+  .hero-phones { position: relative; display: flex; justify-content: center; align-items: flex-end; height: 680px; animation: fadeUp 0.8s 0.3s ease both; }
+  .iphone-wrapper { position: absolute; filter: drop-shadow(0 40px 80px rgba(0,0,0,0.6)) drop-shadow(0 0 40px rgba(0,136,255,0.15)); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); }
+  .iphone-wrapper:hover { transform: scale(1.02) translateY(-8px) !important; }
+  .iphone-main { bottom: 0; left: 50%; transform: translateX(-50%); z-index: 3; animation: floatMain 6s ease-in-out infinite; }
+  .iphone-left { bottom: 40px; left: 0; transform: rotate(-8deg) translateX(20px); z-index: 2; opacity: 0.85; animation: floatLeft 7s ease-in-out infinite; }
+  .iphone-right { bottom: 40px; right: 0; transform: rotate(8deg) translateX(-20px); z-index: 2; opacity: 0.85; animation: floatRight 8s ease-in-out infinite; }
+  @keyframes floatMain { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-16px)} }
+  @keyframes floatLeft { 0%,100%{transform:rotate(-8deg) translateX(20px) translateY(0)} 50%{transform:rotate(-8deg) translateX(20px) translateY(-10px)} }
+  @keyframes floatRight { 0%,100%{transform:rotate(8deg) translateX(-20px) translateY(0)} 50%{transform:rotate(8deg) translateX(-20px) translateY(-12px)} }
+
+  /* SECTIONS */
+  .section { padding: 80px 0; }
+  .section-label { font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 700; color: var(--blue-light); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .section-label::before { content:''; width:24px; height:1px; background: var(--blue); }
+  .section-h2 { font-family: 'Sora', sans-serif; font-size: clamp(32px, 4vw, 52px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; color: white; margin-bottom: 20px; }
+  .section-sub { font-size: 17px; color: rgba(255,255,255,0.6); line-height: 1.6; max-width: 560px; margin-bottom: 60px; }
+  .section-divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(0,136,255,0.15), transparent); }
+
+  /* FEATURE CARDS */
+  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media(max-width:900px) { .features-grid { grid-template-columns: 1fr; } }
+  .feature-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 24px; padding: 32px; transition: all 0.3s ease; position: relative; overflow: hidden; }
+  .feature-card::before { content: ''; position: absolute; inset: 0; border-radius: 24px; background: linear-gradient(135deg, rgba(0,136,255,0.06), transparent); opacity: 0; transition: opacity 0.3s; }
+  .feature-card:hover { border-color: rgba(0,136,255,0.25); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+  .feature-card:hover::before { opacity: 1; }
+  .feature-card.featured { background: linear-gradient(135deg, rgba(0,100,255,0.15), rgba(0,200,220,0.08)); border-color: rgba(0,136,255,0.3); grid-column: span 2; }
+  @media(max-width:900px) { .feature-card.featured { grid-column: span 1; } }
+  .feature-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 20px; background: rgba(0,136,255,0.12); border: 1px solid rgba(0,136,255,0.2); }
+  .feature-title { font-family: 'Sora', sans-serif; font-size: 18px; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -0.01em; }
+  .feature-desc { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.65; }
+  .feature-tag { display: inline-flex; align-items: center; gap: 4px; margin-top: 16px; padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; background: rgba(0,212,200,0.1); color: var(--teal); border: 1px solid rgba(0,212,200,0.2); font-family: 'DM Sans', sans-serif; }
+  .features-grid .feature-card:last-child { grid-column: 1 / -1; display: flex; align-items: center; gap: 40px; }
+  .features-grid .feature-card:last-child .feature-icon { margin-bottom: 0; flex-shrink: 0; }
+  @media(max-width:600px) { .features-grid .feature-card:last-child { flex-direction: column; gap: 0; } .features-grid .feature-card:last-child .feature-icon { margin-bottom: 20px; } }
+
+  /* MASCOT FEATURE SECTION */
+  .mascot-section { padding: 72px 0; }
+  .mascot-split { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  @media(max-width:900px) { .mascot-split { grid-template-columns: 1fr; gap: 48px; } }
+  .mascot-split.reverse .mascot-img-wrap { order: 2; }
+  .mascot-split.reverse .mascot-content { order: 1; }
+  .mascot-img-wrap { position: relative; display: flex; justify-content: center; align-items: center; }
+  .mascot-img-bg { position: absolute; width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(0,160,220,0.22), rgba(0,212,200,0.08) 50%, transparent 70%); animation: mascotGlow 4s ease-in-out infinite; max-width: 90vw; aspect-ratio: 1; }
+  @keyframes mascotGlow { 0%,100%{transform:scale(1);opacity:0.7} 50%{transform:scale(1.12);opacity:1} }
+  .mascot-img { position: relative; z-index: 2; width: 320px; max-width: 80vw; height: auto; object-fit: contain; image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; filter: drop-shadow(0 20px 60px rgba(0,140,200,0.35)) drop-shadow(0 8px 24px rgba(0,212,200,0.2)) drop-shadow(0 0 12px rgba(0,180,220,0.1)); animation: mascotFloat 5s ease-in-out infinite; }
+  @keyframes mascotFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
+  .mascot-img--clipboard { width: 280px; filter: drop-shadow(0 20px 60px rgba(0,200,170,0.35)) drop-shadow(0 8px 24px rgba(34,204,136,0.2)) drop-shadow(0 0 12px rgba(0,212,200,0.1)); }
+  @media(max-width:900px) { .mascot-split.reverse .mascot-img-wrap { order: -1; } .mascot-img--clipboard { width: 240px; } .mascot-img { width: 280px; } .mascot-img-bg { width: 340px; height: 340px; } }
+  @media(max-width:480px) { .mascot-img { width: 220px; } .mascot-img--clipboard { width: 200px; } .mascot-img-bg { width: 280px; height: 280px; } }
+
+  .mascot-title { font-family: 'Sora', sans-serif; font-size: clamp(28px, 3.5vw, 44px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; color: white; margin-bottom: 16px; }
+  .mascot-desc { font-size: 17px; color: rgba(255,255,255,0.6); line-height: 1.7; margin-bottom: 28px; }
+  .mascot-bullets { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+  .mascot-bullets li { display: flex; align-items: flex-start; gap: 12px; font-size: 15px; color: rgba(255,255,255,0.7); }
+  .bullet-icon { width: 22px; height: 22px; border-radius: 50%; background: rgba(0,136,255,0.15); border: 1px solid rgba(0,136,255,0.3); display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; margin-top: 1px; }
+
+  /* STEPS */
+  .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: rgba(255,255,255,0.04); border-radius: 28px; overflow: hidden; border: 1px solid rgba(255,255,255,0.06); }
+  @media(max-width:900px) { .steps-grid { grid-template-columns: 1fr 1fr; } }
+  @media(max-width:560px) { .steps-grid { grid-template-columns: 1fr; } .step-card { padding: 28px 24px; } }
+  .step-card { padding: 40px 32px; background: rgba(2,13,26,0.8); position: relative; transition: background 0.3s; }
+  .step-card:hover { background: rgba(0,80,180,0.1); }
+  .step-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--blue-light); letter-spacing: 0.08em; margin-bottom: 20px; opacity: 0.7; }
+  .step-icon { font-size: 32px; margin-bottom: 16px; }
+  .step-title { font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 700; color: white; margin-bottom: 8px; letter-spacing: -0.01em; }
+  .step-desc { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+
+  /* TESTIMONIALS */
+  .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media(max-width:900px) { .testimonials-grid { grid-template-columns: 1fr; } }
+  .testimonial-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 20px; padding: 28px; transition: all 0.3s; }
+  .testimonial-card:hover { border-color: rgba(255,255,255,0.15); transform: translateY(-2px); }
+  .stars { color: var(--amber); font-size: 14px; margin-bottom: 14px; letter-spacing: 2px; }
+  .testimonial-text { font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.7; margin-bottom: 20px; font-style: italic; }
+  .testimonial-author { display: flex; align-items: center; gap: 12px; }
+  .author-avatar { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; background: linear-gradient(135deg, rgba(0,136,255,0.2), rgba(0,212,200,0.2)); border: 1px solid rgba(0,136,255,0.25); }
+  .author-name { font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: white; }
+  .author-title { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 1px; }
+
+  /* PRICING */
+  .pricing-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; align-items: start; max-width: 960px; margin: 0 auto; }
+  @media(max-width:900px) { .pricing-grid { grid-template-columns: 1fr; } .pricing-card.popular { transform: none; } }
+  .pricing-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 24px; padding: 36px 32px; transition: all 0.3s; position: relative; }
+  .pricing-card.popular { background: linear-gradient(135deg, rgba(0,100,255,0.18), rgba(0,180,255,0.08)); border-color: rgba(0,136,255,0.4); transform: scale(1.04); box-shadow: 0 24px 80px rgba(0,100,200,0.3); }
+  .popular-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--blue), var(--teal)); color: white; font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 700; padding: 4px 16px; border-radius: 999px; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
+  .pricing-tier { font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 600; color: var(--blue-light); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 16px; }
+  .pricing-price { font-family: 'JetBrains Mono', monospace; font-size: 52px; font-weight: 700; color: white; letter-spacing: -0.03em; line-height: 1; }
+  .pricing-period { font-size: 14px; color: rgba(255,255,255,0.5); margin-top: 4px; margin-bottom: 24px; }
+  .pricing-divider { height: 1px; background: rgba(255,255,255,0.07); margin-bottom: 24px; }
+  .pricing-feature { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; font-size: 13px; color: rgba(255,255,255,0.6); }
+  .pricing-check { color: var(--teal); font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+  .pricing-x { color: rgba(255,255,255,0.45); font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+  .btn-pricing { display: block; width: 100%; margin-top: 28px; padding: 14px; border-radius: 12px; font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 700; text-align: center; cursor: pointer; transition: all 0.2s; text-decoration: none; letter-spacing: -0.01em; }
+  .btn-pricing-ghost { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: white; }
+  .btn-pricing-ghost:hover { background: rgba(255,255,255,0.12); }
+  .btn-pricing-solid { background: linear-gradient(135deg, var(--blue), #0055cc); border: none; color: white; box-shadow: 0 6px 24px rgba(0,136,255,0.4); }
+  .btn-pricing-solid:hover { box-shadow: 0 10px 36px rgba(0,136,255,0.55); transform: translateY(-1px); }
+
+  /* CTA */
+  .cta-section { padding: 80px 0 120px; }
+  .cta-banner { background: linear-gradient(135deg, rgba(0,80,200,0.25) 0%, rgba(0,180,220,0.15) 50%, rgba(0,60,180,0.2) 100%); border: 1px solid rgba(0,136,255,0.25); border-radius: 32px; padding: 80px 60px; text-align: center; position: relative; overflow: hidden; }
+  .cta-banner::before { content: ''; position: absolute; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(0,136,255,0.15), transparent 70%); top: -200px; left: 50%; transform: translateX(-50%); pointer-events: none; }
+  .cta-h2 { font-family: 'Sora', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 800; letter-spacing: -0.03em; color: white; margin-bottom: 16px; position: relative; }
+  .cta-sub { font-size: 17px; color: rgba(255,255,255,0.5); margin-bottom: 36px; position: relative; }
+  .cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; position: relative; }
+  .store-btn { display: inline-flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 12px 20px; color: white; text-decoration: none; font-family: 'DM Sans', sans-serif; transition: all 0.2s; backdrop-filter: blur(10px); }
+  .store-btn:hover { background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.3); transform: translateY(-1px); }
+  .store-btn--soon { opacity: 0.55; cursor: default; pointer-events: none; }
+  .store-btn--soon:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); transform: none; }
+  .store-btn-icon { font-size: 24px; }
+  .store-btn-label { font-size: 10px; color: rgba(255,255,255,0.5); line-height: 1; }
+  .store-btn-name { font-size: 15px; font-weight: 700; line-height: 1; margin-top: 2px; }
+  .health-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(34,204,136,0.1); border: 1px solid rgba(34,204,136,0.25); border-radius: 999px; padding: 5px 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--green); margin-top: 16px; }
+  .health-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+
+  /* CTA Mascot */
+  .cta-mascot-wrap { display: flex; justify-content: center; margin-bottom: 32px; position: relative; }
+  .cta-mascot-glow { position: absolute; width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle, rgba(0,136,255,0.22), rgba(0,212,200,0.06) 60%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%,-50%); animation: mascotGlow 4s ease-in-out infinite; pointer-events: none; }
+  .cta-mascot { position: relative; z-index: 2; width: 120px; height: auto; object-fit: contain; image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; filter: drop-shadow(0 10px 30px rgba(0,100,255,0.4)) drop-shadow(0 4px 10px rgba(0,60,180,0.25)) drop-shadow(0 0 8px rgba(0,180,220,0.12)); animation: ctaMascotBounce 3s ease-in-out infinite; }
+  @keyframes ctaMascotBounce { 0%,100%{transform:translateY(0) rotate(0deg)} 25%{transform:translateY(-8px) rotate(1.5deg)} 50%{transform:translateY(-12px) rotate(0deg)} 75%{transform:translateY(-8px) rotate(-1.5deg)} }
+
+  .footer-bottom-link { font-size: 12px; color: rgba(255,255,255,0.55); text-decoration: none; transition: color 0.2s; }
+  .footer-bottom-link:hover, .footer-bottom-link:focus { color: white; }
+/* FOOTER */
+  footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 48px 0 32px; }
+  .footer-inner { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; flex-wrap: wrap; }
+  .footer-brand { max-width: 280px; }
+  .footer-logo { font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 700; color: white; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .footer-logo-img { width: 28px; height: 28px; border-radius: 6px; object-fit: contain; filter: drop-shadow(0 0 8px rgba(56,136,255,0.35)) drop-shadow(0 2px 4px rgba(0,60,180,0.15)); image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; }
+  .footer-tagline { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+  .footer-links-title { font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 14px; }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .footer-links a { font-size: 13px; color: rgba(255,255,255,0.55); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: white; }
+  .footer-bottom { margin-top: 48px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .footer-copy { font-size: 12px; color: rgba(255,255,255,0.45); }
+
+  
+  /* FOCUS & ACCESSIBILITY */
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--blue-light); outline-offset: 3px; }
+  .btn-hero-primary:focus-visible, .btn-hero-ghost:focus-visible { outline-offset: 4px; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.15s; }
+  .reveal-delay-2 { transition-delay: 0.3s; }
+  .reveal-delay-3 { transition-delay: 0.45s; }
+
+  body::after { content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.025; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: 200px; }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #020d1a; }
+  ::-webkit-scrollbar-thumb { background: rgba(0,136,255,0.3); border-radius: 999px; }
+
+  /* MOBILE MENU */
+  .nav-menu-btn { display: none; background: none; border: none; color: white; font-size: 24px; cursor: pointer; padding: 8px; }
+  .nav-menu-btn::before { content: '☰'; }
+  .nav-menu-btn[aria-expanded="true"]::before { content: '✕'; }
+  body.menu-open { overflow: hidden; }
+  @media(max-width:768px) {
+    .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(2,13,26,0.95); backdrop-filter: blur(24px); flex-direction: column; padding: 20px; gap: 4px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .nav-links.open { display: flex; }
+    .nav-links a { display: block; padding: 12px 0; }
+    .nav-menu-btn { display: block; }
+    .nav-cta { gap: 8px; }
+    .btn-nav-ghost { display: none; }
+    .hero-phones { height: 400px; }
+    .iphone-wrapper.iphone-left, .iphone-wrapper.iphone-right { display: none; }
+    .hero-stats { flex-direction: column; gap: 16px; }
+    .stat-divider { width: 40px; height: 1px; }
+    .pricing-card.popular { transform: none; }
+    .cta-banner { padding: 48px 24px; }
+    .cta-mascot { width: 90px; height: auto; }
+    .cta-mascot-glow { width: 130px; height: 130px; }
+    .cta-mascot-wrap { margin-bottom: 24px; }
+    .section { padding: 52px 0; }
+    .mascot-section { padding: 44px 0; }
+    .cta-section { padding: 48px 0 64px; }
+    .section-sub { margin-bottom: 40px; }
+  }
+  @media(max-width:480px) {
+    .nav-logo-img { width: 30px; height: 30px; }
+    .nav-logo-text { font-size: 15px; }
+    .nav-logo { gap: 8px; }
+    .hero-h1 { font-size: 32px; }
+    .hero-sub { font-size: 16px; }
+    .hero-actions { flex-direction: column; }
+    .btn-hero-primary, .btn-hero-ghost { width: 100%; justify-content: center; }
+    .footer-inner { flex-direction: column; }
+  }
+  @media (hover: none) {
+    .feature-card:hover, .testimonial-card:hover { transform: none; }
+    .feature-card:hover::before { opacity: 0; }
+    .btn-hero-primary:hover, .btn-hero-ghost:hover, .btn-nav-solid:hover, .btn-pricing-solid:hover, .store-btn:hover { transform: none; }
+    .iphone-wrapper:hover { transform: none !important; }
+  }
+
+  /* iOS safe area insets for PWA standalone mode (viewport-fit=cover) */
+  nav { padding-top: max(16px, env(safe-area-inset-top, 0px)); }
+  .hero { padding-top: max(100px, calc(env(safe-area-inset-top, 0px) + 84px)); }
+  footer { padding-bottom: max(32px, calc(32px + env(safe-area-inset-bottom, 0px))); }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "HomeProjectIQ",
+  "url": "https://www.homeprojectiq.com/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "iOS, Android",
+  "featureList": [
+    "AI home problem diagnosis",
+    "DIY vs Pro recommendation",
+    "Step-by-step guided repairs",
+    "Tool inventory tracking",
+    "Seasonal maintenance reminders",
+    "Home Health Score",
+    "Skill Tree and XP system"
+  ],
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "ratingCount": "2400"
+  },
+  "description": "AI-powered home repair companion that diagnoses problems, provides step-by-step guides, and helps you save money on home repairs."
+}
+</script>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<div class="bg-canvas" aria-hidden="true">
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+  <div class="bg-orb bg-orb-3"></div>
+  <div class="bg-grid"></div>
+</div>
+
+<!-- NAV -->
+<nav aria-label="Main navigation">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <picture><source srcset="img/icon.webp" type="image/webp"><img class="nav-logo-img" src="img/icon.png" alt="HomeProjectIQ" width="36" height="36"></picture>
+        <span class="nav-logo-text">HomeProjectIQ</span>
+      </a>
+      <ul class="nav-links" id="nav-menu" role="list">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+      </ul>
+        <div class="nav-cta">
+        <a href="#" class="btn-nav btn-nav-ghost">Sign In</a>
+        <a href="https://www.homeprojectiq.com/demo" class="btn-nav btn-nav-solid">Try the Demo</a>
+      </div>
+      <button class="nav-menu-btn" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-menu"></button>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap"><main id="main">
+
+  <!-- HERO -->
+  <section class="hero" aria-label="Hero section">
+    <div class="container">
+      <div class="hero-inner">
+        <div>
+          <div class="hero-eyebrow">
+            <span class="hero-eyebrow-dot"></span>
+            Trusted by 47,000+ Homeowners
+          </div>
+          <h1 class="hero-h1">Stop guessing.<br><span class="gradient-text">Start fixing.</span></h1>
+          <p class="hero-sub">Describe what's wrong in plain English. Get an instant AI diagnosis, cost estimate, and step-by-step fix — so you repair it right the first time.</p>
+          <div class="hero-actions">
+            <a href="https://www.homeprojectiq.com/demo" class="btn-hero-primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Try the Demo Free
+            </a>
+            <a href="#features" class="btn-hero-ghost">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+              See How It Works ↓
+            </a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat-item">
+              <div class="stat-num">47<span>k+</span></div>
+              <div class="stat-label">Homes Using IQ</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <div class="stat-num">$2<span>.4M</span></div>
+              <div class="stat-label">Saved in Repairs</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <div class="stat-num">4.9<span>★</span></div>
+              <div class="stat-label">App Store Rating</div>
+            </div>
+          
+          </div>
+          <div class="hero-featured" style="margin-top:40px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;animation:fadeUp 0.8s 0.6s ease both;">
+            <span style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.65);text-transform:uppercase;letter-spacing:0.1em;">Featured in</span>
+            <span style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:rgba(255,255,255,0.55);">TechCrunch</span>
+            <span style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:rgba(255,255,255,0.55);">Product Hunt</span>
+            <span style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:rgba(255,255,255,0.55);">The Verge</span>
+          </div>
+        </div>
+
+        <!-- IPHONE SHOWCASE -->
+        <div class="hero-phones">
+          <!-- LEFT PHONE: Diagnose Screen -->
+          <div class="iphone-wrapper iphone-left">
+            <svg width="220" height="460" viewBox="0 0 220 460" fill="none" aria-hidden="true">
+              <rect x="2" y="2" width="216" height="456" rx="36" fill="#0a1628" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+              <rect x="6" y="6" width="208" height="448" rx="32" fill="url(#screenBg1)"/>
+              <defs><linearGradient id="screenBg1" x1="0" y1="0" x2="220" y2="460" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#d0eaff"/><stop offset="100%" stop-color="#e8f5ff"/></linearGradient></defs>
+              <rect x="70" y="6" width="80" height="22" rx="11" fill="#0a1628"/>
+              <text x="18" y="40" font-family="Sora,sans-serif" font-size="9" font-weight="600" fill="#0a2540">9:41</text>
+              <text x="175" y="40" font-family="Sora,sans-serif" font-size="9" fill="#0a2540">📶🔋</text>
+              <text x="18" y="62" font-family="Sora,sans-serif" font-size="14" font-weight="800" fill="#0a2540" letter-spacing="-0.5">Diagnose</text>
+              <rect x="12" y="70" width="196" height="62" rx="14" fill="url(#botGrad)" opacity="0.9"/>
+              <defs><linearGradient id="botGrad" x1="0" y1="0" x2="196" y2="62" gradientUnits="userSpaceOnUse"><stop stop-color="#0088ff"/><stop offset="1" stop-color="#00b4ff"/></linearGradient></defs>
+              <defs><clipPath id="avatarClipLeft"><circle cx="40" cy="98" r="22"/></clipPath></defs>
+              <image href="img/icon.png" x="18" y="76" width="44" height="44" clip-path="url(#avatarClipLeft)" preserveAspectRatio="xMidYMid slice"/>
+              <text x="70" y="98" font-family="Sora,sans-serif" font-size="10" font-weight="700" fill="white">Hi Mike! 👋</text>
+              <text x="70" y="114" font-family="DM Sans,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.85)">What's going on with your home?</text>
+              <rect x="12" y="140" width="196" height="30" rx="10" fill="rgba(255,255,255,0.7)"/>
+              <text x="26" y="159" font-family="DM Sans,sans-serif" font-size="9" fill="#8fadc8">Describe what's wrong...</text>
+              <text x="192" y="159" font-size="12">🎤</text>
+              <rect x="12" y="178" width="40" height="16" rx="8" fill="#0088ff"/>
+              <text x="19" y="190" font-family="DM Sans,sans-serif" font-size="8" fill="white" font-weight="600">All</text>
+              <rect x="56" y="178" width="44" height="16" rx="8" fill="rgba(0,136,255,0.12)" stroke="rgba(0,136,255,0.3)" stroke-width="0.5"/>
+              <text x="62" y="190" font-family="DM Sans,sans-serif" font-size="8" fill="#0088ff" font-weight="600">Easy</text>
+              <rect x="104" y="178" width="52" height="16" rx="8" fill="rgba(0,136,255,0.12)" stroke="rgba(0,136,255,0.3)" stroke-width="0.5"/>
+              <text x="110" y="190" font-family="DM Sans,sans-serif" font-size="8" fill="#0088ff" font-weight="600">Medium</text>
+              <rect x="160" y="178" width="42" height="16" rx="8" fill="rgba(0,136,255,0.12)" stroke="rgba(0,136,255,0.3)" stroke-width="0.5"/>
+              <text x="166" y="190" font-family="DM Sans,sans-serif" font-size="8" fill="#0088ff" font-weight="600">Hard</text>
+              <text x="12" y="214" font-family="Sora,sans-serif" font-size="8" font-weight="700" fill="#8fadc8" letter-spacing="1">CATEGORIES</text>
+              <rect x="12" y="220" width="58" height="52" rx="12" fill="rgba(255,255,255,0.6)" stroke="rgba(255,255,255,0.85)" stroke-width="0.5"/>
+              <text x="33" y="243" font-size="18" text-anchor="middle">🚿</text>
+              <text x="41" y="260" font-family="Sora,sans-serif" font-size="7.5" font-weight="600" fill="#0a2540" text-anchor="middle">Plumbing</text>
+              <rect x="80" y="220" width="58" height="52" rx="12" fill="rgba(255,255,255,0.6)" stroke="rgba(255,255,255,0.85)" stroke-width="0.5"/>
+              <text x="109" y="243" font-size="18" text-anchor="middle">⚡</text>
+              <text x="109" y="260" font-family="Sora,sans-serif" font-size="7.5" font-weight="600" fill="#0a2540" text-anchor="middle">Electrical</text>
+              <rect x="149" y="220" width="59" height="52" rx="12" fill="rgba(255,255,255,0.6)" stroke="rgba(255,255,255,0.85)" stroke-width="0.5"/>
+              <text x="178" y="243" font-size="18" text-anchor="middle">❄️</text>
+              <text x="178" y="260" font-family="Sora,sans-serif" font-size="7.5" font-weight="600" fill="#0a2540" text-anchor="middle">HVAC</text>
+              <rect x="12" y="278" width="58" height="52" rx="12" fill="rgba(255,255,255,0.6)" stroke="rgba(255,255,255,0.85)" stroke-width="0.5"/>
+              <text x="41" y="301" font-size="18" text-anchor="middle">🏠</text>
+              <text x="41" y="318" font-family="Sora,sans-serif" font-size="7.5" font-weight="600" fill="#0a2540" text-anchor="middle">Roofing</text>
+              <rect x="80" y="278" width="58" height="52" rx="12" fill="rgba(255,255,255,0.6)" stroke="rgba(255,255,255,0.85)" stroke-width="0.5"/>
+              <text x="109" y="301" font-size="18" text-anchor="middle">🧺</text>
+              <text x="109" y="318" font-family="Sora,sans-serif" font-size="7.5" font-weight="600" fill="#0a2540" text-anchor="middle">Appliances</text>
+              <rect x="149" y="278" width="59" height="52" rx="12" fill="rgba(255,255,255,0.6)" stroke="rgba(255,255,255,0.85)" stroke-width="0.5"/>
+              <text x="178" y="301" font-size="18" text-anchor="middle">🧱</text>
+              <text x="178" y="318" font-family="Sora,sans-serif" font-size="7.5" font-weight="600" fill="#0a2540" text-anchor="middle">Structural</text>
+              <rect x="12" y="342" width="196" height="36" rx="12" fill="url(#ctaGrad)"/>
+              <defs><linearGradient id="ctaGrad" x1="0" y1="0" x2="196" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#0088ff"/><stop offset="1" stop-color="#0055cc"/></linearGradient></defs>
+              <text x="110" y="364" font-family="Sora,sans-serif" font-size="11" font-weight="700" fill="white" text-anchor="middle">🚀 Start Guided Diagnosis</text>
+              <rect x="6" y="408" width="208" height="46" fill="rgba(255,255,255,0.75)"/>
+              <text x="31" y="427" font-size="14" text-anchor="middle">🏠</text>
+              <text x="31" y="439" font-family="DM Sans,sans-serif" font-size="6.5" fill="#8fadc8" font-weight="600" text-anchor="middle">Home</text>
+              <text x="73" y="427" font-size="14" text-anchor="middle">🔍</text>
+              <text x="73" y="439" font-family="DM Sans,sans-serif" font-size="6.5" fill="#0088ff" font-weight="700" text-anchor="middle">Diagnose</text>
+              <text x="110" y="427" font-size="14" text-anchor="middle">🧰</text>
+              <text x="110" y="439" font-family="DM Sans,sans-serif" font-size="6.5" fill="#8fadc8" font-weight="600" text-anchor="middle">Toolbox</text>
+              <text x="151" y="427" font-size="14" text-anchor="middle">🌱</text>
+              <text x="151" y="439" font-family="DM Sans,sans-serif" font-size="6.5" fill="#8fadc8" font-weight="600" text-anchor="middle">Skills</text>
+              <text x="190" y="427" font-size="14" text-anchor="middle">📅</text>
+              <text x="190" y="439" font-family="DM Sans,sans-serif" font-size="6.5" fill="#8fadc8" font-weight="600" text-anchor="middle">Maintain</text>
+            </svg>
+          </div>
+
+          <!-- MAIN PHONE: Home Screen -->
+          <div class="iphone-wrapper iphone-main">
+            <svg width="260" height="540" viewBox="0 0 260 540" fill="none" aria-hidden="true">
+              <rect x="0" y="0" width="260" height="540" rx="44" fill="url(#mainGlow)" opacity="0.4"/>
+              <defs><radialGradient id="mainGlow" cx="50%" cy="50%"><stop stop-color="#0088ff"/><stop offset="1" stop-color="transparent"/></radialGradient></defs>
+              <rect x="2" y="2" width="256" height="536" rx="42" fill="#08111e" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+              <rect x="7" y="7" width="246" height="526" rx="37" fill="url(#mainScreenBg)"/>
+              <defs><linearGradient id="mainScreenBg" x1="0" y1="0" x2="260" y2="540" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#c8e8ff"/><stop offset="50%" stop-color="#dff2ff"/><stop offset="100%" stop-color="#eaf4fd"/></linearGradient></defs>
+              <rect x="85" y="7" width="90" height="26" rx="13" fill="#08111e"/>
+              <circle cx="148" cy="20" r="3" fill="#1a2a3a"/>
+              <text x="20" y="48" font-family="Sora,sans-serif" font-size="10" font-weight="600" fill="#0a2540">9:41</text>
+              <text x="218" y="48" font-family="Sora,sans-serif" font-size="10" font-weight="600" fill="#0a2540">📶🔋</text>
+              <text x="20" y="68" font-family="DM Sans,sans-serif" font-size="10" fill="#8fadc8" font-weight="500">Good morning 👋</text>
+              <text x="20" y="86" font-family="Sora,sans-serif" font-size="17" font-weight="800" fill="#0a2540" letter-spacing="-0.5">Welcome Back, Mike!</text>
+              <defs><clipPath id="avatarClipCenter"><circle cx="232" cy="74" r="18"/></clipPath></defs>
+              <image href="img/icon.png" x="214" y="56" width="36" height="36" clip-path="url(#avatarClipCenter)" preserveAspectRatio="xMidYMid slice"/>
+              <rect x="14" y="100" width="232" height="90" rx="18" fill="url(#healthGrad)"/>
+              <defs><linearGradient id="healthGrad" x1="0" y1="0" x2="232" y2="90" gradientUnits="userSpaceOnUse"><stop stop-color="rgba(0,136,255,0.85)"/><stop offset="1" stop-color="rgba(0,180,255,0.75)"/></linearGradient></defs>
+              <text x="32" y="125" font-family="Sora,sans-serif" font-size="9" font-weight="600" fill="rgba(255,255,255,0.85)">🏠 HOME HEALTH</text>
+              <text x="32" y="146" font-family="JetBrains Mono,monospace" font-size="28" font-weight="700" fill="white">84.4</text>
+              <text x="32" y="164" font-family="DM Sans,sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">3 active tasks</text>
+              <rect x="32" y="172" width="130" height="5" rx="2.5" fill="rgba(255,255,255,0.2)"/>
+              <rect x="32" y="172" width="109" height="5" rx="2.5" fill="rgba(255,255,255,0.85)"/>
+              <circle cx="210" cy="145" r="36" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="6"/>
+              <circle cx="210" cy="145" r="36" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="6" stroke-linecap="round" stroke-dasharray="226" stroke-dashoffset="40" transform="rotate(-90 210 145)"/>
+              <text x="210" y="150" font-family="JetBrains Mono,monospace" font-size="18" font-weight="700" fill="white" text-anchor="middle">84</text>
+              <rect x="14" y="200" width="72" height="44" rx="12" fill="rgba(255,255,255,0.65)" stroke="rgba(255,255,255,0.85)" stroke-width="0.5"/>
+              <text x="50" y="220" text-anchor="middle" font-size="14">🔍</text>
+              <text x="50" y="234" font-family="Sora,sans-serif" font-size="8" font-weight="600" fill="#0088ff" text-anchor="middle">Diagnose</text>
+              <rect x="94" y="200" width="72" height="44" rx="12" fill="rgba(255,255,255,0.65)" stroke="rgba(255,255,255,0.85)" stroke-width="0.5"/>
+              <text x="130" y="220" text-anchor="middle" font-size="14">🧰</text>
+              <text x="130" y="234" font-family="Sora,sans-serif" font-size="8" font-weight="600" fill="#0088ff" text-anchor="middle">Toolbox</text>
+              <rect x="174" y="200" width="72" height="44" rx="12" fill="rgba(255,255,255,0.65)" stroke="rgba(255,255,255,0.85)" stroke-width="0.5"/>
+              <text x="210" y="220" text-anchor="middle" font-size="14">📅</text>
+              <text x="210" y="234" font-family="Sora,sans-serif" font-size="8" font-weight="600" fill="#0088ff" text-anchor="middle">Schedule</text>
+              <text x="14" y="260" font-family="Sora,sans-serif" font-size="8" font-weight="700" fill="#8fadc8" letter-spacing="1">ACTIVE TASKS</text>
+              <rect x="14" y="268" width="232" height="46" rx="12" fill="rgba(255,255,255,0.55)" stroke="rgba(255,255,255,0.8)" stroke-width="0.5"/>
+              <rect x="14" y="268" width="3" height="46" rx="1.5" fill="#ffb020"/>
+              <circle cx="32" cy="291" r="4" fill="#ffb020"/>
+              <text x="44" y="285" font-family="Sora,sans-serif" font-size="9.5" font-weight="700" fill="#0a2540">Clean sink drain</text>
+              <text x="44" y="300" font-family="DM Sans,sans-serif" font-size="8" fill="#8fadc8">Medium priority — plumbing</text>
+              <circle cx="232" cy="291" r="9" fill="none" stroke="rgba(0,136,255,0.35)" stroke-width="1.5"/>
+              <rect x="14" y="320" width="232" height="46" rx="12" fill="rgba(255,255,255,0.55)" stroke="rgba(255,255,255,0.8)" stroke-width="0.5"/>
+              <rect x="14" y="320" width="3" height="46" rx="1.5" fill="#ff4d6a"/>
+              <circle cx="32" cy="343" r="4" fill="#ff4d6a"/>
+              <text x="44" y="337" font-family="Sora,sans-serif" font-size="9.5" font-weight="700" fill="#0a2540">Leaky pipe under sink</text>
+              <text x="44" y="352" font-family="DM Sans,sans-serif" font-size="8" fill="#8fadc8">High priority — inspect ASAP</text>
+              <circle cx="232" cy="343" r="9" fill="none" stroke="rgba(0,136,255,0.35)" stroke-width="1.5"/>
+              <rect x="14" y="372" width="232" height="46" rx="12" fill="rgba(255,255,255,0.55)" stroke="rgba(255,255,255,0.8)" stroke-width="0.5"/>
+              <rect x="14" y="372" width="3" height="46" rx="1.5" fill="#22cc88"/>
+              <circle cx="32" cy="395" r="4" fill="#22cc88"/>
+              <text x="44" y="389" font-family="Sora,sans-serif" font-size="9.5" font-weight="700" fill="#0a2540">Schedule HVAC filter</text>
+              <text x="44" y="404" font-family="DM Sans,sans-serif" font-size="8" fill="#8fadc8">Low priority — this month</text>
+              <circle cx="232" cy="395" r="9" fill="#22cc88"/>
+              <text x="232" y="399" font-family="Sora,sans-serif" font-size="9" font-weight="700" fill="white" text-anchor="middle">✓</text>
+              <rect x="7" y="480" width="246" height="53" fill="rgba(255,255,255,0.8)"/>
+              <rect x="7" y="479" width="246" height="1" fill="rgba(255,255,255,0.9)"/>
+              <text x="37" y="500" font-size="16" text-anchor="middle">🏠</text>
+              <text x="37" y="512" font-family="DM Sans,sans-serif" font-size="7" fill="#0088ff" font-weight="700" text-anchor="middle">Home</text>
+              <text x="83" y="500" font-size="16" text-anchor="middle">🔍</text>
+              <text x="83" y="512" font-family="DM Sans,sans-serif" font-size="7" fill="#8fadc8" font-weight="600" text-anchor="middle">Diagnose</text>
+              <text x="130" y="500" font-size="16" text-anchor="middle">🧰</text>
+              <text x="130" y="512" font-family="DM Sans,sans-serif" font-size="7" fill="#8fadc8" font-weight="600" text-anchor="middle">Toolbox</text>
+              <text x="177" y="500" font-size="16" text-anchor="middle">🌱</text>
+              <text x="177" y="512" font-family="DM Sans,sans-serif" font-size="7" fill="#8fadc8" font-weight="600" text-anchor="middle">Skills</text>
+              <text x="222" y="500" font-size="16" text-anchor="middle">📅</text>
+              <text x="222" y="512" font-family="DM Sans,sans-serif" font-size="7" fill="#8fadc8" font-weight="600" text-anchor="middle">Maintain</text>
+            </svg>
+          </div>
+
+          <!-- RIGHT PHONE: Results Screen -->
+          <div class="iphone-wrapper iphone-right">
+            <svg width="220" height="460" viewBox="0 0 220 460" fill="none" aria-hidden="true">
+              <rect x="2" y="2" width="216" height="456" rx="36" fill="#0a1628" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+              <rect x="6" y="6" width="208" height="448" rx="32" fill="url(#rightBg)"/>
+              <defs><linearGradient id="rightBg" x1="0" y1="0" x2="220" y2="460" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#dff2ff"/><stop offset="100%" stop-color="#eaf5fd"/></linearGradient></defs>
+              <rect x="70" y="6" width="80" height="22" rx="11" fill="#0a1628"/>
+              <text x="18" y="40" font-family="Sora,sans-serif" font-size="9" font-weight="600" fill="#0a2540">9:41</text>
+              <text x="175" y="40" font-family="Sora,sans-serif" font-size="9" fill="#0a2540">📶🔋</text>
+              <text x="18" y="60" font-family="Sora,sans-serif" font-size="9" font-weight="600" fill="#0088ff">← Back</text>
+              <rect x="140" y="48" width="68" height="18" rx="9" fill="rgba(255,176,32,0.15)" stroke="rgba(255,176,32,0.4)" stroke-width="0.5"/>
+              <text x="174" y="61" font-family="DM Sans,sans-serif" font-size="7.5" font-weight="700" fill="#d97706" text-anchor="middle">⚠️ Moderate</text>
+              <text x="18" y="78" font-family="Sora,sans-serif" font-size="13" font-weight="800" fill="#0a2540" letter-spacing="-0.3">Leaky Pipe Under Sink</text>
+              <text x="18" y="92" font-family="DM Sans,sans-serif" font-size="9" fill="#4a6785">Plumbing · Bathroom</text>
+              <rect x="12" y="100" width="90" height="44" rx="12" fill="rgba(255,255,255,0.6)" stroke="rgba(255,255,255,0.85)" stroke-width="0.5"/>
+              <text x="22" y="116" font-family="Sora,sans-serif" font-size="7.5" fill="#8fadc8" font-weight="600">⚙️ DIFFICULTY</text>
+              <text x="22" y="132" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#0088ff">Medium</text>
+              <rect x="117" y="100" width="90" height="44" rx="12" fill="rgba(255,255,255,0.6)" stroke="rgba(255,255,255,0.85)" stroke-width="0.5"/>
+              <text x="127" y="116" font-family="Sora,sans-serif" font-size="7.5" fill="#8fadc8" font-weight="600">⏱ EST. TIME</text>
+              <text x="127" y="132" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#0a2540">3–4 hrs</text>
+              <rect x="12" y="150" width="90" height="44" rx="12" fill="rgba(255,255,255,0.6)" stroke="rgba(255,255,255,0.85)" stroke-width="0.5"/>
+              <text x="22" y="166" font-family="Sora,sans-serif" font-size="7.5" fill="#8fadc8" font-weight="600">💰 DIY COST</text>
+              <text x="22" y="182" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#22cc88">$20–$30</text>
+              <rect x="117" y="150" width="90" height="44" rx="12" fill="rgba(255,255,255,0.6)" stroke="rgba(255,255,255,0.85)" stroke-width="0.5"/>
+              <text x="127" y="166" font-family="Sora,sans-serif" font-size="7.5" fill="#8fadc8" font-weight="600">👷 PRO COST</text>
+              <text x="127" y="182" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#ff4d6a">$100–$150</text>
+              <rect x="12" y="202" width="196" height="36" rx="12" fill="url(#savGrad)"/>
+              <defs><linearGradient id="savGrad" x1="0" y1="0" x2="196" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="rgba(0,136,255,0.85)"/><stop offset="1" stop-color="rgba(0,180,255,0.75)"/></linearGradient></defs>
+              <text x="22" y="224" font-family="Sora,sans-serif" font-size="10" font-weight="600" fill="white">💡 DIY Savings</text>
+              <text x="172" y="224" font-family="JetBrains Mono,monospace" font-size="14" font-weight="700" fill="white" text-anchor="middle">$70–$120</text>
+              <text x="12" y="254" font-family="Sora,sans-serif" font-size="8" font-weight="700" fill="#8fadc8" letter-spacing="1">TOOLS NEEDED</text>
+              <rect x="12" y="260" width="44" height="46" rx="10" fill="rgba(255,255,255,0.65)" stroke="rgba(255,255,255,0.85)" stroke-width="0.5"/>
+              <text x="34" y="281" text-anchor="middle" font-size="16">🔧</text>
+              <text x="34" y="294" font-family="DM Sans,sans-serif" font-size="7" fill="#4a6785" text-anchor="middle" font-weight="600">Wrench</text>
+              <rect x="62" y="260" width="44" height="46" rx="10" fill="rgba(255,255,255,0.65)" stroke="rgba(255,255,255,0.85)" stroke-width="0.5"/>
+              <text x="84" y="281" text-anchor="middle" font-size="16">🪛</text>
+              <text x="84" y="294" font-family="DM Sans,sans-serif" font-size="7" fill="#4a6785" text-anchor="middle" font-weight="600">Pliers</text>
+              <rect x="112" y="260" width="44" height="46" rx="10" fill="rgba(255,255,255,0.65)" stroke="rgba(255,255,255,0.85)" stroke-width="0.5"/>
+              <text x="134" y="281" text-anchor="middle" font-size="16">📦</text>
+              <text x="134" y="294" font-family="DM Sans,sans-serif" font-size="7" fill="#4a6785" text-anchor="middle" font-weight="600">Tape</text>
+              <rect x="162" y="260" width="44" height="46" rx="10" fill="rgba(255,255,255,0.65)" stroke="rgba(255,255,255,0.85)" stroke-width="0.5"/>
+              <text x="184" y="281" text-anchor="middle" font-size="16">🪣</text>
+              <text x="184" y="294" font-family="DM Sans,sans-serif" font-size="7" fill="#4a6785" text-anchor="middle" font-weight="600">Bucket</text>
+              <text x="12" y="322" font-family="Sora,sans-serif" font-size="8" font-weight="700" fill="#8fadc8" letter-spacing="1">STEPS</text>
+              <circle cx="22" cy="338" r="8" fill="#0088ff"/>
+              <text x="22" y="342" font-family="Sora,sans-serif" font-size="8" font-weight="700" fill="white" text-anchor="middle">1</text>
+              <text x="36" y="342" font-family="DM Sans,sans-serif" font-size="8.5" fill="#0a2540">Turn off water supply valve</text>
+              <circle cx="22" cy="360" r="8" fill="#0088ff"/>
+              <text x="22" y="364" font-family="Sora,sans-serif" font-size="8" font-weight="700" fill="white" text-anchor="middle">2</text>
+              <text x="36" y="364" font-family="DM Sans,sans-serif" font-size="8.5" fill="#0a2540">Place bucket under pipe</text>
+              <circle cx="22" cy="382" r="8" fill="rgba(0,136,255,0.2)"/>
+              <text x="22" y="386" font-family="Sora,sans-serif" font-size="8" font-weight="700" fill="#0088ff" text-anchor="middle">3</text>
+              <text x="36" y="386" font-family="DM Sans,sans-serif" font-size="8.5" fill="rgba(10,37,64,0.3)">Unscrew the P-trap...</text>
+              <rect x="12" y="398" width="92" height="32" rx="10" fill="url(#diyGrad)"/>
+              <defs><linearGradient id="diyGrad" x1="0" y1="0" x2="92" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#0088ff"/><stop offset="1" stop-color="#0055cc"/></linearGradient></defs>
+              <text x="58" y="418" font-family="Sora,sans-serif" font-size="10" font-weight="700" fill="white" text-anchor="middle">🙋 DIY It</text>
+              <rect x="116" y="398" width="92" height="32" rx="10" fill="rgba(255,255,255,0.55)" stroke="rgba(0,136,255,0.3)" stroke-width="0.8"/>
+              <text x="162" y="418" font-family="Sora,sans-serif" font-size="10" font-weight="600" fill="#0088ff" text-anchor="middle">👷 Compare</text>
+              <rect x="6" y="410" width="208" height="46" fill="rgba(255,255,255,0.75)"/>
+              <rect x="6" y="409" width="208" height="1" fill="rgba(255,255,255,0.9)"/>
+              <text x="31" y="429" font-size="13" text-anchor="middle">🏠</text>
+              <text x="73" y="429" font-size="13" text-anchor="middle">🔍</text>
+              <text x="110" y="429" font-size="13" text-anchor="middle">🧰</text>
+              <text x="151" y="429" font-size="13" text-anchor="middle">🌱</text>
+              <text x="190" y="429" font-size="13" text-anchor="middle">📅</text>
+              <text x="73" y="441" font-family="DM Sans,sans-serif" font-size="6.5" fill="#0088ff" font-weight="700" text-anchor="middle">Diagnose</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- FEATURES -->
+  <section class="section" id="features" aria-label="Features">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">Features</div>
+        <h2 class="section-h2">Six tools that replace<br>your contractor's guesswork.</h2>
+        <p class="section-sub">Built for real homeowners — not contractors. AI that speaks plainly, saves money, and builds your skills over time.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card featured reveal">
+          <div class="feature-icon" aria-hidden="true">🧠</div>
+          <div class="feature-title">AI Diagnosis Engine</div>
+          <div class="feature-desc">Describe the problem in plain English. HomeProjectIQ's AI identifies the root cause, estimates difficulty and cost, and tells you exactly what's wrong — before you pick up a phone or a wrench.</div>
+          <div class="feature-tag">✦ Powered by Claude AI</div>
+        </div>
+        <div class="feature-card reveal reveal-delay-1">
+          <div class="feature-icon" aria-hidden="true">⚖️</div>
+          <div class="feature-title">DIY vs. Pro Advisor</div>
+          <div class="feature-desc">Our algorithm weighs your skill level, time, tools, and risk to give you an honest recommendation every time.</div>
+        </div>
+        <div class="feature-card reveal reveal-delay-2">
+          <div class="feature-icon" aria-hidden="true">📋</div>
+          <div class="feature-title">Guided Step Mode</div>
+          <div class="feature-desc">Step-by-step instructions with photo verification. Upload progress photos and get real-time AI feedback.</div>
+        </div>
+        <div class="feature-card reveal reveal-delay-1">
+          <div class="feature-icon" aria-hidden="true">🛒</div>
+          <div class="feature-title">Project Shop</div>
+          <div class="feature-desc">Exact shopping lists auto-generated for your job. Navigate to your nearest Home Depot, Lowe's, or Ace with one tap.</div>
+        </div>
+        <div class="feature-card reveal reveal-delay-2">
+          <div class="feature-icon" aria-hidden="true">🌱</div>
+          <div class="feature-title">Skill Tree & XP</div>
+          <div class="feature-desc">Level up as you complete repairs. Track your growing expertise across plumbing, electrical, HVAC, and more.</div>
+        </div>
+        <div class="feature-card reveal reveal-delay-3">
+          <div class="feature-icon" aria-hidden="true">📅</div>
+          <div class="feature-title">Seasonal Maintenance</div>
+          <div class="feature-desc">Never miss a filter change or gutter clean again. Smart reminders tuned to your home's age and location.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- MASCOT FEATURE: CHECKLIST -->
+  <section class="mascot-section" id="diagnose" aria-label="AI Diagnosis">
+    <div class="container">
+      <div class="mascot-split reveal">
+        <div class="mascot-img-wrap">
+          <div class="mascot-img-bg"></div>
+          <picture><source srcset="img/mascot-magnify.webp" type="image/webp"><img class="mascot-img" src="img/mascot-magnify.png" alt="IQ mascot with magnifying glass" width="800" height="827" loading="lazy"></picture>
+        </div>
+        <div class="mascot-content">
+          <div class="section-label">AI Diagnosis</div>
+          <h2 class="mascot-title">Your home,<br><span style="background:linear-gradient(135deg,#40aaff,#00d4c8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">diagnosed in seconds.</span></h2>
+          <p class="mascot-desc">Tell IQ what's wrong — in plain language. No technical jargon required. Our AI runs a full home diagnostic and hands you a clear checklist of exactly what needs fixing and what it'll cost.</p>
+          <ul class="mascot-bullets" role="list">
+            <li><div class="bullet-icon" aria-hidden="true">✓</div> Identifies root causes, not just symptoms</li>
+            <li><div class="bullet-icon" aria-hidden="true">✓</div> Accurate cost estimates for DIY and pro</li>
+            <li><div class="bullet-icon" aria-hidden="true">✓</div> Prioritized fix list with difficulty ratings</li>
+            <li><div class="bullet-icon" aria-hidden="true">✓</div> Works for plumbing, electrical, HVAC & more</li>
+          </ul>
+          <a href="https://www.homeprojectiq.com/demo" class="btn-hero-primary" style="width:fit-content;">Try the Demo →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- MASCOT FEATURE: TOOLS -->
+  <section class="mascot-section" aria-label="Smart Toolbox">
+    <div class="container">
+      <div class="mascot-split reverse reveal">
+        <div class="mascot-img-wrap">
+          <div class="mascot-img-bg" style="background:radial-gradient(circle, rgba(0,212,200,0.15), transparent 70%);"></div>
+          <picture><source srcset="img/mascot-clipboard.webp" type="image/webp"><img class="mascot-img mascot-img--clipboard" src="img/mascot-clipboard.png" alt="IQ mascot with clipboard" width="700" height="895" loading="lazy"></picture>
+        </div>
+        <div class="mascot-content">
+          <div class="section-label">Smart Toolbox</div>
+          <h2 class="mascot-title">Know exactly<br><span style="background:linear-gradient(135deg,#00d4c8,#22cc88);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">what tools you need.</span></h2>
+          <p class="mascot-desc">IQ knows your toolbox. Before every job, it cross-references what you own with what you need — so you never get halfway through a repair and realize you're missing something critical.</p>
+          <ul class="mascot-bullets" role="list">
+            <li><div class="bullet-icon" style="background:rgba(0,212,200,0.1);border-color:rgba(0,212,200,0.3);" aria-hidden="true">✓</div> Scan and catalog your existing tools</li>
+            <li><div class="bullet-icon" style="background:rgba(0,212,200,0.1);border-color:rgba(0,212,200,0.3);" aria-hidden="true">✓</div> Auto-generates per-job tool checklists</li>
+            <li><div class="bullet-icon" style="background:rgba(0,212,200,0.1);border-color:rgba(0,212,200,0.3);" aria-hidden="true">✓</div> Flags missing tools before you start</li>
+            <li><div class="bullet-icon" style="background:rgba(0,212,200,0.1);border-color:rgba(0,212,200,0.3);" aria-hidden="true">✓</div> Tracks condition — Good, Fair, Replace</li>
+          </ul>
+          <a href="https://www.homeprojectiq.com/demo" class="btn-hero-ghost" style="width:fit-content;">Try the Demo →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- HOW IT WORKS -->
+  <section class="section" id="how" aria-label="How it works">
+    <div class="container">
+      <div class="reveal" style="text-align:center; margin-bottom: 60px;">
+        <div class="section-label" style="justify-content:center;">How It Works</div>
+        <h2 class="section-h2" style="max-width:600px;margin:0 auto 16px;">From problem to fixed.<br>Four steps.</h2>
+        <p class="section-sub" style="margin: 0 auto; text-align:center;">No YouTube rabbit holes. No calling three contractors for quotes. Just clear answers.</p>
+      </div>
+      <div class="steps-grid reveal">
+        <div class="step-card"><div class="step-num">01</div><div class="step-icon" aria-hidden="true">🗣️</div><div class="step-title">Describe It</div><div class="step-desc">Type or speak what's wrong. AI identifies the issue, category, and severity instantly.</div></div>
+        <div class="step-card"><div class="step-num">02</div><div class="step-icon" aria-hidden="true">🔬</div><div class="step-title">Get Diagnosed</div><div class="step-desc">See exact costs, time estimates, tools needed, and your personalized DIY vs Pro score.</div></div>
+        <div class="step-card"><div class="step-num">03</div><div class="step-icon" aria-hidden="true">🙋</div><div class="step-title">Fix It Guided</div><div class="step-desc">Step-by-step with AI photo verification. Shop the exact parts list with store navigation.</div></div>
+        <div class="step-card"><div class="step-num">04</div><div class="step-icon" aria-hidden="true">🌱</div><div class="step-title">Level Up</div><div class="step-desc">Earn XP, grow your skill tree, and build a full logbook of everything you've mastered.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- REVIEWS -->
+  <section class="section" id="reviews" aria-label="Customer reviews">
+    <div class="container">
+      <div class="reveal" style="margin-bottom:60px;">
+        <div class="section-label">Reviews</div>
+        <h2 class="section-h2">4.9 stars from 2,400+<br>homeowners.</h2>
+        <p class="section-sub">Here's what they're saying.</p>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card reveal">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-text">"I was about to call a plumber for $200. HomeProjectIQ diagnosed my leaky pipe in 30 seconds and walked me through fixing it for $22. Unreal."</p>
+          <div class="testimonial-author"><div class="author-avatar" aria-hidden="true">🏠</div><div><div class="author-name">Marcus T.</div><div class="author-title">Verified Review · Homeowner · Phoenix, AZ</div></div></div>
+        </div>
+        <div class="testimonial-card reveal reveal-delay-1">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-text">"The skill tree is genius. I've gone from never picking up a drill to leveling up in drywall and electrical. It actually makes home repair fun?"</p>
+          <div class="testimonial-author"><div class="author-avatar" aria-hidden="true">⚡</div><div><div class="author-name">Priya K.</div><div class="author-title">Verified Review · First-time Homeowner · Austin, TX</div></div></div>
+        </div>
+        <div class="testimonial-card reveal reveal-delay-2">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-text">"Maintenance reminders alone are worth it. I used to forget everything. Now I get a nudge at exactly the right time with a shopping list ready to go."</p>
+          <div class="testimonial-author"><div class="author-avatar" aria-hidden="true">🔧</div><div><div class="author-name">Daniel R.</div><div class="author-title">Verified Review · Dad of 3 · Seattle, WA</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- PRICING -->
+  <section class="section" id="pricing" aria-label="Pricing">
+    <div class="container">
+      <div class="reveal" style="text-align:center; margin-bottom: 60px;">
+        <div class="section-label" style="justify-content:center;">Pricing</div>
+        <h2 class="section-h2" style="max-width:500px;margin:0 auto 16px;">Simple, honest pricing.</h2>
+        <p class="section-sub" style="margin:0 auto; text-align:center;">One fix pays for a year. No surprises. <span style="color:var(--teal);font-weight:600;">Save 33% with annual billing.</span></p>
+      </div>
+      <div class="pricing-grid">
+        <div class="pricing-card reveal">
+          <div class="pricing-tier">Free</div>
+          <div class="pricing-price">$0</div>
+          <div class="pricing-period">forever</div>
+          <div class="pricing-divider"></div>
+          <div class="pricing-feature"><span class="pricing-check" aria-hidden="true">✓</span> 3 AI diagnoses / month</div>
+          <div class="pricing-feature"><span class="pricing-check" aria-hidden="true">✓</span> Essential DIY guides</div>
+          <div class="pricing-feature"><span class="pricing-check" aria-hidden="true">✓</span> Toolbox tracking</div>
+          <div class="pricing-feature"><span class="pricing-check" aria-hidden="true">✓</span> Skill Tree & XP system</div>
+          <div class="pricing-feature"><span class="pricing-check" aria-hidden="true">✓</span> Home Health Score</div>
+          <div class="pricing-feature"><span class="pricing-check" aria-hidden="true">✓</span> Community access</div>
+          <a href="https://www.homeprojectiq.com/demo" class="btn-pricing btn-pricing-ghost">Try the Demo</a>
+        </div>
+        <div class="pricing-card popular reveal reveal-delay-1">
+          <div class="popular-badge">BEST VALUE</div>
+          <div class="pricing-tier">Pro</div>
+          <div class="pricing-price">$4<span style="font-size:24px;opacity:0.6">.99</span></div>
+          <div class="pricing-period">per month · billed annually<br><span style="font-size:11px;color:rgba(255,255,255,0.38);">vs. $7.49/mo billed monthly</span></div>
+          <div class="pricing-divider"></div>
+          <div class="pricing-feature"><span class="pricing-check" aria-hidden="true">✓</span> Everything in Free</div>
+          <div class="pricing-feature"><span class="pricing-check" aria-hidden="true">✓</span> Unlimited AI diagnoses</div>
+          <div class="pricing-feature"><span class="pricing-check" aria-hidden="true">✓</span> Full guided step mode</div>
+          <div class="pricing-feature"><span class="pricing-check" aria-hidden="true">✓</span> Project Shop with navigation</div>
+          <div class="pricing-feature"><span class="pricing-check" aria-hidden="true">✓</span> Seasonal maintenance AI</div>
+          <div class="pricing-feature"><span class="pricing-check" aria-hidden="true">✓</span> Up to 5 home profiles</div>
+          <div class="pricing-feature"><span class="pricing-check" aria-hidden="true">✓</span> Logbook & history export</div>
+          <div class="pricing-feature"><span class="pricing-check" aria-hidden="true">✓</span> Priority support</div>
+          <a href="https://www.homeprojectiq.com/demo" class="btn-pricing btn-pricing-solid">Try the Demo<span style="display:block;font-size:10px;font-weight:400;opacity:0.7;margin-top:4px;">Subscribe inside the app</span></a>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:32px;">
+        <p style="font-size:13px;color:rgba(255,255,255,0.7);">&#128274; 30-day money-back guarantee &middot; Cancel anytime &middot; No contracts</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" aria-label="Get started">
+    <div class="container">
+      <div class="cta-banner reveal">
+        <div class="cta-mascot-wrap">
+          <div class="cta-mascot-glow"></div>
+          <picture><source srcset="img/mascot-wave.webp" type="image/webp"><img src="img/mascot-wave.png" alt="IQ mascot waving hello" class="cta-mascot" width="300" height="296" loading="lazy"></picture>
+        </div>
+        <div class="section-label" style="justify-content:center; margin-bottom:16px;">Get Started Today</div>
+        <h2 class="cta-h2">Your home is waiting.<br>Let's get it fixed.</h2>
+        <p class="cta-sub">Join 47,000+ homeowners who've saved over $2.4 million in repair costs.</p>
+        <div class="cta-actions">
+          <a href="javascript:void(0)" class="store-btn store-btn--soon" aria-label="App Store — coming soon" aria-disabled="true"><span class="store-btn-icon" aria-hidden="true">🍎</span><div><div class="store-btn-label">Coming to the</div><div class="store-btn-name">App Store</div></div></a>
+          <a href="javascript:void(0)" class="store-btn store-btn--soon" aria-label="Google Play — coming soon" aria-disabled="true"><span class="store-btn-icon" aria-hidden="true">▶</span><div><div class="store-btn-label">Coming to</div><div class="store-btn-name">Google Play</div></div></a>
+          <a href="https://www.homeprojectiq.com/demo" class="btn-hero-ghost" style="margin:0;">Try the Demo →</a>
+        </div>
+        <div style="margin-top:24px;">
+          <p style="font-size:12px;color:rgba(255,255,255,0.55);margin-top:12px;position:relative;">&#128274; Your data stays yours. Encrypted and never sold.</p>
+          <div class="health-badge"><span class="health-dot"></span> Home Health Score: 84 · 3 tasks active</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <picture><source srcset="img/icon.webp" type="image/webp"><img class="footer-logo-img" src="img/icon.png" alt="HomeProjectIQ" width="26" height="26"></picture>
+            HomeProjectIQ
+          </div>
+          <p class="footer-tagline">Your AI-powered home repair companion. Diagnose, fix, and master your home — one project at a time.</p>
+        </div>
+        <div class="footer-links-group"><div class="footer-links-title">Product</div><ul class="footer-links" role="list"><li><a href="#features">Features</a></li><li><a href="#how">How It Works</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#">Changelog</a></li></ul></div>
+        <div class="footer-links-group"><div class="footer-links-title">Company</div><ul class="footer-links" role="list"><li><a href="#">About</a></li><li><a href="#">Blog</a></li><li><a href="#">Careers</a></li><li><a href="#">Press</a></li></ul></div>
+        <div class="footer-links-group"><div class="footer-links-title">Support</div><ul class="footer-links" role="list"><li><a href="#">Help Center</a></li><li><a href="#">Contact</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-copy">© 2026 HomeProjectIQ, Inc. All rights reserved.</div>
+        <div style="display:flex;gap:20px;">
+          <a href="#" class="footer-bottom-link">Privacy Policy</a>
+          <a href="#" class="footer-bottom-link">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    nav.style.background = window.scrollY > 60 ? 'rgba(2,13,26,0.92)' : 'rgba(2,13,26,0.7)';
+    nav.style.borderBottomColor = window.scrollY > 60 ? 'rgba(255,255,255,0.09)' : 'rgba(255,255,255,0.06)';
+  }, { passive: true });
+
+  const orbs = document.querySelectorAll('.bg-orb');
+  let rafPending = false, latestMouseX = 0, latestMouseY = 0;
+  document.addEventListener('mousemove', (e) => {
+    latestMouseX = e.clientX;
+    latestMouseY = e.clientY;
+    if (rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(() => {
+      const x = (latestMouseX / window.innerWidth - 0.5) * 2;
+      const y = (latestMouseY / window.innerHeight - 0.5) * 2;
+      orbs.forEach((orb, i) => {
+        const factor = (i + 1) * 12;
+        orb.style.translate = `${x * factor}px ${y * factor}px`;
+      });
+      rafPending = false;
+    });
+  });
+  document.addEventListener('mouseleave', () => {
+    orbs.forEach(orb => { orb.style.translate = ''; });
+  });
+
+  // Mobile menu toggle
+  const menuBtn = document.querySelector('.nav-menu-btn');
+  const navLinks = document.querySelector('.nav-links');
+  function closeMenu() {
+    navLinks.classList.remove('open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('menu-open');
+  }
+  menuBtn.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', isOpen);
+    document.body.classList.toggle('menu-open', isOpen);
+  });
+  navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navLinks.classList.contains('open')) {
+      closeMenu();
+      menuBtn.focus();
+    }
+  });
+
+  // Close mobile menu when tapping/clicking outside the nav
+  document.addEventListener('click', (e) => {
+    if (navLinks.classList.contains('open') && !e.target.closest('nav')) {
+      closeMenu();
+    }
+  });
+
+  // Close mobile menu when viewport crosses desktop breakpoint (prevents stuck scroll lock)
+  window.matchMedia('(max-width: 768px)').addEventListener('change', (e) => {
+    if (!e.matches && navLinks.classList.contains('open')) {
+      closeMenu();
+    }
+  });
+
+  // Register service worker for offline support and PWA installability
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  }
+
+  // Scrollspy — highlight active section in nav as user scrolls
+  // sectionNavMap: sections without a direct nav link map to their parent nav section
+  const sectionNavMap = { diagnose: 'features' };
+  const navAnchors = document.querySelectorAll('.nav-links a[href^="#"]');
+  const spyObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        const navId = sectionNavMap[id] || id;
+        const link = document.querySelector(`.nav-links a[href="#${navId}"]`);
+        if (link) {
+          navAnchors.forEach(a => { a.classList.remove('active'); a.removeAttribute('aria-current'); });
+          link.classList.add('active'); link.setAttribute('aria-current', 'location');
+        }
+      }
+    });
+  }, { rootMargin: '-80px 0px -60% 0px', threshold: 0 });
+  document.querySelectorAll('section[id]').forEach(s => spyObserver.observe(s));
+</script>
+</body>
+</html>
