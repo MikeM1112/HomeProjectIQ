@@ -291,13 +291,13 @@ export default function LandingPage() {
               Demo
             </Link>
             <Link
-              href="/sign-in"
+              href="/login"
               className="text-sm font-medium text-[var(--text-sub)] hover:text-[var(--text)] transition-colors px-3 py-2"
             >
               Sign In
             </Link>
             <Link
-              href="/sign-up"
+              href="/signup"
               className="text-sm font-bold px-5 py-2.5 rounded-full transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 min-h-[44px] flex items-center"
               style={{
                 backgroundImage: 'var(--accent-gradient)',
@@ -367,7 +367,7 @@ export default function LandingPage() {
                 View Demo
               </Link>
               <Link
-                href="/sign-up"
+                href="/signup"
                 className="block text-sm font-bold py-3 text-center rounded-xl text-white"
                 style={{ backgroundImage: 'var(--accent-gradient)' }}
                 onClick={() => setMobileMenu(false)}
@@ -375,7 +375,7 @@ export default function LandingPage() {
                 Sign Up
               </Link>
               <Link
-                href="/sign-in"
+                href="/login"
                 className="block text-sm font-medium py-2 text-center text-[var(--text-sub)]"
                 onClick={() => setMobileMenu(false)}
               >
@@ -439,7 +439,7 @@ export default function LandingPage() {
                   View Demo
                 </Link>
                 <Link
-                  href="/sign-up"
+                  href="/signup"
                   className="inline-flex items-center justify-center text-white px-8 py-4 rounded-full text-[15px] font-bold transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98] min-h-[48px]"
                   style={{
                     backgroundImage: 'var(--accent-gradient)',
@@ -454,7 +454,7 @@ export default function LandingPage() {
             <Reveal delay={300}>
               <p className="text-xs text-[var(--text-dim)] mb-6">
                 Already have an account?{' '}
-                <Link href="/sign-in" className="font-medium hover:underline" style={{ color: 'var(--accent)' }}>
+                <Link href="/login" className="font-medium hover:underline" style={{ color: 'var(--accent)' }}>
                   Sign In
                 </Link>
               </p>
@@ -762,7 +762,7 @@ export default function LandingPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link
-                href="/sign-up"
+                href="/signup"
                 className="inline-flex items-center justify-center text-white px-10 py-4 rounded-full text-[15px] font-bold transition-all duration-200 hover:-translate-y-1 active:scale-[0.98]"
                 style={{
                   backgroundImage: 'var(--accent-gradient)',
@@ -772,7 +772,7 @@ export default function LandingPage() {
                 Sign Up Free
               </Link>
               <Link
-                href="/sign-in"
+                href="/login"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5"
                 style={{
                   border: '1.5px solid var(--glass-border)',
@@ -828,8 +828,8 @@ export default function LandingPage() {
             <div>
               <h4 className="text-xs font-bold uppercase tracking-widest mb-4 text-[var(--text-dim)]">Account</h4>
               <div className="space-y-3">
-                <Link href="/sign-up" className="block text-sm text-[var(--text-sub)] hover:text-[var(--accent)] transition-colors">Sign Up</Link>
-                <Link href="/sign-in" className="block text-sm text-[var(--text-sub)] hover:text-[var(--accent)] transition-colors">Sign In</Link>
+                <Link href="/signup" className="block text-sm text-[var(--text-sub)] hover:text-[var(--accent)] transition-colors">Sign Up</Link>
+                <Link href="/login" className="block text-sm text-[var(--text-sub)] hover:text-[var(--accent)] transition-colors">Sign In</Link>
               </div>
             </div>
 

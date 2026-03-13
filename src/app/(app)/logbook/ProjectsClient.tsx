@@ -19,10 +19,8 @@ import {
   TrendingUp,
   Calendar,
   AlertTriangle,
-  Filter,
   Sparkles,
   DollarSign,
-  Timer,
   Shield,
   Home,
   Leaf,
@@ -42,14 +40,12 @@ import { Badge } from '@/components/ui/Badge';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { useProjects } from '@/hooks/useProjects';
 import { useLogbook } from '@/hooks/useLogbook';
-import { useMaintenance } from '@/hooks/useMaintenance';
 import { useDemo } from '@/hooks/useDemo';
 import { useUIStore } from '@/stores/uiStore';
 import { CATEGORIES } from '@/lib/project-data';
 import { ROUTES } from '@/lib/constants';
 import { formatCurrency, formatDate, getVerdictLabel } from '@/lib/utils';
-import type { Project, LogbookEntry, Verdict } from '@/types/app';
-import type { MaintenanceTaskRow } from '@/hooks/useMaintenance';
+import type { Project, Verdict } from '@/types/app';
 import {
   DEMO_MAINTENANCE,
   type MaintenanceTask,
@@ -401,7 +397,6 @@ export function ProjectsClient({ isDemo: isDemoProp }: ProjectsClientProps) {
 
   const { projects, isLoading: projectsLoading } = useProjects();
   const { entries: logEntries, isLoading: logLoading } = useLogbook();
-  const { tasks: maintenanceTasks, isLoading: maintLoading } = useMaintenance();
 
   /* -- Derived data -- */
   const activeProjects = useMemo(

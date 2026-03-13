@@ -1235,6 +1235,7 @@ export const DEMO_API_ROUTES: Record<string, unknown> = {
   '/api/assess': DEMO_DIAGNOSIS,
   '/api/toolbox': DEMO_TOOLBOX,
   '/api/logbook': DEMO_LOGBOOK,
+  '/api/maintenance': { tasks: [], homeProfile: null, isSetup: false },
   '/api/admin/flags': [],
   '/api/friends': DEMO_LEADERBOARD,
 };
